@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan obiadów — Piątek–Czwartek</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F0E8;color:#2A2520;padding:1rem;max-width:620px;margin:0 auto;font-size:15px;line-height:1.65}
+header{padding:1rem 0 .5rem}
+h1{font-size:21px;font-weight:600}
+.meta{font-size:13px;color:#7A7268;margin-top:3px}
+h2{font-size:13px;font-weight:600;color:#1E1A17;margin:1.4rem 0 .55rem;padding-bottom:.3rem;border-bottom:1.5px solid #DDD6CC;text-transform:uppercase;letter-spacing:.05em}
+.alert{border-radius:10px;padding:.65rem .9rem;margin-bottom:.55rem;font-size:13.5px;line-height:1.5}
+.a-red{background:#FEF0EE;border:1px solid #F4C0B8;color:#8B2E1D}
+.a-amber{background:#FDF4E2;border:1px solid #E8C97A;color:#6F4A00}
+.a-green{background:#EAF5EF;border:1px solid #A8D8B4;color:#0F5A3A}
+.alert strong{font-weight:600}
+.card{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;padding:.75rem 1.2rem;margin-bottom:.75rem}
+
+/* Shopping list */
+details.shop-cat{border-bottom:1px solid #F0EAE2}
+details.shop-cat:last-child{border-bottom:none}
+details.shop-cat>summary{list-style:none;padding:.65rem 0;font-size:14px;font-weight:600;color:#2A2520;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.shop-cat>summary::-webkit-details-marker{display:none}
+details.shop-cat>summary .ct{font-size:12px;color:#B0A89E;font-weight:400;margin-right:6px}
+details.shop-cat>summary .arr{font-size:12px;color:#9A9088;display:inline-block;transition:transform .15s}
+details.shop-cat[open]>summary .arr{transform:rotate(90deg)}
+.shop-body{padding-bottom:.6rem}
+.srow{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.srow input[type=checkbox]{width:17px;height:17px;accent-color:#1D9E75;flex-shrink:0;cursor:pointer}
+.srow label{flex:1;font-size:14px;cursor:pointer;transition:color .1s}
+.srow .qty{color:#9A9088;font-size:13px;white-space:nowrap}
+.srow.done label{text-decoration:line-through;color:#C0B8AE}
+
+/* Week plan */
+.plan{display:flex;flex-direction:column;gap:9px}
+.prow{display:flex;gap:11px;align-items:flex-start}
+.pday{font-size:12px;font-weight:600;color:#9A9088;width:80px;flex-shrink:0;padding-top:1px}
+.pdot{width:9px;height:9px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:4px}
+.pdot.rest{background:#DDD6CC}
+.pinfo{flex:1}
+.pdish{font-size:14px;font-weight:500;color:#1E1A17;line-height:1.35}
+.pside{font-size:13px;color:#7A7268}
+.ptag{display:inline-block;font-size:11px;background:#FDF4E2;border:1px solid #E8C97A;color:#6F4A00;border-radius:5px;padding:1px 6px;margin-left:5px;font-weight:500;vertical-align:middle}
+.prest{font-size:14px;color:#B0A89E;font-style:italic}
+
+/* Recipe cards */
+.recipe{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;margin-bottom:1rem;overflow:hidden}
+.rhdr{padding:.9rem 1.2rem;border-bottom:1px solid #F0EAE2;display:flex;gap:12px;align-items:center}
+.dbadge{flex-shrink:0;text-align:center;width:52px}
+.dname{font-size:10px;font-weight:600;color:#9A9088;text-transform:uppercase;letter-spacing:.06em}
+.dcircle{width:36px;height:36px;border-radius:50%;background:#1D9E75;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:2px auto 0}
+.rtitle{font-size:16px;font-weight:600;color:#1E1A17;line-height:1.3}
+.rside{font-size:13px;color:#7A7268;margin-top:2px}
+.rbody{padding:.9rem 1.2rem}
+.slbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#9A9088;margin-bottom:.45rem}
+
+/* Ingredients */
+.ings{list-style:none;margin-bottom:.2rem}
+.ing{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #F5EFE8;font-size:14px}
+.ing:last-child{border-bottom:none}
+.iq{color:#9A9088;font-size:13px;margin-left:10px;white-space:nowrap;flex-shrink:0}
+
+/* Steps accordion */
+details.sacc{border:1px solid #D8EEE2;border-radius:10px;margin-top:.8rem;overflow:hidden}
+details.sacc>summary{list-style:none;background:#EDF8F2;padding:.55rem .9rem;font-size:13.5px;font-weight:600;color:#0F6E56;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.sacc>summary::-webkit-details-marker{display:none}
+details.sacc>summary .sc{font-size:12px;color:#7A9E8F;font-weight:400}
+details.sacc>summary .arr{font-size:11px;display:inline-block;transition:transform .15s}
+details.sacc[open]>summary .arr{transform:rotate(90deg)}
+.sbody{padding:.7rem .9rem;border-top:1px solid #D8EEE2}
+.slist{list-style:none;counter-reset:s}
+.slist li{counter-increment:s;padding:5px 0 5px 30px;position:relative;font-size:14px;border-bottom:1px solid #F5EFE8;line-height:1.5}
+.slist li:last-child{border-bottom:none}
+.slist li::before{content:counter(s);position:absolute;left:0;top:6px;width:21px;height:21px;border-radius:50%;background:#F0EAE2;color:#9A9088;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+
+/* Sub block */
+.subblock{background:#F8F3ED;border-radius:10px;padding:.7rem .9rem;margin-top:.8rem;border:1px solid #EAE3D8}
+.subtit{font-size:13px;font-weight:600;color:#5A7A4E;margin-bottom:.45rem}
+.tfridge{display:inline-block;background:#E0F2E8;border:1px solid #A0CEB0;color:#0F6E56;font-size:11px;font-weight:600;border-radius:5px;padding:1px 7px;margin-right:5px}
+
+/* Notes */
+.note{border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:13px;line-height:1.5;margin-top:.7rem}
+.nbaby{background:#EAF5EF;border-left:3px solid #1D9E75;color:#0F5A3A}
+.nwarn{background:#FDF4E2;border-left:3px solid #D4922B;color:#6F4A00}
+.note strong{font-weight:600}
+
+/* Who gets what */
+.who{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:.7rem}
+.wcard{background:#F8F3ED;border-radius:9px;padding:.4rem .65rem;border:1px solid #EAE3D8}
+.wname{font-size:10px;font-weight:600;color:#9A9088;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px}
+.wdesc{font-size:13px;color:#2A2520;line-height:1.4}
+.fcol{grid-column:1/-1}
+
+@media print{
+  body{background:#fff;padding:0}
+  details{display:block}
+  details>summary{display:none}
+  details>.sbody,details>.shop-body{display:block!important}
+  .recipe,.card{page-break-inside:avoid;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Plan obiadów</h1>
+<p class="meta">Piątek–Czwartek · 1,5 porcji · Maja (4 l.) + Marceli (1 r.) + Marcin</p>
+</header>
+
+<div class="alert a-red"><strong>Zawsze, przy każdym daniu:</strong> Porcję dla Marcelego odkładaj przed dosoleniem. Bez soli, bez cytryny. Przy łososiu sprawdź ości palcami wzdłuż włókien mięsa — dwa razy.</div>
+<div class="alert a-amber"><strong>Brak zamrażarki —</strong> łopatkę mieloną (400 g) zużywamy w całości w poniedziałek: kotlety + sos pomidorowy w tym samym czasie, dwa dania za jednym otwarciem tacki.</div>
+
+<!-- LISTA ZAKUPÓW -->
+<h2>Lista zakupów</h2>
+<p style="font-size:13px;color:#9A9088;margin-bottom:.5rem">Masz już: schab (lodówka), kasza gryczana, ryż basmati, makaron fusilli, brokuł, pomidory, ogórek, marchew.</p>
+<div class="card" style="padding:.4rem 1.2rem">
+
+  <details class="shop-cat">
+    <summary>Mięso <span class="ct">2 poz.</span><span class="arr">▸</span></summary>
+    <div class="shop-body">
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Łopatka mielona wieprzowa</label><span class="qty">400 g (1 tacka)</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Filet z piersi indyka</label><span class="qty">2 × 260 g</span></div>
+    </div>
+  </details>
+
+  <details class="shop-cat">
+    <summary>Nabiał i jajka <span class="ct">2 poz.</span><span class="arr">▸</span></summary>
+    <div class="shop-body">
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Jajka</label><span class="qty">4 szt.</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Jogurt naturalny gęsty</label><span class="qty">300 g</span></div>
+    </div>
+  </details>
+
+  <details class="shop-cat">
+    <summary>Warzywa <span class="ct">7 poz.</span><span class="arr">▸</span></summary>
+    <div class="shop-body">
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Cebula</label><span class="qty">2 szt.</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Czosnek</label><span class="qty">1 główka</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Cukinia (mała)</label><span class="qty">1 szt.</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Cytryna</label><span class="qty">1 szt.</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Fasolka szparagowa</label><span class="qty">200 g</span></div>
+       <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Groszek z puszki</label><span class="qty">1 mała puszka</span></div>
+    </div>
+  </details>
+
+  <details class="shop-cat">
+    <summary>Suche i słoiki <span class="ct">4 poz.</span><span class="arr">▸</span></summary>
+    <div class="shop-body">
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label><strong>Kuskus perłowy</strong></label><span class="qty">1 op. (~400 g)</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Passata pomidorowa</label><span class="qty">680 g</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Ciecierzyca z puszki</label><span class="qty">1 puszka</span></div>
+      <div class="srow" onclick="tog(this)"><input type="checkbox"><label>Bułka tarta (jeśli brak)</label><span class="qty">1 op.</span></div>
+    </div>
+  </details>
+
+</div>
+
+<!-- PLAN TYGODNIA -->
+<h2>Plan tygodnia</h2>
+<div class="card">
+  <div class="plan">
+    <div class="prow"><div class="pday">Piątek</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kotlety schabowe</div><div class="pside">kasza gryczana · brokuł </div></div></div>
+    <div class="prow"><div class="pday">Sobota</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Łosoś pieczony<span class="ptag">zamówiony</span></div><div class="pside">kuskus perłowy · fasolka szparagowa</div></div></div>
+    <div class="prow"><div class="pday">Niedziela</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Restauracja</div></div></div>
+    <div class="prow"><div class="pday">Poniedziałek</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kotlety mielone + sos do lodówki<span class="ptag">⚠ łopatka!</span></div><div class="pside">kasza gryczana · brokuł · marchewka z groszkiem</div></div></div>
+    <div class="prow"><div class="pday">Wtorek</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Makaron fusilli z sosem</div><div class="pside">sos z lodówki · ok. 10 minut</div></div></div>
+    <div class="prow"><div class="pday">Środa</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kebab z indyka<span class="ptag">⏰ marynata rano</span></div><div class="pside">ryż basmati · sos jogurtowy z ogórkiem</div></div></div>
+    <div class="prow"><div class="pday">Czwartek</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Pulpeciki drobiowo-ciecierzycowe</div><div class="pside">kuskus perłowy · sos pomidorowy · chrupiąca ciecierzyca</div></div></div>
+  </div>
+</div>
+
+<!-- ===== PIĄTEK: SCHABOWE ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Piątek</div><div class="dcircle">1</div></div>
+    <div><div class="rtitle">Kotlety schabowe</div><div class="rside">kasza gryczana · brokuł </div></div>
+  </div>
+  <div class="rbody">
+    <div class="slbl">Składniki</div>
+    <ul class="ings">
+      <li class="ing"><span>Schab wieprzowy w plastrach</span><span class="iq">2–3 plastry (~280 g)</span></li>
+      <li class="ing"><span>Jajko</span><span class="iq">1 szt.</span></li>
+      <li class="ing"><span>Bułka tarta</span><span class="iq">4 łyżki</span></li>
+      <li class="ing"><span>Kasza gryczana</span><span class="iq">1 torebka 100 g</span></li>
+      <li class="ing"><span>Brokuł, różyczki</span><span class="iq">garść (~⅓ sztuki)</span></li>
+      <li class="ing"><span>Olej, masło, sól, pieprz</span><span class="iq">—</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania <span class="sc">· 7 kroków</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li><strong>Odkładamy dla Marcelego:</strong> jeden plaster schabu bez soli i panierki. Upiec w 180°C przez 20 min.</li>
+          <li>Pozostałe plastry rozklepać tłuczkiem do ~8 mm, oprószyć solą i pieprzem.</li>
+          <li>Maczać kolejno: jajko roztrzepane → bułka tarta.</li>
+          <li>Smażyć na rozgrzanym oleju 4–5 min z każdej strony, aż złociste.</li>
+          <li>Kaszę gryczaną ugotować wg opisu na torebce (~15–18 min w osolonej wodzie).</li>
+          <li>Brokuł: różyczki gotować 7–8 min, podać z łyżką masła.</li>
+        </ol>
+      </div>
+    </details>
+    <div class="note nbaby"><strong>Marceli:</strong> Plaster schabu pieczony (bez soli i panierki). Kasza bez soli lub przepłukana. Brokuł gotowany do miękkości, bez soli.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Schab pieczony (bez soli), kasza gryczana, brokuł</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Kotlet smażony, kasza gryczana, brokuł</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Kotlet smażony, kasza gryczana</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOBOTA: ŁOSOŚ ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Sobota</div><div class="dcircle">2</div></div>
+    <div><div class="rtitle">Łosoś pieczony</div><div class="rside">kuskus perłowy · fasolka szparagowa</div></div>
+  </div>
+  <div class="rbody">
+    <div class="slbl">Składniki</div>
+    <ul class="ings">
+      <li class="ing"><span>Łosoś świeży</span><span class="iq">~250 g (2 kawałki)</span></li>
+      <li class="ing"><span>Cytryna</span><span class="iq">½ szt.</span></li>
+      <li class="ing"><span>Oliwa z oliwek</span><span class="iq">1 łyżka</span></li>
+      <li class="ing"><span>Kuskus perłowy</span><span class="iq">100 g</span></li>
+      <li class="ing"><span>Fasolka szparagowa</span><span class="iq">200 g</span></li>
+      <li class="ing"><span>Masło, sól, pieprz</span><span class="iq">—</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania <span class="sc">· 7 kroków</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li>Piekarnik nagrzać do 180°C.</li>
+          <li><strong>Odkładamy dla Marcelego:</strong> kawałek ~60 g. Sprawdzić ości: przesunąć palcami wzdłuż włókien i usunąć wszystkie. Bez cytryny i soli.</li>
+          <li>Pozostały łosoś ułożyć w naczyniu, skropić oliwą i sokiem z cytryny, oprószyć solą i pieprzem.</li>
+          <li>Kawałek dla Marcelego piec w osobnym naczyniu lub po drugiej stronie blaszki.</li>
+          <li>Piec 15–18 min — mięso matowe w środku, łatwo się dzieli widelcem.</li>
+          <li>Kuskus perłowy: zalać wrzącą wodą (100 g + 150 ml), przykryć pokrywką, odczekać 10 min. Rozluźnić widelcem, dodać masło.</li>
+          <li>Fasolkę gotować 5–7 min w osolonej wodzie. Podać z masłem.</li>
+        </ol>
+      </div>
+    </details>
+    <div class="note nbaby"><strong>Marceli:</strong> Kawałek łososia bez soli i cytryny — ości sprawdź <strong>dwa razy</strong>: przed pieczeniem i tuż przed podaniem. Kuskus bez soli. Fasolka rozgotowana do miękkości.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Łosoś bez soli (ości!), kuskus, fasolka miękka</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Łosoś, kuskus, fasolka</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Łosoś z cytryną, kuskus z masłem, fasolka</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PONIEDZIAŁEK: KOTLETY MIELONE ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Poniedziałek</div><div class="dcircle">3</div></div>
+    <div><div class="rtitle">Kotlety mielone</div><div class="rside">kasza gryczana · brokuł · marchewka z groszkiem</div></div>
+  </div>
+  <div class="rbody">
+    <div class="alert a-amber" style="margin-bottom:.7rem">Tego samego dnia ugotuj też sos pomidorowy (sekcja poniżej) — otwierasz łopatkę i zużywasz całą naraz. Dwa dania, jedno gotowanie.</div>
+    <div class="slbl">Składniki — kotlety</div>
+    <ul class="ings">
+      <li class="ing"><span>Łopatka mielona wieprzowa</span><span class="iq">200 g (½ tacki)</span></li>
+      <li class="ing"><span>Jajko</span><span class="iq">1 szt.</span></li>
+      <li class="ing"><span>Bułka tarta</span><span class="iq">3 łyżki + do obtaczania</span></li>
+      <li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">¼ szt.</span></li>
+      <li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">½ ząbka</span></li>
+      <li class="ing"><span>Kasza gryczana</span><span class="iq">1 torebka 100 g</span></li>
+      <li class="ing"><span>Brokuł, różyczki</span><span class="iq">garść</span></li>
+      <li class="ing"><span>Marchew</span><span class="iq">1 szt.</span></li>
+      <li class="ing"><span>Groszek z puszki</span><span class="iq">4 łyżki</span></li>
+      <li class="ing"><span>Olej, masło, sól, pieprz</span><span class="iq">—</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania — kotlety <span class="sc">· 7 kroków</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li>Wymieszać: mielone + jajko + 3 łyżki bułki tartej + cebula + czosnek. Dobrze wyrobić ręką.</li>
+          <li><strong>Odkładamy dla Marcelego:</strong> 2–3 małe kuleczki bez soli. Uformować jako mini-kotleciki.</li>
+          <li>Do reszty masy dodać sól i pieprz. Uformować ~5 kotletów, obsypać bułką tartą.</li>
+          <li>Kotleciki dla Marcelego: upiec 180°C przez 20 min. Pozostałe smażyć na oleju 4–5 min z każdej strony.</li>
+          <li>Kaszę gryczaną ugotować wg opisu na opakowaniu.</li>
+          <li>Brokuł: różyczki gotować 7–8 min, podać z masłem.</li>
+          <li>Marchew pokroić w plasterki, ugotować 10 min. Odcedzić, dodać groszek i masło — to dla Marcina.</li>
+        </ol>
+      </div>
+    </details>
+
+    <div class="subblock">
+      <div class="subtit"><span class="tfridge">DO LODÓWKI</span>Sos pomidorowy na wtorek</div>
+      <div class="slbl">Składniki — sos</div>
+      <ul class="ings">
+        <li class="ing"><span>Łopatka mielona wieprzowa</span><span class="iq">200 g (reszta tacki)</span></li>
+        <li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">½ szt.</span></li>
+        <li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">1 ząbek</span></li>
+        <li class="ing"><span>Marchew, starta na drobnych oczkach</span><span class="iq">1 szt.</span></li>
+        <li class="ing"><span>Cukinia, starta na drobnych oczkach</span><span class="iq">½ małej</span></li>
+        <li class="ing"><span>Passata pomidorowa</span><span class="iq">300 ml</span></li>
+        <li class="ing"><span>Oregano</span><span class="iq">1 łyżeczka</span></li>
+        <li class="ing"><span>Olej, sól</span><span class="iq">—</span></li>
+      </ul>
+      <details class="sacc">
+        <summary>Sposób przygotowania — sos <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary>
+        <div class="sbody">
+          <ol class="slist">
+            <li>Cebulę i czosnek zeszklić na oleju, 3 min.</li>
+            <li>Dodać mielone, rozbić widelcem, smażyć 5–6 min.</li>
+            <li>Dodać startą marchewkę i cukinię (po duszeniu znikają całkowicie), smażyć 2 min.</li>
+            <li>Zalać passatą, dodać oregano. <strong>Nabrać 2 łyżki sosu dla Marcelego</strong> — przełożyć do małego pojemnika bez soli.</li>
+            <li>Resztę posolić, dusić pod przykryciem 20 min. Wystudzić i wstawić do lodówki (dobre 3–4 dni).</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+
+    <div class="note nbaby"><strong>Marceli:</strong> Kotleciki pieczone bez soli. Kasza bez soli. Brokuł bez soli. 2 łyżki niesolonego sosu przechowaj w osobnym pojemniku w lodówce — na wtorek.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Kotleciki pieczone (bez soli), kasza gryczana, brokuł</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Kotlety smażone, kasza gryczana, brokuł</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Kotlety smażone, kasza gryczana, marchewka z groszkiem</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WTOREK: MAKARON ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Wtorek</div><div class="dcircle">4</div></div>
+    <div><div class="rtitle">Makaron fusilli z sosem pomidorowym</div><div class="rside">sos z lodówki · ok. 10–12 minut</div></div>
+  </div>
+  <div class="rbody">
+    <div class="slbl">Składniki</div>
+    <ul class="ings">
+      <li class="ing"><span>Makaron fusilli</span><span class="iq">150 g</span></li>
+      <li class="ing"><span>Sos pomidorowy z lodówki</span><span class="iq">cały garnuszek</span></li>
+      <li class="ing"><span>Porcja Marcelego z lodówki</span><span class="iq">2 łyżki (osobny pojemnik)</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania <span class="sc">· 4 kroki</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li>Ugotować fusilli wg instrukcji (~10 min w osolonej wodzie).</li>
+          <li>Sos z lodówki podgrzać na patelni, 3–4 min.</li>
+          <li>Wymieszać sos z makaronem i podać.</li>
+          <li>Porcja Marcelego: niesolony sos z pojemnika podgrzać w garnuszku. Kilka fusilli ugotować bez soli lub przepłukać ugotowany makaron wodą.</li>
+        </ol>
+      </div>
+    </details>
+    <div class="note nbaby"><strong>Marceli:</strong> Niesolony sos z pojemnika, fusilli bez soli lub przepłukane. Sprawdź temperaturę przed podaniem.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Fusilli bez soli, sos bez soli</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Makaron z sosem</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Makaron z sosem, opcjonalnie starty parmezan</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ŚRODA: KEBAB ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Środa</div><div class="dcircle">5</div></div>
+    <div><div class="rtitle">Kebab z indyka</div><div class="rside">ryż basmati · sos jogurtowy z ogórkiem</div></div>
+  </div>
+  <div class="rbody">
+    <div class="note nwarn" style="margin-bottom:.7rem"><strong>Zamarynować rano</strong> — min. 2–3 godz. Pierś indyka bez marynaty wyschnie na patelni. Im dłużej w jogurcie, tym lepiej.</div>
+    <div class="slbl">Składniki</div>
+    <ul class="ings">
+      <li class="ing"><span>Filet z piersi indyka (#1)</span><span class="iq">260 g</span></li>
+      <li class="ing"><span>Jogurt naturalny gęsty — marynata</span><span class="iq">3 łyżki</span></li>
+      <li class="ing"><span>Czosnek, przeciśnięty — marynata</span><span class="iq">1 ząbek</span></li>
+      <li class="ing"><span>Słodka papryka mielona — marynata</span><span class="iq">1 łyżeczka</span></li>
+      <li class="ing"><span>Kumin mielony — marynata</span><span class="iq">szczypta</span></li>
+      <li class="ing"><span>Ryż basmati</span><span class="iq">100 g</span></li>
+      <li class="ing"><span>Jogurt naturalny gęsty — sos</span><span class="iq">3 łyżki</span></li>
+      <li class="ing"><span>Ogórek — sos</span><span class="iq">½ szt.</span></li>
+      <li class="ing"><span>Czosnek — sos</span><span class="iq">½ ząbka</span></li>
+      <li class="ing"><span>Olej, sól</span><span class="iq">—</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania <span class="sc">· 8 kroków</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li>Filet pokroić w paski grubości ~1 cm.</li>
+          <li><strong>Odkładamy dla Marcelego:</strong> 2–3 paski bez marynowania. Przechowywać oddzielnie w lodówce do czasu smażenia.</li>
+          <li>Resztę zamarynować: jogurt + czosnek + papryka + kumin + szczypta soli. Wymieszać, przykryć, do lodówki na min. 2–3 godz.</li>
+          <li>Sos: jogurt + starty lub drobno pokrojony ogórek + czosnek + sól. Wstawić do lodówki.</li>
+          <li>Ryż basmati ugotować wg instrukcji (~12 min w osolonej wodzie).</li>
+          <li>Paski dla Marcelego: ugotować na parze 10 min lub usmażyć bez przypraw na odrobinienie oleju.</li>
+          <li>Zamarynowane paski smażyć na mocno rozgrzanej patelni 3–4 min z każdej strony — nie ruszać za często, niech się przyrumienią.</li>
+          <li>Ryż dla Marcelego: odłożyć kilka łyżek przed dodaniem soli do wody lub przepłukać po ugotowaniu.</li>
+        </ol>
+      </div>
+    </details>
+    <div class="note nbaby"><strong>Marceli:</strong> Czyste paski indyka bez marynaty (gotowane na parze lub smażone bez przypraw). Ryż bez soli.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Indyk bez przypraw (para), ryż bez soli</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Kebab, ryż basmati, sos jogurtowy</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Kebab, ryż basmati, sos jogurtowy z ogórkiem</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CZWARTEK: PULPECIKI ===== -->
+<div class="recipe">
+  <div class="rhdr">
+    <div class="dbadge"><div class="dname">Czwartek</div><div class="dcircle">6</div></div>
+    <div><div class="rtitle">Pulpeciki drobiowo-ciecierzycowe</div><div class="rside">kuskus perłowy · sos pomidorowy · chrupiąca ciecierzyca</div></div>
+  </div>
+  <div class="rbody">
+    <div class="slbl">Składniki — pulpeciki</div>
+    <ul class="ings">
+      <li class="ing"><span>Filet z piersi indyka (#2)</span><span class="iq">260 g</span></li>
+      <li class="ing"><span>Ciecierzyca z puszki, odsączona i przepłukana</span><span class="iq">½ puszki (~125 g)</span></li>
+      <li class="ing"><span>Jajko</span><span class="iq">1 szt.</span></li>
+      <li class="ing"><span>Bułka tarta</span><span class="iq">2 łyżki</span></li>
+      <li class="ing"><span>Cebula</span><span class="iq">½ szt.</span></li>
+      <li class="ing"><span>Czosnek</span><span class="iq">1 ząbek</span></li>
+      <li class="ing"><span>Passata pomidorowa</span><span class="iq">250 ml (reszta butelki)</span></li>
+      <li class="ing"><span>Oregano</span><span class="iq">1 łyżeczka</span></li>
+      <li class="ing"><span>Kuskus perłowy</span><span class="iq">100 g</span></li>
+      <li class="ing"><span>Olej, masło, sól</span><span class="iq">—</span></li>
+    </ul>
+    <details class="sacc">
+      <summary>Sposób przygotowania — pulpeciki <span class="sc">· 9 kroków</span> <span class="arr">▸</span></summary>
+      <div class="sbody">
+        <ol class="slist">
+          <li>Filet z indyka drobno posiekać lub zblendować w malakserze.</li>
+          <li>Ciecierzycę odcedzić i przepłukać. Połowę lekko rozgnieść widelcem, reszta zostaje w całości. Dodać do mięsa.</li>
+          <li>Wymieszać z jajkiem i bułką tartą.</li>
+          <li><strong>Odkładamy dla Marcelego:</strong> 3–4 małe kuleczki bez soli. Uformować w dłoniach.</li>
+          <li>Do reszty masy dodać sól. Uformować kuleczki wielkości orzecha włoskiego.</li>
+          <li>Na patelni: cebulę + czosnek zeszklić na oleju 3 min, wlać passatę + oregano, zagotować.</li>
+          <li>Kuleczki obsmażyć z obu stron ~2 min na oddzielnej patelni, przełożyć do sosu. Dusić pod przykryciem 15 min.</li>
+          <li>Kuleczki dla Marcelego: ugotować na parze 12 min lub dusić w 3 łyżkach passaty bez soli (osobny garnuszek).</li>
+          <li>Kuskus perłowy: zalać wrzącą wodą (100 g + 150 ml), przykryć, odczekać 10 min. Rozluźnić widelcem, dodać masło.</li>
+        </ol>
+      </div>
+    </details>
+
+    <div class="subblock">
+      <div class="subtit">Chrupiąca ciecierzyca — przekąska dla dzieci</div>
+      <div class="slbl">Składniki</div>
+      <ul class="ings">
+        <li class="ing"><span>Ciecierzyca z puszki (reszta)</span><span class="iq">½ puszki (~125 g)</span></li>
+        <li class="ing"><span>Oliwa z oliwek</span><span class="iq">1 łyżka</span></li>
+        <li class="ing"><span>Słodka papryka, sól</span><span class="iq">po szczycie</span></li>
+      </ul>
+      <details class="sacc">
+        <summary>Sposób przygotowania <span class="sc">· 3 kroki</span> <span class="arr">▸</span></summary>
+        <div class="sbody">
+          <ol class="slist">
+            <li>Ciecierzycę osuszyć dokładnie papierowym ręcznikiem — im suchsza, tym bardziej chrupiąca.</li>
+            <li>Wymieszać z oliwą + sól + słodka papryka. Rozsypać na blasze w jednej warstwie.</li>
+            <li>Piec 200°C przez 25–30 min aż złociste i chrupiące. Sprawdzać co 10 min. Podać dzieciom jako chrupki przy obiedzie.</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+
+    <div class="note nbaby"><strong>Marceli:</strong> Kuleczki gotowane na parze (bez soli). Kuskus bez soli. Ciecierzyca w masie jest rozgnieciona — bezpieczna. Kilka ziarenek chrupiącej też możesz podać osobno.</div>
+    <div class="who">
+      <div class="wcard"><div class="wname">Marceli</div><div class="wdesc">Pulpeciki na parze (bez soli), kuskus, ciecierzyca chrupiąca</div></div>
+      <div class="wcard"><div class="wname">Maja</div><div class="wdesc">Pulpeciki w sosie, kuskus, ciecierzyca</div></div>
+      <div class="wcard fcol"><div class="wname">Marcin</div><div class="wdesc">Pulpeciki w sosie, kuskus z masłem, chrupiąca ciecierzyca</div></div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:12px;color:#C0B8AE;padding:1.5rem 0 2rem">Smacznego!</p>
+
+<script>
+function tog(r){var c=r.querySelector('input[type=checkbox]');if(!c||c.disabled)return;c.checked=!c.checked;r.classList.toggle('done',c.checked);}
+</script>
+</body>
+</html>
