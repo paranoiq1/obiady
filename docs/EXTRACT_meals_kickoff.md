@@ -5,6 +5,11 @@
 > Data: lipiec 2026 | Właściciel: Marcin (IT PM, Warszawa)
 > Źródło: analiza architektoniczna w projekcie `expenses` (moduł cenowy), sesja 2026-07-22
 
+> **DO REWIZJI (kandydaci na EXTRACT rev 2 — konsolidacja):**
+> - §4 wariant Marcelego / mnożnik dziecka (aktualne wartości w `preferences.md`, `meat_profile`).
+> - `journal.json` + KPI realizacji (poza pierwotnym EXTRACT — patrz rejestr [DECISION] w `README.md`).
+> - **Zamrażarka: gospodarstwo JĄ MA** — uchyla ograniczenie „brak zamrażarki" założone w kickoffie (§6). Status bieżący (np. „w naprawie") trzyma `preferences.md`.
+
 ---
 
 ## 1. CO BUDUJEMY

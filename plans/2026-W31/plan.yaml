@@ -2,13 +2,16 @@
 # demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
 #
 # ISO 2026-W31: 27.07–02.08 (pełny tydzień pn–nd). Ciąg dalszy po 2026-W30.
-# Mięso dostarczone 23.07, część na ten tydzień (mrożenie dostępne):
+# Zamrażarka W NAPRAWIE → bez mrożenia: nadwyżki do lodówki + leftovers w journalu.
+# Mięso dostarczone 23.07, część na ten tydzień:
 #   - kaczka: pierś 505 g → kaczka pieczona (Pn); zestaw rosołowy 770 g → rosół (Śr);
-#     oba „spożyć do" 29.07 → jak nie zdążysz świeżo, zamroź.
-#   - łopatka 2. pack → sos (Wt) → makaron; „spożyć do" 28.07 (Wt = ostatni dzień) — albo mrożenie.
+#     oba „spożyć do" 29.07 → zjeść świeżo; wywar/resztki do lodówki (leftovers w journalu).
+#   - łopatka 2. pack → sos (Wt) → makaron; „spożyć do" 28.07 (Wt = ostatni dzień). Sos serves 2:
+#     2. makaron w ogonie „z lodówki" (mrożenie niedostępne).
 # Ogon Czw 30.07–Nd 02.08: do zaplanowania.
+# revision 2: kontrakt W31 skonsumowany — zmiana = nowa rewizja (idempotencja).
 plan_id: 2026-W31
-revision: 1
+revision: 2
 owner: marcin
 title: Plan obiadów
 servings: 2

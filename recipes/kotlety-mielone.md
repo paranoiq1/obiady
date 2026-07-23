@@ -23,7 +23,7 @@ pantry: [olej, masło, sól, pieprz czarny mielony]
 
 Dodatki: kasza gryczana · brokuł · marchewka z groszkiem
 
-Mielone kupujesz na 2 dania (kotlety + [sos pomidorowy](sos-pomidorowy-z-mielonym.md)) — sos zrób, kiedy chcesz; drugą porcję możesz zamrozić (surową albo ugotowany sos).
+Mielone kupujesz na 2 dania (kotlety + [sos pomidorowy](sos-pomidorowy-z-mielonym.md)). Reguła warunkowa: **przy niedostępnej zamrażarce ugotuj oba dania tego samego dnia** (nie da się zamrozić drugiej porcji); gdy zamrażarka działa — sos możesz odłożyć w czasie lub zamrozić.
 
 ## Przygotowanie
 

@@ -2,9 +2,11 @@
 # demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
 #
 # ISO 2026-W30 (część od czwartku): 23.07–26.07. Dalsze dni → plan 2026-W31.
-# Mięso dostarczone 23.07 (mrożenie dostępne dla nadwyżek):
+# Zamrażarka W NAPRAWIE → bez mrożenia: nadwyżki do lodówki + leftovers w journalu.
+# Mięso dostarczone 23.07:
 #   - łosoś na dziś (Czw); łopatka 1 pack → kotlety (Pt, „spożyć do" 28.07);
-#     indyk 625 g = 2 dania → pulpeciki (Sob, 1 danie; drugie danie zamroź, „do" 27.07).
+#     indyk 625 g = 2 dania, „do" 27.07 → pulpeciki (Sob, 1 danie); drugie danie ugotuj
+#     tego samego dnia (bez zamrażarki) → nadwyżka do lodówki, leftovers w journalu.
 plan_id: 2026-W30
 revision: 6
 owner: marcin

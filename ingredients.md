@@ -15,7 +15,7 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 | Nazwa kanoniczna | Jedn. | Aliasy | Uwagi |
 |---|---|---|---|
 | schab wieprzowy | kg | schab | mięso daniowe (przedział + klasyfikacja); sznycle na kotlety |
-| łopatka mielona wieprzowa | kg | mielone wieprzowe | mięso daniowe (przedział dania z preferences, ob. ~290–400 g; klasyfikacja wg README); mielone = 2 dania (kotlety + sos), 2. porcję można zamrozić |
+| łopatka mielona wieprzowa | kg | mielone wieprzowe | mięso daniowe (przedział dania z preferences, ob. ~290–400 g; klasyfikacja wg README); mielone = 2 dania (kotlety + sos) — przy niedostępnej zamrażarce oba tego samego dnia |
 | filet z piersi indyka | kg | pierś indyka | mięso daniowe; opakowanie wielodaniowe dzielone wg klasyfikacji |
 | filet z piersi kaczki | kg | kaczka, pierś kaczki | mięso daniowe; ze skórą (pekin) |
 | zestaw rosołowy z kaczki | kg | kaczka rosołowa | na wagę (na rosół), poza modelem daniowym |

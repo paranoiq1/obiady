@@ -4,7 +4,7 @@ name: Rosół z kaczki
 type: obiad
 tags: [kaczka, zupa, rosół]
 base_servings: 2
-advance_prep: "gotowany 2–3 h; lepszy na drugi dzień; sam wywar można zamrozić"
+advance_prep: "gotowany 2–3 h; lepszy na drugi dzień; wywar trzymaj w lodówce (mrożenie po naprawie zamrażarki)"
 components: []
 ingredients:
   - { name: "zestaw rosołowy z kaczki", qty: 0.77, unit: kg, note: "cały zestaw ~770 g" }
@@ -19,7 +19,7 @@ pantry: [sól, pieprz czarny mielony, liść laurowy, ziele angielskie]
 
 # Rosół z kaczki
 
-Wywar z zestawu rosołowego + włoszczyzna, podany z makaronem. Duża porcja — lepszy na drugi dzień, wywar można zamrozić.
+Wywar z zestawu rosołowego + włoszczyzna, podany z makaronem. Duża porcja — lepszy na drugi dzień; wywar trzymaj w lodówce (mrożenie po naprawie zamrażarki).
 
 ## Przygotowanie
 

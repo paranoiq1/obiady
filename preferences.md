@@ -6,7 +6,8 @@
 
 - Przelicznik porcji (dodatki / węglowodany): **dorosły = 1, dziecko = 0,5**; skład Marcin (1) + Maja (0,5) + Marceli (0,5) = **2 porcje** (`base_servings`). Dotyczy SKALI dodatków — **mięso ma osobny profil przedziałowy** (niżej), nie ten przelicznik.
 - **Jedna wersja dania dla wszystkich** — bez specjalnych wariantów per osoba.
-- **Zamrażarka: jest.** Mielone kupujemy na 2 dania (kotlety + sos), ale rozkład w czasie jest swobodny — można ugotować kotlety, a drugą porcję (surową albo jako ugotowany sos) zamrozić. **Sos to osobne, opcjonalne danie** (robione, gdy potrzebne); w lodówce 3–4 dni albo mrożenie.
+- **Zamrażarka: jest — W NAPRAWIE, mrożenie niedostępne do odwołania.** (Gospodarstwo ma zamrażarkę — trwale uchyla „brak zamrażarki" z kickoffu; obecny status: w naprawie.) Póki niedostępna: nie planujemy mrożenia, nadwyżki → lodówka + `leftovers` w journalu, a mielone na 2 dania gotujemy tego samego dnia (reguła warunkowa). Po naprawie Marcin zmienia tę jedną linię — bez migracji.
+- **Sos** to osobne, opcjonalne danie (robione, gdy potrzebne); w lodówce 3–4 dni.
 
 ## Profil porcji mięsa
 
@@ -18,11 +19,11 @@ Bieżący przedział dania dla składu Marcin + Maja + Marceli wychodzi **272–
 
 ```yaml
 meat_profile:
-  adult_g: [170, 220]          # g mięsa na danie na dorosłego
+  adult_g: [170, 220]          # g mięsa na danie na dorosłego — ZATWIERDZONE (Marcin, PR#2); nadpisuje 180–220 z migracji 02
   adults: 1                    # dorośli przy stole (Monika przy stole → 2, przedział się przelicza)
   children:                    # mnożnik przedziału per dziecko — DEFINIOWALNE (dzieci rosną, aktualizować)
     Maja:    [0.3, 0.4]
-    Marceli: [0.3, 0.4]        # migracja 02 sugerowała 0,2–0,3; ustawione 0,3–0,4 pod Akceptację (272–396) — DO POTWIERDZENIA
+    Marceli: [0.3, 0.4]        # składa się na zatwierdzony przedział 272–396 (Marceli §4 → EXTRACT rev 2)
 ```
 
 ## Marcin

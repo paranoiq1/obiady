@@ -169,8 +169,10 @@ def meal_servings(m, default: float) -> float:
 # --------------------------------------------------------------------------- #
 PREFS_FILE = ROOT / "preferences.md"
 
-# wektory testowe z migracji — bramka poprawności algorytmu (dla przedziału 272–396)
-MEAT_TEST_VECTORS = [(200, "ZA MAŁO", None), (300, "OK", 1), (396, "OK", 1),
+# wektory testowe — bramka poprawności algorytmu ORAZ kalibracji profilu (adult 170 → 272–396).
+# Brzegi 270/275/280 dyskryminują profil: przy adult 180 (lo=288) wektor 275→OK by padł.
+MEAT_TEST_VECTORS = [(200, "ZA MAŁO", None), (270, "ZA MAŁO", None),
+                     (275, "OK", 1), (280, "OK", 1), (300, "OK", 1), (396, "OK", 1),
                      (400, "ZA DUŻO", None), (450, "ZA DUŻO", None),
                      (600, "OK", 2), (700, "OK", 2)]
 
@@ -206,13 +208,15 @@ def classify_package(w: float, lo: int, hi: int) -> tuple[str, int]:
 
 
 def selftest_classification(lo: int, hi: int, errors: list) -> None:
-    if (lo, hi) != (272, 396):
-        return  # wektory testowe są dla profilu 272–396; inny profil = pomijamy bramkę
+    # Wektory skalibrowane dla profilu 272–396 (adult 170). Uruchamiane ZAWSZE wobec
+    # wyliczonego przedziału — dryf profilu (np. adult 180) wywali bramkę i wymusi
+    # aktualizację wektorów. Przedział pozostaje wyliczany z preferences (bez stałej w logice).
     for w, status, n in MEAT_TEST_VECTORS:
         got = classify_package(w, lo, hi)
         if got[0] != status or (n is not None and got[1] != n):
-            errors.append(f"klasyfikacja opakowań: W={w} → {got}, oczekiwano „{status}”"
-                          + (f"/{n} dań" if n else ""))
+            errors.append(f"klasyfikacja/kalibracja (przedział {lo}–{hi}): W={w} → {got}, "
+                          f"oczekiwano „{status}”" + (f"/{n} dań" if n else "")
+                          + " — dostosuj profil lub wektory")
 
 
 # --------------------------------------------------------------------------- #

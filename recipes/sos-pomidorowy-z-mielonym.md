@@ -5,7 +5,7 @@ type: składnik-bazowy
 tags: [wieprzowina, sos, batch-cooking, warzywa-ukryte]
 base_servings: 2
 serves: 2          # ile dań-konsumentów (np. makaron) karmi jeden batch (1 danie mielonego)
-advance_prep: "opcjonalny batch (osobne danie); w lodówce dobry 3–4 dni, można też zamrozić"
+advance_prep: "opcjonalny batch (osobne danie); w lodówce dobry 3–4 dni (mrożenie po naprawie zamrażarki)"
 components: []
 ingredients:
   - { name: "łopatka mielona wieprzowa", qty: 1, unit: danie, note: "wg przedziału dania" }
@@ -20,7 +20,7 @@ pantry: [olej, sól]
 
 # Sos pomidorowy z mielonym
 
-Osobne danie-baza z mielonego (mielone kupujemy na 2 dania: [kotlety](kotlety-mielone.md) + sos) — robiony, gdy potrzebny; w lodówce 3–4 dni albo mrożenie. Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
+Osobne danie-baza z mielonego (mielone kupujemy na 2 dania: [kotlety](kotlety-mielone.md) + sos) — robiony, gdy potrzebny; w lodówce 3–4 dni (mrożenie po naprawie zamrażarki). Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
 
 ## Przygotowanie
 
