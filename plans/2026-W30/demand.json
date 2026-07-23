@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "revision": 3,
+  "revision": 4,
   "owner": "marcin",
   "period": {
     "from": "2026-07-23",
@@ -18,11 +18,6 @@
       "servings": 2
     },
     {
-      "date": "2026-07-24",
-      "recipe_id": "sos-pomidorowy-z-mielonym",
-      "servings": 2
-    },
-    {
       "date": "2026-07-25",
       "recipe_id": "pulpeciki-drobiowo-ciecierzycowe",
       "servings": 2
@@ -30,6 +25,11 @@
     {
       "date": "2026-07-25",
       "recipe_id": "chrupiaca-ciecierzyca",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-27",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
       "servings": 2
     },
     {

@@ -6,7 +6,7 @@
 
 - Przelicznik porcji (dodatki / węglowodany): **dorosły = 1, dziecko = 0,5**; skład Marcin (1) + Maja (0,5) + Marceli (0,5) = **2 porcje** (`base_servings`). Dotyczy SKALI dodatków — **mięso ma osobny profil przedziałowy** (niżej), nie ten przelicznik.
 - **Jedna wersja dania dla wszystkich** — bez specjalnych wariantów per osoba.
-- **Brak zamrażarki** — mielone kupowane na 2 dania (kotlety + sos) gotujemy w całości tego samego dnia; ugotowany sos trzyma się w lodówce 3–4 dni.
+- **Zamrażarka: jest.** Mielone kupujemy na 2 dania (kotlety + sos), ale rozkład w czasie jest swobodny — można ugotować kotlety, a drugą porcję (surową albo jako ugotowany sos) zamrozić. **Sos to osobne, opcjonalne danie** (robione, gdy potrzebne); w lodówce 3–4 dni albo mrożenie.
 
 ## Profil porcji mięsa
 

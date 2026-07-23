@@ -6,12 +6,13 @@
 # base_servings (2) skaluje tylko dodatki/węglowodany.
 #
 # Tydzień wydłużony, start dziś (Czw 23.07 = ISO 2026-W30). Łosoś na dziś.
-# Mielone kupujemy na 2 dania (kotlety + sos) — bez zamrażarki gotujemy oba w piątek,
-# sos idzie do lodówki i zasila 2× makaron (pn, wt). Indyk: pulpeciki (opakowanie
-# 600 g klasyfikuje się jako 2 dania — patrz podsumowanie sesji).
+# Mielone kupujemy na 2 dania (kotlety + sos). Zamrażarka jest → sos ROZPRZĘŻONY:
+# kotlety w piątek, drugą porcję mielonego zamrażamy i sos robimy w poniedziałek
+# (osobne danie) — zasila 2× makaron (pn, wt). Indyk: pulpeciki (opakowanie 600 g
+# klasyfikuje się jako 2 dania — patrz podsumowanie sesji).
 # Niedziela: obiad w restauracji. Ogon Śr 29.07–Nd 02.08: do zaplanowania.
 plan_id: 2026-W30
-revision: 3
+revision: 4
 owner: marcin
 title: Plan obiadów
 servings: 2
@@ -20,10 +21,10 @@ period:
   to: 2026-08-02
 days:
   - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
-  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
+  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone] }
   - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
   - { date: 2026-07-26, dow: Nd,  rest: Restauracja }
-  - { date: 2026-07-27, dow: Pn,  meals: [makaron-fusilli-z-sosem] }
+  - { date: 2026-07-27, dow: Pn,  meals: [sos-pomidorowy-z-mielonym, makaron-fusilli-z-sosem] }
   - { date: 2026-07-28, dow: Wt,  meals: [makaron-fusilli-z-sosem] }
   - { date: 2026-07-29, dow: Śr,  rest: Do zaplanowania }
   - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }
