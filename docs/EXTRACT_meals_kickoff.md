@@ -2,13 +2,10 @@
 
 > **Cel dokumentu:** pełny kontekst startowy dla nowego projektu `meals`.
 > Wkleić do project knowledge nowego projektu Claude („Obiady").
-> Data: lipiec 2026 | Właściciel: Marcin (IT PM, Warszawa)
+> Data: lipiec 2026 (kickoff) · **rev 2: 2026-07-23** (konsolidacja) | Właściciel: Marcin (IT PM, Warszawa)
 > Źródło: analiza architektoniczna w projekcie `expenses` (moduł cenowy), sesja 2026-07-22
 
-> **DO REWIZJI (kandydaci na EXTRACT rev 2 — konsolidacja):**
-> - §4 wariant Marcelego / mnożnik dziecka (aktualne wartości w `preferences.md`, `meat_profile`).
-> - `journal.json` + KPI realizacji (poza pierwotnym EXTRACT — patrz rejestr [DECISION] w `README.md`).
-> - **Zamrażarka: gospodarstwo JĄ MA** — uchyla ograniczenie „brak zamrażarki" założone w kickoffie (§6). Status bieżący (np. „w naprawie") trzyma `preferences.md`.
+> **rev 2 — konsolidacja rozjazdów kickoffu z decyzjami z realizacji.** Żywy rejestr decyzji to `README.md` (markery [DECISION]); EXTRACT nie duplikuje pełnej listy, tylko prostuje założenia, które się zdezaktualizowały. Główne korekty: **jedna wersja dania** — bez wariantów per osoba (§3–§4); **model mięsa przedziałowy** + klasyfikacja opakowań (§4–§5); **zamrażarka jest** (§6); **rejestr wykonania `journal.json` + KPI realizacji** (§6); **format karty i generator rozstrzygnięte** (§9). Zmiany rev 2 oznaczone `[rev2]`.
 
 ---
 
@@ -50,7 +47,7 @@ Zgodnie z zasadą copilota: multi-repo, każdy serwis = własne repo + MCP serve
 
 1. Planowanie konwersacyjne — czat ustala menu, sposób przygotowania, listę składników
 2. Wywiad preferencji na starcie (wzorzec z Asystenta Widoczności Zawodowej): co kto lubi / nie lubi, ulubione potrawy, linki do przepisów
-3. Warianty per domownik; feedback po posiłkach zasila bazę
+3. ~~Warianty per domownik~~ → `[rev2]` **jedna wersja dania dla wszystkich** (bez traku per osoba); feedback po posiłkach zasila bazę
 4. Docelowo baza obiadów rosnąca z użycia
 5. Output do `expenses`: zapotrzebowanie na produkty do zamówienia
 6. Komunikacja między aplikacjami docelowo przez MCP
@@ -60,13 +57,15 @@ Zgodnie z zasadą copilota: multi-repo, każdy serwis = własne repo + MCP serve
 
 ## 4. RODZINA — wymagania per domownik
 
-| Osoba | Wymaganie |
-|---|---|
-| Marcin, Monika | dorośli, pełne wersje dań |
-| Maja | niejadek — utrzymywać listę „bezpiecznych dań", nowości wprowadzać ostrożnie |
-| Marceli | porcja odkładana **PRZED** dodaniem soli i kwaśnych składników (bez przypraw, bez dodanych kwasów) |
+`[rev2]` **Jedna wersja dania dla wszystkich — bez wariantów per osoba** (uchyla pierwotne „porcja Marcelego odkładana przed solą" i „karta musi opisać wariant per dziecko"). Różnice ujmujemy **ilościowo**, nie jako osobne traki:
 
-Karta przepisu musi umieć opisać wariant per dziecko (moment odłożenia porcji, zamienniki).
+| Osoba | Ujęcie |
+|---|---|
+| Marcin, Monika | dorośli — pełna porcja (przelicznik = 1) |
+| Maja | dziecko — przelicznik 0,5 (dodatki); niejadek: lista „bezpiecznych dań", nowości ostrożnie |
+| Marceli | dziecko — przelicznik 0,5 (dodatki) |
+
+**Model porcji `[rev2]`:** `base_servings` (dorosły 1 / dziecko 0,5) skaluje **tylko dodatki/węglowodany**. **Mięso** ma osobny **profil przedziałowy** (`meat_profile` w `preferences.md`: dorosły 170–220 g, mnożnik dziecka 0,3–0,4× — definiowalny) → **przedział dania** (obecnie 272–396 g) + **klasyfikacja opakowań** (patrz §5 i `README.md`). Skład jedzących → przedział (Monika przy stole przelicza).
 
 ---
 
@@ -80,21 +79,22 @@ Karta przepisu musi umieć opisać wariant per dziecko (moment odłożenia porcj
   "revision": 2,
   "period": {"from": "2026-07-27", "to": "2026-08-02"},
   "meals": [
-    {"date": "2026-07-28", "recipe_id": "kotlety-mielone",
-     "servings": 4, "variants": {"marceli": "porcja_bez_soli"}}
+    {"date": "2026-07-28", "recipe_id": "kotlety-mielone", "servings": 2}
   ],
   "demand": [
-    {"ingredient": "pierś z kurczaka", "qty": 1.0, "unit": "kg", "type_hint": "B"},
-    {"ingredient": "mleko 2%", "qty": 2, "unit": "l", "ean_hint": "5900512320335"}
+    {"ingredient": "łopatka mielona wieprzowa", "qty": 0.67, "unit": "kg",
+     "qty_range": [0.54, 0.79], "dania": 2},
+    {"ingredient": "makaron fusilli", "qty": 0.15, "unit": "kg"}
   ]
 }
 ```
 
 Zasady:
 - **Idempotencja:** `plan_id + revision` — ponowna wysyłka nadpisuje, nie duplikuje
-- `ean_hint` TYLKO przy lojalności marki (typ A); domyślnie składnik idzie klasą (B/C)
-- `type_hint` opcjonalny (A/B/C jak w modelu cenowym `expenses`)
-- Ilości zagregowane per plan (agregacja z posiłków po stronie `meals`)
+- `[rev2]` **Bez `variants` per osoba** (jedna wersja dania). `meals[]` niosą `servings` (możliwy override per danie).
+- `[rev2]` **Mięso „daniowe":** `qty` = środek przedziału łącznego (kg) + `qty_range: [min,max]` + `dania`; klasyfikacja opakowania po stronie `meals`. Reszta składników — waga/szt.
+- `ean_hint` TYLKO przy lojalności marki (typ A); domyślnie składnik idzie klasą (B/C). `type_hint` opcjonalny.
+- Ilości zagregowane per plan (agregacja z kart po stronie `meals`; pola dodatkowe expenses ignoruje).
 
 ### 5.2 Słownik składników — `ingredients.md`
 
@@ -124,35 +124,46 @@ Każdy przepis referencuje wyłącznie nazwy ze słownika; nowy składnik = najp
 
 Formalizacja obecnego workflow. Żadnej bazy danych, żadnego serwera.
 
-### 6.1 Projekt Claude „Obiady" — project knowledge
-- `preferences.md` — wynik wywiadu preferencji (lubiane/nielubiane per osoba, bezpieczne dania Mai, reguła Marcelego)
-- `ingredients.md` — słownik składników
-- szablon planu tygodniowego
+`[rev2] Zamrażarka: gospodarstwo JĄ MA` — uchyla założenie „brak zamrażarki" z kickoffu. Status bieżący (np. „w naprawie" → mrożenie niedostępne) trzyma `preferences.md`; przy niedostępnej: nadwyżki → lodówka + `leftovers` w journalu, mielone na 2 dania tego samego dnia.
+
+### 6.1 Wiedza projektu (w repo, nie „w pamięci rozmów")
+- `preferences.md` — preferencje + `meat_profile` (profil mięsa) + status zamrażarki `[rev2]`
+- `ingredients.md` — słownik składników + blok maszynowy konwersji jednostek
+- `plans/<ISO>/plan.yaml` — `[rev2]` **źródło prawdy planu tygodnia** (wejście generatora)
 - ten dokument (EXTRACT)
 
-### 6.2 Repo GitHub (istniejące, z Pages)
+### 6.2 Repo GitHub (Pages) — stan rev 2
 
 ```
-recipes/
-  kotlety-mielone.md      # karta przepisu (baza obiadów)
-plans/
-  2026-W31/
-    index.html            # strona dla żony (jak dotychczas)
-    demand.json           # kontrakt do expenses
-preferences.md
-ingredients.md
+build.py                  # [rev2] generator: plan.yaml + karty + słownik → index.html + demand.json + journal.json
+index.html                # [gen] root: resolver client-side (wybiera tydzień z plans.json)
+plans.json                # [gen] manifest tygodni
+.github/workflows/build.yml  # [rev2] CI: walidacja na PR, regeneracja na push
+docs/
+  EXTRACT_meals_kickoff.md
+  migrations/             # [rev2] migracje modelu (np. przedziały mięsa)
+recipes/*.md              # baza obiadów — karty (MD + frontmatter YAML)
+plans/<ISO>/
+  plan.yaml               # [wej] źródło planu
+  index.html              # [gen] strona dla żony (samodzielna, CSS inline)
+  demand.json             # [gen] kontrakt do expenses
+  journal.json            # [gen seed] rejestr wykonania (wyniki dopisywane ręcznie)
+preferences.md · ingredients.md · kpi.md
 ```
 
-Karta przepisu (`recipes/*.md`): składniki (kanoniczne nazwy + ilości na porcję), przygotowanie, warianty dla dzieci, tagi, log ocen/feedbacku.
+`[rev2]` **Karta przepisu** = MD + **frontmatter YAML** (rozstrzygnięcie §9). Pola: `id`, `type` (obiad / składnik-bazowy / dodatek), `base_servings`, `advance_prep`, `components`, `serves` (ile dań karmi jeden batch bazy), `ingredients` (nazwy kanoniczne; mięso daniowe `unit: danie`, reszta waga/szt), `pantry` (spiżarnia poza demandem). Treść: przygotowanie · historia/feedback. **Bez sekcji wariantów per dziecko.**
 
-### 6.3 Rytuał tygodniowy
-1. Rozmowa w projekcie „Obiady" → ustalenie menu
-2. Claude generuje: `index.html` + `demand.json` + nowe/zmienione karty przepisów
-3. Commit → żona przegląda na Pages
-4. Feedback wraca do czatu („Maja nie tknęła", ocena 4/5) → aktualizacja kart
+### 6.3 Rytuał tygodniowy `[rev2]`
+1. Rozmowa → ustalenie menu (z `preferences.md` i bazy `recipes/`)
+2. Edycja wejść: karty `recipes/` + `plans/<ISO>/plan.yaml` → `python3 build.py` regeneruje `index.html` + `demand.json` + seed `journal.json` (+ `plans.json`, root)
+3. Commit → CI waliduje/regeneruje → żona przegląda na Pages (root sam wybiera bieżący tydzień)
+4. Feedback → oceny do „Historii" kart; odstępstwa wykonania → `journal.json`; wiersz KPI → `kpi.md`
 
-### 6.4 Integracja na dziś
-`demand.json` wrzucany ręcznie do projektu `expenses`. MCP dopiero gdy `mcp-server` expenses wstanie (jest w kolejce zadań expenses).
+### 6.4 Wykonanie ≠ plan `[rev2]`
+Rejestr wykonania `plans/<plan_id>/journal.json` (`as_planned` | `swapped` | `replaced` | `skipped` + `note`, „świadomie więcej" → `leftovers`). KPI „Realizacja planu" = (as_planned + swapped) / dni obiadowe, agregat w `kpi.md`. Walidacja spójności planu (przepływ komponentów, kalendarz, klasyfikacja mięsa) w `build.py --check` — gate CI.
+
+### 6.5 Integracja na dziś
+`demand.json` wrzucany ręcznie do projektu `expenses`. MCP dopiero gdy `mcp-server` expenses wstanie (kolejka zadań expenses).
 
 ---
 
@@ -175,10 +186,14 @@ Karta przepisu (`recipes/*.md`): składniki (kanoniczne nazwy + ilości na porcj
 
 ---
 
-## 9. OTWARTE PYTANIA
+## 9. OTWARTE PYTANIA — stan rev 2
 
-- Format karty przepisu: czysty MD czy MD + frontmatter YAML (łatwiejszy późniejszy parsing)?
-- Skalowanie porcji: ilości na porcję (przeliczalne) czy na cały przepis?
+Rozstrzygnięte (szczegóły w rejestrze [DECISION] w `README.md`):
+- ~~Format karty~~ → **MD + frontmatter YAML** `[rev2]`.
+- ~~Skalowanie porcji~~ → **ilości na cały przepis + `base_servings`** dla dodatków; **mięso przedziałem** z profilu `[rev2]`.
+- ~~Generowanie HTML~~ → **`build.py`** (generator statyczny) + CI `[rev2]`.
+
+Nadal otwarte:
 - Skala feedbacku: ocena wspólna czy per osoba (Maja osobno)?
-- Nazwa repo/domeny: `meals`? (spójnie z konwencją copilota)
-- Generowanie HTML: ręcznie przez Claude (MVP) → kiedy przejść na generator statyczny z JSON?
+- Nazwa repo/domeny: obecnie `obiady` (Pages) vs docelowe `meals` (konwencja copilota).
+- Zamrażarka: po naprawie flip statusu w `preferences.md` (bez migracji).

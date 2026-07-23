@@ -101,4 +101,5 @@ pack_label:
   czosnek: główka
   ciecierzyca konserwowa: puszka
   groszek zielony konserwowy: mała puszka
+  łopatka mielona wieprzowa: tacka   # słowo opakowania mięsa na liście zakupów (reszta → „opakowanie")
 ```
