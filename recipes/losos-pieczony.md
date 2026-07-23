@@ -7,9 +7,9 @@ base_servings: 2
 advance_prep: null
 components: []
 ingredients:
-  - { name: "łosoś świeży", qty: 250, unit: g, note: "2 kawałki" }
-  - { name: "cytryna", qty: 0.5, unit: szt }
-  - { name: "oliwa z oliwek", qty: 1, unit: łyżka }
+  - { name: "łosoś świeży", qty: 400, unit: g, note: "na wagę — porcja rodzinna (poza modelem daniowym)" }
+  - { name: "cytryna", qty: 1, unit: szt }
+  - { name: "oliwa z oliwek", qty: 2, unit: łyżka }
   - { name: "kuskus perłowy", qty: 100, unit: g }
   - { name: "fasolka szparagowa", qty: 200, unit: g }
 pantry: [masło, sól, pieprz czarny mielony]

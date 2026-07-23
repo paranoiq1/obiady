@@ -10,12 +10,16 @@ Kanoniczne nazwy składników = odpowiednik klas W3 po stronie `meals`.
 
 ## Mięso i ryby
 
+Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gramaturę liczy `build.py` z **przedziału dania** (profil w `preferences.md`, obecnie **272–396 g**) i klasyfikuje opakowanie przy zakupie (algorytm w `README.md`). Łosoś — na wagę, poza modelem.
+
 | Nazwa kanoniczna | Jedn. | Aliasy | Uwagi |
 |---|---|---|---|
-| schab wieprzowy | kg | schab | plastry na kotlety |
-| łopatka mielona wieprzowa | kg | mielone wieprzowe | tacka = 400 g (brak zamrażarki: planować zużycie całej tacki) |
-| filet z piersi indyka | kg | pierś indyka | typowy filet ~260 g |
-| łosoś świeży | kg | filet z łososia | filet; sprawdzić ości przed pieczeniem |
+| schab wieprzowy | kg | schab | mięso daniowe (przedział + klasyfikacja); sznycle na kotlety |
+| łopatka mielona wieprzowa | kg | mielone wieprzowe | mięso daniowe (przedział dania z preferences, ob. ~290–400 g; klasyfikacja wg README); mielone = 2 dania (kotlety + sos) — przy niedostępnej zamrażarce oba tego samego dnia |
+| filet z piersi indyka | kg | pierś indyka | mięso daniowe; opakowanie wielodaniowe dzielone wg klasyfikacji |
+| filet z piersi kaczki | kg | kaczka, pierś kaczki | mięso daniowe; ze skórą (pekin) |
+| zestaw rosołowy z kaczki | kg | kaczka rosołowa | na wagę (na rosół), poza modelem daniowym |
+| łosoś świeży | kg | filet z łososia | na wagę (poza modelem daniowym); sprawdzić ości przed pieczeniem |
 
 ## Nabiał i jajka
 
@@ -37,6 +41,9 @@ Kanoniczne nazwy składników = odpowiednik klas W3 po stronie `meals`.
 | ogórek | szt | ogórek zielony | |
 | cytryna | szt | | |
 | fasolka szparagowa | kg | | |
+| pietruszka korzeń | szt | pietruszka | włoszczyzna do rosołu |
+| seler | szt | seler korzeniowy | kawałek do rosołu |
+| por | szt | | |
 
 ## Suche i słoiki
 
@@ -45,6 +52,7 @@ Kanoniczne nazwy składników = odpowiednik klas W3 po stronie `meals`.
 | kasza gryczana | kg | | torebki 4 × 100 g |
 | ryż basmati | kg | | |
 | makaron fusilli | kg | fusilli | |
+| makaron nitki | kg | nitki, makaron do rosołu | |
 | kuskus perłowy | kg | | op. ~400 g |
 | bułka tarta | kg | | op. ~500 g |
 | passata pomidorowa | kg | passata | butelka 680 g |
@@ -64,6 +72,8 @@ Nie trafiają do `demand.json` per plan — dokupowane, gdy się kończą.
 | papryka słodka mielona | kg | słodka papryka | |
 | kumin mielony | kg | kmin rzymski | |
 | oregano suszone | kg | oregano | |
+| liść laurowy | kg | | do rosołu/duszenia |
+| ziele angielskie | kg | | do rosołu |
 
 ## Konwersje jednostek (blok maszynowy)
 

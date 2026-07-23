@@ -7,13 +7,13 @@ base_servings: 2
 advance_prep: "reszta puszki ciecierzycy → chrupiaca-ciecierzyca"
 components: [chrupiaca-ciecierzyca]
 ingredients:
-  - { name: "filet z piersi indyka", qty: 260, unit: g }
+  - { name: "filet z piersi indyka", qty: 1, unit: danie, note: "z opakowania wielodaniowego (np. 600 g = 2 dania)" }
   - { name: "ciecierzyca konserwowa", qty: 0.5, unit: szt, note: "½ puszki (~125 g), odsączona i przepłukana" }
-  - { name: "jajka", qty: 1, unit: szt }
-  - { name: "bułka tarta", qty: 2, unit: łyżka }
-  - { name: "cebula", qty: 0.5, unit: szt }
-  - { name: "czosnek", qty: 1, unit: ząbek }
-  - { name: "passata pomidorowa", qty: 250, unit: ml, note: "reszta butelki" }
+  - { name: "jajka", qty: 2, unit: szt }
+  - { name: "bułka tarta", qty: 4, unit: łyżka }
+  - { name: "cebula", qty: 1, unit: szt }
+  - { name: "czosnek", qty: 2, unit: ząbek }
+  - { name: "passata pomidorowa", qty: 400, unit: ml, note: "reszta butelki" }
   - { name: "oregano suszone", qty: 1, unit: łyżeczka }
   - { name: "kuskus perłowy", qty: 100, unit: g }
 pantry: [olej, masło, sól]

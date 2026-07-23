@@ -1,22 +1,28 @@
 # Źródło prawdy planu tygodnia — wejście dla build.py.
 # demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
-# Zmiana planu = edycja tego pliku + revision+1 + ponowny build (idempotencja kontraktu).
+#
+# ISO 2026-W31: 27.07–02.08 (pełny tydzień pn–nd). Ciąg dalszy po 2026-W30.
+# Zamrażarka W NAPRAWIE → bez mrożenia: nadwyżki do lodówki + leftovers w journalu.
+# Mięso dostarczone 23.07, część na ten tydzień:
+#   - kaczka: pierś 505 g → kaczka pieczona (Pn); zestaw rosołowy 770 g → rosół (Śr);
+#     oba „spożyć do" 29.07 → zjeść świeżo; wywar/resztki do lodówki (leftovers w journalu).
+#   - łopatka 2. pack → sos (Wt) → makaron; „spożyć do" 28.07 (Wt = ostatni dzień). Sos serves 2:
+#     2. makaron w ogonie „z lodówki" (mrożenie niedostępne).
+# Ogon Czw 30.07–Nd 02.08: do zaplanowania.
+# revision 2: kontrakt W31 skonsumowany — zmiana = nowa rewizja (idempotencja).
 plan_id: 2026-W31
-revision: 1
+revision: 2
 owner: marcin
 title: Plan obiadów
-servings: 2                      # dorosły=1, dziecko=0,5 → Marcin+Maja+Marceli = 2
+servings: 2
 period:
-  from: 2026-07-24
+  from: 2026-07-27
   to: 2026-08-02
 days:
-  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-schabowe] }
-  - { date: 2026-07-25, dow: Sob, meals: [losos-pieczony] }
-  - { date: 2026-07-26, dow: Nd,  rest: Restauracja }
-  - { date: 2026-07-27, dow: Pn,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
-  - { date: 2026-07-28, dow: Wt,  meals: [makaron-fusilli-z-sosem] }
-  - { date: 2026-07-29, dow: Śr,  meals: [kebab-z-indyka] }
-  - { date: 2026-07-30, dow: Czw, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-27, dow: Pn,  meals: [kaczka-pieczona] }
+  - { date: 2026-07-28, dow: Wt,  meals: [sos-pomidorowy-z-mielonym, makaron-fusilli-z-sosem] }
+  - { date: 2026-07-29, dow: Śr,  meals: [rosol-z-kaczki] }
+  - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }
   - { date: 2026-07-31, dow: Pt,  rest: Do zaplanowania }
   - { date: 2026-08-01, dow: Sob, rest: Do zaplanowania }
   - { date: 2026-08-02, dow: Nd,  rest: Do zaplanowania }

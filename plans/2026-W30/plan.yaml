@@ -1,0 +1,22 @@
+# Źródło prawdy planu tygodnia — wejście dla build.py.
+# demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
+#
+# ISO 2026-W30 (część od czwartku): 23.07–26.07. Dalsze dni → plan 2026-W31.
+# Zamrażarka W NAPRAWIE → bez mrożenia: nadwyżki do lodówki + leftovers w journalu.
+# Mięso dostarczone 23.07:
+#   - łosoś na dziś (Czw); łopatka 1 pack → kotlety (Pt, „spożyć do" 28.07);
+#     indyk 625 g = 2 dania, „do" 27.07 → pulpeciki (Sob, 1 danie); drugie danie ugotuj
+#     tego samego dnia (bez zamrażarki) → nadwyżka do lodówki, leftovers w journalu.
+plan_id: 2026-W30
+revision: 6
+owner: marcin
+title: Plan obiadów
+servings: 2
+period:
+  from: 2026-07-23
+  to: 2026-07-26
+days:
+  - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
+  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone] }
+  - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-26, dow: Nd,  rest: Restauracja }

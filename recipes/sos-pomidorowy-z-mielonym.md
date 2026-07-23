@@ -4,22 +4,23 @@ name: Sos pomidorowy z mielonym (do lodówki)
 type: składnik-bazowy
 tags: [wieprzowina, sos, batch-cooking, warzywa-ukryte]
 base_servings: 2
-advance_prep: "gotowany dzień–dwa wcześniej; w lodówce dobry 3–4 dni"
+serves: 2          # ile dań-konsumentów (np. makaron) karmi jeden batch (1 danie mielonego)
+advance_prep: "opcjonalny batch (osobne danie); w lodówce dobry 3–4 dni (mrożenie po naprawie zamrażarki)"
 components: []
 ingredients:
-  - { name: "łopatka mielona wieprzowa", qty: 200, unit: g, note: "reszta tacki 400 g" }
-  - { name: "cebula", qty: 0.5, unit: szt, note: "drobno posiekana" }
-  - { name: "czosnek", qty: 1, unit: ząbek, note: "przeciśnięty" }
-  - { name: "marchew", qty: 1, unit: szt, note: "starta na drobnych oczkach" }
-  - { name: "cukinia", qty: 0.5, unit: szt, note: "mała, starta na drobnych oczkach" }
-  - { name: "passata pomidorowa", qty: 300, unit: ml }
+  - { name: "łopatka mielona wieprzowa", qty: 1, unit: danie, note: "wg przedziału dania" }
+  - { name: "cebula", qty: 1, unit: szt, note: "drobno posiekana" }
+  - { name: "czosnek", qty: 2, unit: ząbek, note: "przeciśnięty" }
+  - { name: "marchew", qty: 2, unit: szt, note: "starta na drobnych oczkach" }
+  - { name: "cukinia", qty: 1, unit: szt, note: "mała, starta na drobnych oczkach" }
+  - { name: "passata pomidorowa", qty: 500, unit: ml }
   - { name: "oregano suszone", qty: 1, unit: łyżeczka }
 pantry: [olej, sól]
 ---
 
 # Sos pomidorowy z mielonym
 
-Baza gotowana przy okazji [kotletów mielonych](kotlety-mielone.md) (jedna tacka łopatki na oba dania). Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
+Osobne danie-baza z mielonego (mielone kupujemy na 2 dania: [kotlety](kotlety-mielone.md) + sos) — robiony, gdy potrzebny; w lodówce 3–4 dni (mrożenie po naprawie zamrażarki). Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
 
 ## Przygotowanie
 
