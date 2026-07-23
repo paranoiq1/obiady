@@ -64,3 +64,31 @@ Nie trafiają do `demand.json` per plan — dokupowane, gdy się kończą.
 | papryka słodka mielona | kg | słodka papryka | |
 | kumin mielony | kg | kmin rzymski | |
 | oregano suszone | kg | oregano | |
+
+## Konwersje jednostek (blok maszynowy)
+
+Sekcje z tabelami powyżej są źródłem prawdy dla nazw kanonicznych, jednostek bazowych i przynależności do spiżarni (nagłówek „Spiżarnia bazowa"). Poniższy blok YAML dokłada to, czego tabela nie wyraża: przeliczniki jednostek kuchennych na bazowe (`build.py` normalizuje nimi ilości z kart) oraz etykiety opakowań na liście zakupów. Nowa jednostka w karcie → najpierw wpis tutaj.
+
+```yaml
+units:
+  # jednostka źródłowa → mnożnik do jednostki bazowej składnika (kg / l / szt)
+  base:
+    g: 0.001        # → kg
+    ml: 0.001       # → kg lub l (gęstość ≈ 1; przybliżenie do zakupów, np. passata)
+    kg: 1
+    l: 1
+    szt: 1
+  # jednostki kuchenne swoiste dla składnika (gdy nie da się globalnie)
+  per_ingredient:
+    czosnek:
+      ząbek: 0.25            # 1 główka = 4 ząbki
+    jogurt naturalny gęsty:
+      łyżka: 0.025           # 1 łyżka ≈ 25 g
+    bułka tarta:
+      łyżka: 0.011           # 1 łyżka ≈ 11 g
+# etykieta opakowania na liście zakupów dla składników liczonych w szt
+pack_label:
+  czosnek: główka
+  ciecierzyca konserwowa: puszka
+  groszek zielony konserwowy: mała puszka
+```

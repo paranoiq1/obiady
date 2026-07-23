@@ -4,27 +4,37 @@ Formalizacja obecnego workflow: czat → HTML → GitHub Pages → żona. Zero b
 
 ## Struktura
 
+Legenda: **[wej]** = źródło prawdy (edytujesz ręcznie), **[gen]** = generowane przez `build.py` (nie edytuj ręcznie).
+
 ```
 CLAUDE.md                 # zasady pracy dla sesji Claude Code
-index.html                # przekierowanie na bieżący plan (stała zakładka dla żony)
+build.py                  # [wej] generator: plan.yaml + karty + słownik → index.html + demand.json + journal.json
+index.html                # [gen] przekierowanie na bieżący plan (stała zakładka dla żony)
+.github/workflows/
+  build.yml               # CI: walidacja na PR, regeneracja + commit na push do main
 docs/
   EXTRACT_meals_kickoff.md  # architektura i kontrakt (kopia dokumentu źródłowego)
-recipes/                  # baza obiadów — karty przepisów (MD + frontmatter YAML)
+recipes/                  # [wej] baza obiadów — karty przepisów (MD + frontmatter YAML)
 plans/
   2026-W31/
-    index.html            # strona dla żony (samodzielny plik, CSS inline)
-    demand.json           # kontrakt do expenses
-    journal.json          # rejestr wykonania (zamiany, podmiany, odpuszczone)
-preferences.md            # preferencje rodziny (SZKIC — czeka na wywiad)
-ingredients.md            # słownik składników (kanoniczne nazwy ≈ klasy W3)
-kpi.md                    # KPI realizacji planów (agregat tygodniowy)
+    plan.yaml             # [wej] źródło planu tygodnia (dni, dania, rewizja)
+    index.html            # [gen] strona dla żony (samodzielny plik, CSS inline)
+    demand.json           # [gen] kontrakt do expenses
+    journal.json          # [gen seed] rejestr wykonania; wyniki dopisywane ręcznie (build nie nadpisuje)
+preferences.md            # [wej] preferencje rodziny (SZKIC — czeka na wywiad)
+ingredients.md            # [wej] słownik składników (kanoniczne nazwy ≈ klasy W3) + blok maszynowy konwersji
+kpi.md                    # [wej] KPI realizacji planów (agregat tygodniowy)
 ```
+
+## Build
+
+`python3 build.py` (wymaga `pyyaml`) czyta `plans/<id>/plan.yaml` + karty `recipes/` + słownik `ingredients.md` i generuje dla każdego planu `index.html` + `demand.json` + seed `journal.json`, a w korzeniu — przekierowanie na najnowszy plan. `python3 build.py 2026-W31` buduje jeden plan; `python3 build.py --check` waliduje bez zapisu (nazwy kanoniczne + przeliczalność jednostek) i zwraca niezerowy kod przy błędzie — to jest gate w CI. Na push do `main` workflow regeneruje artefakty i commituje je z powrotem (`[skip ci]`), więc **strona buduje się sama** po edycji karty lub `plan.yaml`.
 
 ## Rytuał tygodniowy
 
 1. Rozmowa w projekcie „Obiady" → ustalenie menu (z użyciem `preferences.md` i bazy `recipes/`).
-2. Claude generuje: `plans/<plan_id>/index.html` + `demand.json` + nowe/zmienione karty przepisów.
-3. Commit → żona przegląda na Pages.
+2. Nowe/zmienione karty w `recipes/` + `plans/<plan_id>/plan.yaml` → `python3 build.py` regeneruje `index.html` + `demand.json` + seed `journal.json`.
+3. Commit → CI waliduje/regeneruje → żona przegląda na Pages.
 4. Feedback wraca do czatu → oceny do „Historii i feedbacku" w kartach; odstępstwa wykonania (zamiany, podmiany, odpuszczone) do `journal.json`; wiersz KPI do `kpi.md`.
 5. `demand.json` wrzucany ręcznie do projektu `expenses` (bridge do czasu MCP).
 
@@ -45,9 +55,16 @@ Frontmatter YAML (klucze EN, wartości PL) + treść PL. Pola: `id`, `type` (obi
 - **[DECISION] KPI „Realizacja planu"** = (as_planned + swapped) / dni obiadowe; pomocniczo zgodność co do dnia. Definicje i agregat tygodniowy w `kpi.md`. Wymaganie spoza EXTRACT — dopisać przy rewizji dokumentu.
 - **[DECISION] Zamiany a rewizje:** zmiana przyszłego harmonogramu lub menu = rewizja planu (`meals[]`/`demand[]`, revision+1) + regeneracja strony; to, co faktycznie ugotowano, trafia wyłącznie do journala. Strona dla żony bez śladów odstępstw.
 - Domyślny typ dopasowania w `expenses`: **B** — `type_hint` pomijamy; `ean_hint` dopiero przy lojalności marki.
+- **[DECISION] `build.py` = statyczny generator (zamyka otwarte pytanie EXTRACT §9).** Ręczne pisanie `index.html` zastąpione generacją z danych. `index.html`, `demand.json`, `journal.json` są odtąd artefaktami **[gen]** — edytujemy wejścia (karty, `plan.yaml`, słownik), nie wyjścia. Zero zależności poza `pyyaml`. Skutek uboczny akceptowany: strona odtwarzana z danych różni się kosmetycznie od poprzedniej ręcznej wersji (sos renderowany jako osobna karta z badge „+", opisy ilości wyliczane, nie redakcyjne).
+- **[DECISION] `plan.yaml` = źródło prawdy planu tygodnia.** `demand.json` to **wyjście** (kontrakt do `expenses`), więc nie może być zarazem wejściem — plan (dni, dania, dni wolne, `revision`) mieszka w `plans/<id>/plan.yaml`. `meals[]` w `demand.json` jest z niego generowane.
+- **[DECISION] Blok maszynowy w `ingredients.md`.** Tabele pozostają źródłem nazw/jednostek/spiżarni; dołożony blok ```yaml``` z przelicznikami jednostek kuchennych na bazowe (`ząbek`→główka 0,25; `łyżka` jogurtu ≈ 25 g, bułki tartej ≈ 11 g; `g`/`ml` → 0,001) i etykietami opakowań na listę zakupów. Nowa jednostka → najpierw wpis tutaj.
+- **[DECISION] Pakowane składniki liczone w `szt`** (puszka, tacka): karty wyrażają zużycie jako ułamek `szt` (ciecierzyca ½ + ½ = 1 puszka), nie w gramach — inaczej sumowanie po wadze rozjeżdża liczbę opakowań. Zaokrąglenie w górę zostaje.
+- **[DECISION] Komponenty nie są automatycznie rozwijane w demandzie.** Gdy komponent trzeba osobno kupić/ugotować (sos, chrupiąca ciecierzyca), planer wpisuje go jako osobny `meal` w `plan.yaml`; pole `components` w kartach to referencja dla człowieka/UI, nie mnożnik zapotrzebowania (inaczej podwójne liczenie).
+- **[DECISION] CI jako gate + auto-build.** `.github/workflows/build.yml`: na PR wyłącznie `build.py --check` (blokuje niekanoniczne nazwy / nieprzeliczalne jednostki); na push do `main` regeneracja i commit artefaktów z `[skip ci]`. Pages serwuje z gałęzi — bez zmiany ustawień repo. Wariant docelowy (deploy przez `actions/deploy-pages` + `.gitignore` na artefakty) do rozważenia, gdy zechcemy wyjąć [gen] z gita.
 
 ## Otwarte pytania (pozostałe z EXTRACT §9)
 
 - Skala feedbacku: ocena wspólna czy per osoba?
 - Nazwa repo: `meals` vs obecne `obiady` (Pages).
-- Kiedy przejść z ręcznej generacji HTML na generator statyczny z frontmatter + JSON.
+- ~~Kiedy przejść z ręcznej generacji HTML na generator statyczny~~ → zamknięte: `build.py` (patrz rejestr wyżej).
+- Deploy Pages przez GitHub Actions zamiast serwowania [gen] z gałęzi — kiedy (wymaga zmiany źródła Pages na „GitHub Actions" w ustawieniach repo).

@@ -8,7 +8,7 @@ advance_prep: "reszta puszki ciecierzycy → chrupiaca-ciecierzyca"
 components: [chrupiaca-ciecierzyca]
 ingredients:
   - { name: "filet z piersi indyka", qty: 260, unit: g }
-  - { name: "ciecierzyca konserwowa", qty: 125, unit: g, note: "½ puszki, odsączona i przepłukana" }
+  - { name: "ciecierzyca konserwowa", qty: 0.5, unit: szt, note: "½ puszki (~125 g), odsączona i przepłukana" }
   - { name: "jajka", qty: 1, unit: szt }
   - { name: "bułka tarta", qty: 2, unit: łyżka }
   - { name: "cebula", qty: 0.5, unit: szt }

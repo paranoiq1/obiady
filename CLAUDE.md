@@ -16,4 +16,4 @@ Planer obiadów rodzinnych. Zero backendu — pliki w tym repo SĄ bazą danych,
 
 - **Nowy plan tygodnia:** karty (nowe lub z bazy) → `plans/<ISO>/index.html` + `demand.json` + `journal.json` (pending) → aktualizacja przekierowania w głównym `index.html` → commit.
 - **Domknięcie tygodnia:** outcomes w journalu → wiersz w `kpi.md` → wpisy w „Historii i feedbacku" kart.
-- **Planowane:** `build.py` — generacja `index.html` + `demand.json` z frontmatter kart + walidacja nazw kanonicznych (otwarte pytanie w README: kiedy wdrożyć).
+- **Build:** `python3 build.py` (wymaga `pyyaml`) generuje `plans/<id>/index.html` + `demand.json` + seed `journal.json` z `plan.yaml` + kart + słownika; `--check` waliduje bez zapisu (gate CI). Wejścia edytujesz ręcznie (karty, `plan.yaml`, `ingredients.md`), wyjścia (`index.html`, `demand.json`, `journal.json`) są generowane — nie edytuj ich ręcznie. Nowa jednostka kuchenna → najpierw przelicznik w bloku maszynowym `ingredients.md`. Na push do `main` CI (`.github/workflows/build.yml`) regeneruje i commituje artefakty.

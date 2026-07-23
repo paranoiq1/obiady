@@ -1,0 +1,22 @@
+# Źródło prawdy planu tygodnia — wejście dla build.py.
+# demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
+# Zmiana planu = edycja tego pliku + revision+1 + ponowny build (idempotencja kontraktu).
+plan_id: 2026-W31
+revision: 1
+owner: marcin
+title: Plan obiadów
+servings: 2                      # dorosły=1, dziecko=0,5 → Marcin+Maja+Marceli = 2
+period:
+  from: 2026-07-24
+  to: 2026-08-02
+days:
+  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-schabowe] }
+  - { date: 2026-07-25, dow: Sob, meals: [losos-pieczony] }
+  - { date: 2026-07-26, dow: Nd,  rest: Restauracja }
+  - { date: 2026-07-27, dow: Pn,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
+  - { date: 2026-07-28, dow: Wt,  meals: [makaron-fusilli-z-sosem] }
+  - { date: 2026-07-29, dow: Śr,  meals: [kebab-z-indyka] }
+  - { date: 2026-07-30, dow: Czw, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-31, dow: Pt,  rest: Do zaplanowania }
+  - { date: 2026-08-01, dow: Sob, rest: Do zaplanowania }
+  - { date: 2026-08-02, dow: Nd,  rest: Do zaplanowania }

@@ -7,7 +7,7 @@ base_servings: 2
 advance_prep: null
 components: []
 ingredients:
-  - { name: "ciecierzyca konserwowa", qty: 125, unit: g, note: "½ puszki (reszta po pulpecikach)" }
+  - { name: "ciecierzyca konserwowa", qty: 0.5, unit: szt, note: "½ puszki (~125 g, reszta po pulpecikach)" }
   - { name: "oliwa z oliwek", qty: 1, unit: łyżka }
 pantry: [papryka słodka mielona, sól]
 ---

@@ -15,7 +15,7 @@ ingredients:
   - { name: "kasza gryczana", qty: 100, unit: g, note: "1 torebka" }
   - { name: "brokuł", qty: 0.33, unit: szt, note: "garść różyczek" }
   - { name: "marchew", qty: 1, unit: szt }
-  - { name: "groszek zielony konserwowy", qty: 4, unit: łyżka }
+  - { name: "groszek zielony konserwowy", qty: 1, unit: szt, note: "4 łyżki (część małej puszki)" }
 pantry: [olej, masło, sól, pieprz czarny mielony]
 ---
 
