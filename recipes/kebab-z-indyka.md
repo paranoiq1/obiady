@@ -7,7 +7,7 @@ base_servings: 2
 advance_prep: "zamarynować rano — min. 2–3 h w jogurcie"
 components: []
 ingredients:
-  - { name: "filet z piersi indyka", qty: 400, unit: g }
+  - { name: "filet z piersi indyka", qty: 1, unit: danie, note: "z opakowania wielodaniowego — podział wg klasyfikacji" }
   - { name: "jogurt naturalny gęsty", qty: 3, unit: łyżka, note: "marynata" }
   - { name: "czosnek", qty: 1, unit: ząbek, note: "marynata, przeciśnięty" }
   - { name: "papryka słodka mielona", qty: 1, unit: łyżeczka, note: "marynata" }

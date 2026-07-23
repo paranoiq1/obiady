@@ -10,12 +10,14 @@ Kanoniczne nazwy składników = odpowiednik klas W3 po stronie `meals`.
 
 ## Mięso i ryby
 
+Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gramaturę liczy `build.py` z **przedziału dania** (profil w `preferences.md`, obecnie **272–396 g**) i klasyfikuje opakowanie przy zakupie (algorytm w `README.md`). Łosoś — na wagę, poza modelem.
+
 | Nazwa kanoniczna | Jedn. | Aliasy | Uwagi |
 |---|---|---|---|
-| schab wieprzowy | kg | schab | plastry na kotlety |
-| łopatka mielona wieprzowa | kg | mielone wieprzowe | tacka = 400 g; nadwyżkę można zamrozić (surową lub jako ugotowany sos/kotlety) |
-| filet z piersi indyka | kg | pierś indyka | typowy filet ~260 g |
-| łosoś świeży | kg | filet z łososia | filet; sprawdzić ości przed pieczeniem |
+| schab wieprzowy | kg | schab | mięso daniowe (przedział + klasyfikacja); sznycle na kotlety |
+| łopatka mielona wieprzowa | kg | mielone wieprzowe | mięso daniowe (przedział dania z preferences, ob. ~290–400 g; klasyfikacja opakowań wg README); mielone = 2 dania (kotlety + sos) |
+| filet z piersi indyka | kg | pierś indyka | mięso daniowe; opakowanie wielodaniowe dzielone wg klasyfikacji |
+| łosoś świeży | kg | filet z łososia | na wagę (poza modelem daniowym); sprawdzić ości przed pieczeniem |
 
 ## Nabiał i jajka
 

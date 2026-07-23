@@ -4,10 +4,10 @@ name: Kotlety mielone
 type: obiad
 tags: [wieprzowina, smażone, klasyka]
 base_servings: 2
-advance_prep: null
+advance_prep: "zakup mielonego na oba dania ≈ 2 × przedział; bez zamrażarki ugotuj kotlety i sos tego samego dnia"
 components: []
 ingredients:
-  - { name: "łopatka mielona wieprzowa", qty: 400, unit: g, note: "1 tacka" }
+  - { name: "łopatka mielona wieprzowa", qty: 1, unit: danie, note: "wg przedziału dania" }
   - { name: "jajka", qty: 2, unit: szt }
   - { name: "bułka tarta", qty: 5, unit: łyżka, note: "+ do obtaczania" }
   - { name: "cebula", qty: 0.5, unit: szt, note: "drobno posiekana" }
@@ -23,7 +23,7 @@ pantry: [olej, masło, sól, pieprz czarny mielony]
 
 Dodatki: kasza gryczana · brokuł · marchewka z groszkiem
 
-Opcjonalnie z tej samej tacki możesz zrobić [sos pomidorowy](sos-pomidorowy-z-mielonym.md) — ale nie musisz, to osobne danie.
+Mielone kupujesz na 2 dania (kotlety + [sos pomidorowy](sos-pomidorowy-z-mielonym.md)) — bez zamrażarki ugotuj oba tego samego dnia; sos trzyma się w lodówce 3–4 dni.
 
 ## Przygotowanie
 

@@ -165,6 +165,57 @@ def meal_servings(m, default: float) -> float:
 
 
 # --------------------------------------------------------------------------- #
+# Profil mięsa: przedział dania + klasyfikacja opakowania (migracja 02)
+# --------------------------------------------------------------------------- #
+PREFS_FILE = ROOT / "preferences.md"
+
+# wektory testowe z migracji — bramka poprawności algorytmu (dla przedziału 272–396)
+MEAT_TEST_VECTORS = [(200, "ZA MAŁO", None), (300, "OK", 1), (396, "OK", 1),
+                     (400, "ZA DUŻO", None), (450, "ZA DUŻO", None),
+                     (600, "OK", 2), (700, "OK", 2)]
+
+
+def load_meat_profile() -> dict:
+    text = PREFS_FILE.read_text(encoding="utf-8")
+    for m in re.finditer(r"```yaml\s*\n(.*?)```", text, re.S):
+        data = yaml.safe_load(m.group(1)) or {}
+        if "meat_profile" in data:
+            return data["meat_profile"]
+    raise BuildError("preferences.md: brak bloku `meat_profile`")
+
+
+def meat_range(profile: dict) -> tuple[int, int]:
+    """Przedział g mięsa/danie ze składu jedzących: adult × (adults + Σ mnożniki)."""
+    a_lo, a_hi = profile["adult_g"]
+    adults = profile.get("adults", 1)
+    kids = profile.get("children", {}) or {}
+    smin = sum(v[0] for v in kids.values())
+    smax = sum(v[1] for v in kids.values())
+    return round(a_lo * (adults + smin)), round(a_hi * (adults + smax))
+
+
+def classify_package(w: float, lo: int, hi: int) -> tuple[str, int]:
+    """W [g] → („OK", n) gdy istnieje największe n≥1 z W/n w [lo,hi];
+    („ZA MAŁO", 0) gdy W<lo; („ZA DUŻO", 1) gdy W>hi bez podziału."""
+    n = int(w // lo) if lo > 0 else 0
+    while n >= 1:
+        if lo <= w / n <= hi:
+            return ("OK", n)
+        n -= 1
+    return ("ZA MAŁO", 0) if w < lo else ("ZA DUŻO", 1)
+
+
+def selftest_classification(lo: int, hi: int, errors: list) -> None:
+    if (lo, hi) != (272, 396):
+        return  # wektory testowe są dla profilu 272–396; inny profil = pomijamy bramkę
+    for w, status, n in MEAT_TEST_VECTORS:
+        got = classify_package(w, lo, hi)
+        if got[0] != status or (n is not None and got[1] != n):
+            errors.append(f"klasyfikacja opakowań: W={w} → {got}, oczekiwano „{status}”"
+                          + (f"/{n} dań" if n else ""))
+
+
+# --------------------------------------------------------------------------- #
 # Konwersja jednostek + agregacja demand
 # --------------------------------------------------------------------------- #
 def to_base(d: Dictionary, name: str, qty: float, unit: str, errors: list) -> tuple[str, float] | None:
@@ -240,10 +291,13 @@ def validate_plan(plan: dict, recipes: dict, errors: list) -> None:
                           f"`serves`, albo usuń danie (inaczej część dni = sam dodatek bez bazy)")
 
 
-def build_demand(plan: dict, recipes: dict, d: Dictionary, errors: list):
-    """Zwraca (meals[], demand[]). Sumuje po jednostce bazowej, pomija spiżarnię."""
+def build_demand(plan: dict, recipes: dict, d: Dictionary, mrange: tuple, errors: list):
+    """Zwraca (meals[], demand[]). Składniki na wagę/szt sumuje po jednostce bazowej;
+    mięso w `unit: danie` liczy przedziałem (mrange g/danie), pomija spiżarnię."""
+    lo, hi = mrange
     meals_out = []
     totals: dict[str, float] = {}
+    meat_dania: dict[str, float] = {}
     for day in plan["days"]:
         for m in day.get("meals", []):
             rid = meal_id(m)
@@ -260,6 +314,9 @@ def build_demand(plan: dict, recipes: dict, d: Dictionary, errors: list):
                     continue
                 if d.by_name[canon]["pantry"]:
                     continue  # spiżarnia bazowa poza demandem
+                if ing["unit"] == "danie":            # mięso przedziałowe
+                    meat_dania[canon] = meat_dania.get(canon, 0.0) + ing["qty"] * scale
+                    continue
                 conv = to_base(d, canon, ing["qty"] * scale, ing["unit"], errors)
                 if conv is None:
                     continue
@@ -268,7 +325,13 @@ def build_demand(plan: dict, recipes: dict, d: Dictionary, errors: list):
 
     demand_out = []
     for name, meta in d.by_name.items():  # kolejność ze słownika → stabilny diff
-        if name in totals:
+        if name in meat_dania:
+            dn = meat_dania[name]
+            demand_out.append({"ingredient": name, "unit": "kg",
+                               "qty": round(dn * (lo + hi) / 2 / 1000, 2),
+                               "qty_range": [round(dn * lo / 1000, 2), round(dn * hi / 1000, 2)],
+                               "dania": round(dn, 2)})
+        elif name in totals:
             demand_out.append({"ingredient": name, "unit": meta["unit"],
                                "qty": round_demand(meta["unit"], totals[name])})
     return meals_out, demand_out
@@ -315,6 +378,16 @@ def cap(s: str) -> str:
     return s[:1].upper() + s[1:] if s else s
 
 
+def pl_dania(n: float) -> str:
+    """Polska odmiana: 1 danie, 2–4 dania, 5+ dań (dla całkowitych)."""
+    s = num(n)
+    if n == 1:
+        return f"{s} danie"
+    if float(n).is_integer() and 2 <= int(n) % 10 <= 4 and not 12 <= int(n) % 100 <= 14:
+        return f"{s} dania"
+    return f"{s} dań"
+
+
 def fmt_shop(name: str, qty: float, base_unit: str, d: Dictionary) -> str:
     if base_unit == "kg":
         return f"{num(qty)} kg" if qty >= 1 else f"{num(qty * 1000)} g"
@@ -327,7 +400,11 @@ def fmt_shop(name: str, qty: float, base_unit: str, d: Dictionary) -> str:
     return f"{n} szt."
 
 
-def fmt_ing(ing: dict, scale: float = 1.0) -> str:
+def fmt_ing(ing: dict, scale: float = 1.0, mrange: tuple | None = None) -> str:
+    if ing.get("unit") == "danie":               # mięso przedziałowe
+        q = frac(float(ing["qty"]) * scale)
+        rng = f" · ~{mrange[0]}–{mrange[1]} g" if mrange else ""
+        return f"{q} danie{rng}"
     q = frac(float(ing["qty"]) * scale)
     unit = ing.get("unit", "")
     unit = "" if unit == "szt" and q in ("½", "¼", "⅓", "¾", "⅔") else unit
@@ -416,7 +493,7 @@ def dm(date: str) -> str:
 
 
 def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
-                neighbors: tuple = (None, None)) -> str:
+                neighbors: tuple = (None, None), mrange: tuple = (0, 0)) -> str:
     prev_id, next_id = neighbors
     P = []
     frm, to = plan["period"]["from"], plan["period"]["to"]
@@ -451,7 +528,11 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
                   f' <span class="ct">{len(items)} poz.</span><span class="arr">▸</span></summary>')
         P.append('<div class="shop-body">')
         for it in items:
-            q = fmt_shop(it["ingredient"], it["qty"], it["unit"], d)
+            if "qty_range" in it:                 # mięso przedziałowe
+                gmin, gmax = round(it["qty_range"][0] * 1000), round(it["qty_range"][1] * 1000)
+                q = f'{pl_dania(it["dania"])} · ~{gmin}–{gmax} g łącznie'
+            else:
+                q = fmt_shop(it["ingredient"], it["qty"], it["unit"], d)
             P.append(f'<div class="srow"><input type="checkbox"><label>{esc(cap(it["ingredient"]))}'
                      f'</label><span class="qty">{esc(q)}</span></div>')
         P.append("</div></details>")
@@ -511,7 +592,7 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
                 if ing.get("note"):
                     nm += f', {ing["note"]}'
                 P.append(f'<li class="ing"><span>{esc(nm)}</span>'
-                         f'<span class="iq">{esc(fmt_ing(ing, scale))}</span></li>')
+                         f'<span class="iq">{esc(fmt_ing(ing, scale, mrange))}</span></li>')
             if r.get("pantry"):
                 P.append(f'<li class="ing"><span>{esc(", ".join(cap(p) for p in r["pantry"]))}</span>'
                          f'<span class="iq">—</span></li>')
@@ -535,7 +616,7 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
 # Orkiestracja
 # --------------------------------------------------------------------------- #
 def build_plan(plan_id: str, d: Dictionary, check_only: bool,
-               neighbors: tuple = (None, None)) -> list:
+               neighbors: tuple = (None, None), profile: dict | None = None) -> list:
     errors: list = []
     plan = load_plan(plan_id)
     recipes: dict[str, dict] = {}
@@ -559,8 +640,10 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
     if errors:  # brak kart — nie ma sensu liczyć dalej
         return errors
 
+    mrange = meat_range(profile)
+    selftest_classification(*mrange, errors)
     validate_plan(plan, recipes, errors)
-    meals_out, demand_out = build_demand(plan, recipes, d, errors)
+    meals_out, demand_out = build_demand(plan, recipes, d, mrange, errors)
     if errors:
         return errors
 
@@ -575,7 +658,7 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
     if jpath.exists():
         existing_journal = json.loads(jpath.read_text(encoding="utf-8"))
     journal = build_journal(plan, recipes, existing_journal)
-    page = render_html(plan, recipes, demand_out, d, neighbors)
+    page = render_html(plan, recipes, demand_out, d, neighbors, mrange)
 
     if not check_only:
         (out_dir / "demand.json").write_text(
@@ -604,6 +687,10 @@ def main(argv: list) -> int:
     check_only = "--check" in argv
     args = [a for a in argv if not a.startswith("-")]
     d = load_dictionary()
+    profile = load_meat_profile()
+    lo, hi = meat_range(profile)
+    print(f"profil mięsa: przedział dania {lo}–{hi} g (skład: {profile.get('adults', 1)} dorosły "
+          f"+ {', '.join(profile.get('children', {}))})")
     all_ids = sorted(p.name for p in PLANS_DIR.iterdir()
                      if p.is_dir() and (p / "plan.yaml").exists())  # pełny zbiór → nawigacja
     plan_ids = args or all_ids
@@ -616,7 +703,7 @@ def main(argv: list) -> int:
         i = all_ids.index(pid)
         neighbors = (all_ids[i - 1] if i > 0 else None,
                      all_ids[i + 1] if i < len(all_ids) - 1 else None)
-        errs = build_plan(pid, d, check_only, neighbors)
+        errs = build_plan(pid, d, check_only, neighbors, profile)
         for e in errs:
             all_errors.append(f"[{pid}] {e}")
         status = "OK" if not errs else f"BŁĘDY ({len(errs)})"

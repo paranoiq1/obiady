@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "revision": 2,
+  "revision": 3,
   "owner": "marcin",
   "period": {
     "from": "2026-07-23",
@@ -18,18 +18,18 @@
       "servings": 2
     },
     {
+      "date": "2026-07-24",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
+      "servings": 2
+    },
+    {
       "date": "2026-07-25",
       "recipe_id": "pulpeciki-drobiowo-ciecierzycowe",
-      "servings": 3
+      "servings": 2
     },
     {
       "date": "2026-07-25",
       "recipe_id": "chrupiaca-ciecierzyca",
-      "servings": 2
-    },
-    {
-      "date": "2026-07-27",
-      "recipe_id": "sos-pomidorowy-z-mielonym",
       "servings": 2
     },
     {
@@ -47,12 +47,22 @@
     {
       "ingredient": "łopatka mielona wieprzowa",
       "unit": "kg",
-      "qty": 0.8
+      "qty": 0.67,
+      "qty_range": [
+        0.54,
+        0.79
+      ],
+      "dania": 2.0
     },
     {
       "ingredient": "filet z piersi indyka",
       "unit": "kg",
-      "qty": 0.6
+      "qty": 0.33,
+      "qty_range": [
+        0.27,
+        0.4
+      ],
+      "dania": 1.0
     },
     {
       "ingredient": "łosoś świeży",
@@ -62,7 +72,7 @@
     {
       "ingredient": "jajka",
       "unit": "szt",
-      "qty": 5
+      "qty": 4
     },
     {
       "ingredient": "cebula",
@@ -112,22 +122,22 @@
     {
       "ingredient": "kuskus perłowy",
       "unit": "kg",
-      "qty": 0.25
+      "qty": 0.2
     },
     {
       "ingredient": "bułka tarta",
       "unit": "kg",
-      "qty": 0.12
+      "qty": 0.1
     },
     {
       "ingredient": "passata pomidorowa",
       "unit": "kg",
-      "qty": 1.1
+      "qty": 0.9
     },
     {
       "ingredient": "ciecierzyca konserwowa",
       "unit": "szt",
-      "qty": 2
+      "qty": 1
     },
     {
       "ingredient": "groszek zielony konserwowy",

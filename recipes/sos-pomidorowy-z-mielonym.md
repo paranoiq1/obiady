@@ -4,11 +4,11 @@ name: Sos pomidorowy z mielonym (do lodówki)
 type: składnik-bazowy
 tags: [wieprzowina, sos, batch-cooking, warzywa-ukryte]
 base_servings: 2
-serves: 2          # ile dań-konsumentów (np. makaron) karmi jeden batch z 400 g mielonego
-advance_prep: "opcjonalny batch; w lodówce dobry 3–4 dni, można też zamrozić"
+serves: 2          # ile dań-konsumentów (np. makaron) karmi jeden batch (1 danie mielonego)
+advance_prep: "gotowany razem z kotletami mielonymi (jedno opakowanie mielonego na 2 dania); w lodówce dobry 3–4 dni"
 components: []
 ingredients:
-  - { name: "łopatka mielona wieprzowa", qty: 400, unit: g, note: "1 tacka" }
+  - { name: "łopatka mielona wieprzowa", qty: 1, unit: danie, note: "wg przedziału dania" }
   - { name: "cebula", qty: 1, unit: szt, note: "drobno posiekana" }
   - { name: "czosnek", qty: 2, unit: ząbek, note: "przeciśnięty" }
   - { name: "marchew", qty: 2, unit: szt, note: "starta na drobnych oczkach" }
@@ -20,7 +20,7 @@ pantry: [olej, sól]
 
 # Sos pomidorowy z mielonym
 
-Baza gotowana przy okazji [kotletów mielonych](kotlety-mielone.md) (jedna tacka łopatki na oba dania). Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
+Baza gotowana tego samego dnia co [kotlety mielone](kotlety-mielone.md) — jedno opakowanie mielonego (2 dania) na oba. Konsumowany np. jako [makaron fusilli z sosem](makaron-fusilli-z-sosem.md).
 
 ## Przygotowanie
 

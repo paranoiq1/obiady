@@ -1,19 +1,17 @@
 # Źródło prawdy planu tygodnia — wejście dla build.py.
 # demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
 #
-# Model porcji: 1 porcja = 200 g mięsa; danie = base_servings (2) × 200 g = 400 g.
-# Dzieci jedzą łącznie ~0,5–0,75 porcji (ciężko dzielić) → nadwyżkę do lodówki/mrożenia.
-# Per-danie można nadpisać `servings` (np. batch na zapas: pulpeciki servings 3 = 600 g).
+# Model mięsa (migracja 02): mięso w kartach = `unit: danie`; gramaturę liczy build.py
+# z przedziału dania (profil w preferences.md, ob. 272–396 g). Łosoś na wagę.
+# base_servings (2) skaluje tylko dodatki/węglowodany.
 #
 # Tydzień wydłużony, start dziś (Czw 23.07 = ISO 2026-W30). Łosoś na dziś.
-# Zamówione mięso z 4-dniową ważnością (gotować do ~Pn 27.07); zasada: jak ma się zepsuć,
-# zrób więcej i zamroź.
-#   - indyk 600 g → pulpeciki jako 1 batch (servings 3 = 600 g); zjeść 2 porcje, resztę zamrozić.
-#   - łopatka 2×400 g → kotlety (Pt, 1 tacka) + sos (Pn, 1 tacka, OSOBNO — nie musi iść z kotletami).
-#     Sos zasila 2× makaron fusilli (Pn, Wt).
-# Niedziela: obiad w restauracji. Ogon Czw 30.07–Nd 02.08: do zaplanowania (domówienie).
+# Mielone kupujemy na 2 dania (kotlety + sos) — bez zamrażarki gotujemy oba w piątek,
+# sos idzie do lodówki i zasila 2× makaron (pn, wt). Indyk: pulpeciki (opakowanie
+# 600 g klasyfikuje się jako 2 dania — patrz podsumowanie sesji).
+# Niedziela: obiad w restauracji. Ogon Śr 29.07–Nd 02.08: do zaplanowania.
 plan_id: 2026-W30
-revision: 2
+revision: 3
 owner: marcin
 title: Plan obiadów
 servings: 2
@@ -22,10 +20,10 @@ period:
   to: 2026-08-02
 days:
   - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
-  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone] }
-  - { date: 2026-07-25, dow: Sob, meals: [{ id: pulpeciki-drobiowo-ciecierzycowe, servings: 3 }, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
+  - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
   - { date: 2026-07-26, dow: Nd,  rest: Restauracja }
-  - { date: 2026-07-27, dow: Pn,  meals: [sos-pomidorowy-z-mielonym, makaron-fusilli-z-sosem] }
+  - { date: 2026-07-27, dow: Pn,  meals: [makaron-fusilli-z-sosem] }
   - { date: 2026-07-28, dow: Wt,  meals: [makaron-fusilli-z-sosem] }
   - { date: 2026-07-29, dow: Śr,  rest: Do zaplanowania }
   - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }

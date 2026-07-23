@@ -7,7 +7,7 @@ base_servings: 2
 advance_prep: null
 components: []
 ingredients:
-  - { name: "schab wieprzowy", qty: 400, unit: g, note: "4–5 plastrów" }
+  - { name: "schab wieprzowy", qty: 1, unit: danie, note: "opakowanie w przedziale — zużyj całe (sznycle 4–5 plastrów)" }
   - { name: "jajka", qty: 2, unit: szt }
   - { name: "bułka tarta", qty: 6, unit: łyżka }
   - { name: "kasza gryczana", qty: 100, unit: g, note: "1 torebka" }
