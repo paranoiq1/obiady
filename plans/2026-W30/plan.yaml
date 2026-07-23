@@ -8,8 +8,10 @@
 #   - indyk 625 g = 2 dania, „do" 27.07, w procurement → KONKRETNIE: pulpeciki (Sob) +
 #     kotlety z piersi panierowane (Nd) — zjedzone świeżo (zamrażarka w naprawie, nie mrozimy).
 # rev 7: niedziela restauracja → obiad z nadwyżki indyka.
+# rev 8: kotlety mielone (Pt) z fasolką zamiast brokuł/marchewka-groszek; sobota +cukinia
+# zapiekana z serem (zużycie dużych cukinii); niedziela +marchewka z groszkiem.
 plan_id: 2026-W30
-revision: 7
+revision: 8
 owner: marcin
 title: Plan obiadów
 servings: 2
@@ -19,5 +21,5 @@ period:
 days:
   - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
   - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone] }
-  - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca, cukinia-zapiekana-z-serem] }
   - { date: 2026-07-26, dow: Nd,  meals: [kotlety-z-piersi-panierowane] }

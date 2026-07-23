@@ -12,12 +12,14 @@ ingredients:
   - { name: "bułka tarta", qty: 5, unit: łyżka, note: "+ do obtaczania" }
   - { name: "ryż basmati", qty: 100, unit: g }
   - { name: "fasolka szparagowa", qty: 200, unit: g }
+  - { name: "marchew", qty: 1, unit: szt }
+  - { name: "groszek zielony konserwowy", qty: 1, unit: szt, note: "4 łyżki (część małej puszki)" }
 pantry: [olej, masło, sól, pieprz czarny mielony]
 ---
 
 # Kotlety z piersi panierowane
 
-Dodatki: ryż basmati · fasolka szparagowa
+Dodatki: ryż basmati · fasolka szparagowa · marchewka z groszkiem
 
 ## Przygotowanie
 
@@ -26,6 +28,7 @@ Dodatki: ryż basmati · fasolka szparagowa
 3. Smażyć na rozgrzanym oleju 3–4 min z każdej strony, aż złociste i ścięte w środku.
 4. Ryż basmati ugotować wg instrukcji (~12 min w osolonej wodzie).
 5. Fasolkę gotować 5–7 min w osolonej wodzie, podać z masłem.
+6. Marchew pokroić w plasterki, ugotować 10 min. Odcedzić, dodać groszek i masło.
 
 ## Historia i feedback
 
