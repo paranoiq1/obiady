@@ -3,6 +3,11 @@ name: build-plan
 # Strona buduje się sama: edycja karty / plan.yaml / słownika → push → regeneracja
 # index.html + demand.json + journal.json i commit z powrotem (Pages serwuje z gałęzi).
 # Na pull requestach tylko walidacja (gate), bez zapisu.
+#
+# Commit-back idzie domyślnym GITHUB_TOKEN (persist-credentials actions/checkout):
+#   - push tym tokenem NIE wyzwala kolejnych workflowów → brak pętli (PAT by zapętlił);
+#   - build.py jest deterministyczny (bez timestampów) i commitujemy TYLKO przy realnej
+#     różnicy (git diff --cached --quiet), więc historia nie puchnie od pustych runów.
 
 on:
   push:
@@ -44,15 +49,15 @@ jobs:
         if: github.event_name == 'push'
         run: python3 build.py
 
-      - name: Commit, jeśli coś się zmieniło
+      - name: Commit tylko przy realnej różnicy
         if: github.event_name == 'push'
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Artefakty aktualne — brak zmian, nic nie commituję."
+          else
             git config user.name  "meals-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -A
             git commit -m "build: regeneracja planu [skip ci]"
             git push
-          else
-            echo "Artefakty aktualne — brak zmian."
           fi
