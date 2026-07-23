@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "revision": 6,
+  "revision": 7,
   "owner": "marcin",
   "period": {
     "from": "2026-07-23",
@@ -26,6 +26,11 @@
       "date": "2026-07-25",
       "recipe_id": "chrupiaca-ciecierzyca",
       "servings": 2
+    },
+    {
+      "date": "2026-07-26",
+      "recipe_id": "kotlety-z-piersi-panierowane",
+      "servings": 2
     }
   ],
   "demand": [
@@ -42,12 +47,12 @@
     {
       "ingredient": "filet z piersi indyka",
       "unit": "kg",
-      "qty": 0.33,
+      "qty": 0.67,
       "qty_range": [
-        0.27,
-        0.4
+        0.54,
+        0.79
       ],
-      "dania": 1.0
+      "dania": 2.0
     },
     {
       "ingredient": "łosoś świeży",
@@ -57,7 +62,12 @@
     {
       "ingredient": "jajka",
       "unit": "szt",
-      "qty": 4
+      "qty": 6
+    },
+    {
+      "ingredient": "śmietana",
+      "unit": "kg",
+      "qty": 0.1
     },
     {
       "ingredient": "cebula",
@@ -80,6 +90,11 @@
       "qty": 1
     },
     {
+      "ingredient": "ogórek",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
       "ingredient": "cytryna",
       "unit": "szt",
       "qty": 1
@@ -88,6 +103,11 @@
       "ingredient": "fasolka szparagowa",
       "unit": "kg",
       "qty": 0.2
+    },
+    {
+      "ingredient": "ziemniaki",
+      "unit": "kg",
+      "qty": 0.6
     },
     {
       "ingredient": "kasza gryczana",
@@ -102,7 +122,7 @@
     {
       "ingredient": "bułka tarta",
       "unit": "kg",
-      "qty": 0.1
+      "qty": 0.15
     },
     {
       "ingredient": "passata pomidorowa",

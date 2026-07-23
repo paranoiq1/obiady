@@ -220,6 +220,168 @@ def selftest_classification(lo: int, hi: int, errors: list) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# Pętla zaopatrzeniowa: procurement.json + tryb per mięso + język kuchni
+# --------------------------------------------------------------------------- #
+DOW_SHORT = ["pon", "wt", "śr", "czw", "pt", "sob", "nd"]  # date.weekday()
+
+# Żargon modelu ZAKAZANY na generowanych stronach (całe słowa, bez wielkości liter).
+# Strona mówi językiem kuchni: danie→obiad, przedział→„~X–Y g", dostawa→„kupione".
+FORBIDDEN_ON_PAGE = [
+    "danie", "dania", "dań", "daniu", "daniem", "daniowy", "daniowa", "daniowe", "daniowego",
+    "daniowym", "daniową", "daniowej",
+    "wielodaniowe", "wielodaniowego", "przedział", "przedziału", "przedziale", "przedziałem",
+    "anchor", "qty_range", "demand", "procurement", "journal", "revision", "rewizja", "rewizji",
+    "klasyfikacja", "klasyfikacji", "orientacyjny", "orientacyjnym", "konkretny", "konkretnym",
+]
+
+PACK_FORMS = {  # słowo opakowania: formy do składni „cała tacka" / „połowa tacki"
+    "tacka":      {"whole": "cała tacka", "gen": "tacki", "few": "tacki", "many": "tacek"},
+    "opakowanie": {"whole": "całe opakowanie", "gen": "opakowania", "few": "opakowania", "many": "opakowań"},
+}
+
+
+def load_procurement(plan_id: str) -> dict | None:
+    path = PLANS_DIR / plan_id / "procurement.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def r10(x: float) -> int:
+    return int(round(x / 10.0)) * 10
+
+
+def pl_form(n: int, one: str, few: str, many: str) -> str:
+    n = int(n)
+    if n == 1:
+        return one
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return few
+    return many
+
+
+def pack_word(name: str, d: Dictionary) -> str:
+    return d.pack_label.get(name, "opakowanie")
+
+
+def assign_packages(uses: list, packages: list, lo: int, hi: int) -> dict:
+    """Przypisanie pakiety→obiady: use_by rosnąco ↔ data obiadu rosnąco, potem większy
+    pakiet → wcześniejszy obiad. Zwraca {per_date: {pkg_w, n, portion}}, warning, need/have, oob."""
+    obiady = sorted(uses)                                   # (data, dania) rosnąco po dacie
+    pkgs = sorted(packages, key=lambda p: (p.get("use_by") or "9999-99-99", -p["weight_g"]))
+    slots = []                                              # rozwinięcie pakietów na porcje-obiady
+    oob = []                                                # pakiety poza przedziałem (do rewizji)
+    for p in pkgs:
+        status, n = classify_package(p["weight_g"], lo, hi)
+        if status != "OK":
+            oob.append((p["weight_g"], status))
+            n = max(1, n)
+        for _ in range(n):
+            slots.append({"w": p["weight_g"], "n": n, "portion": round(p["weight_g"] / n)})
+    need = sum(math.ceil(dn) for _, dn in obiady)
+    per_date, si = {}, 0
+    for date, dn in obiady:
+        take = max(1, math.ceil(dn))
+        got = slots[si:si + take]
+        si += take
+        per_date[date] = got[0] if got else None
+    have = len(slots)
+    if have < need:
+        warning = "może być mało mięsa"
+    elif have > need:
+        warning = "wyjdzie więcej — nadmiar do lodówki"
+    else:
+        warning = None
+    return {"per_date": per_date, "warning": warning, "need": need, "have": have, "oob": oob}
+
+
+def build_meat_view(plan: dict, recipes: dict, procurement: dict | None, mrange: tuple) -> dict:
+    """Per mięso: obiady (dni), tryb (orientacyjny bez procurement / konkretny z),
+    oraz przypisanie pakietów w trybie konkretnym."""
+    lo, hi = mrange
+    proc = {it["ingredient"]: it for it in (procurement or {}).get("items", [])}
+    by_meat: dict[str, list] = {}
+    for day in plan["days"]:
+        for m in day.get("meals", []):
+            r = recipes[meal_id(m)]
+            scale = meal_servings(m, plan["servings"]) / r.get("base_servings", 2)
+            for ing in r.get("ingredients", []):
+                if ing.get("unit") == "danie":
+                    by_meat.setdefault(ing["name"], []).append((str(day["date"]), ing["qty"] * scale))
+    view = {}
+    for name, uses in by_meat.items():
+        v = {"uses": sorted(uses), "dania": sum(dn for _, dn in uses),
+             "mode": "konkretny" if name in proc else "orientacyjny"}
+        if v["mode"] == "konkretny":
+            v["packages"] = proc[name].get("packages", [])
+            v["assign"] = assign_packages(uses, v["packages"], lo, hi)
+        view[name] = v
+    return view
+
+
+def meat_shop_line(name: str, v: dict, d: Dictionary, mrange: tuple) -> str:
+    """Linia mięsa na liście zakupów — język kuchni, oba tryby (bez żargonu)."""
+    lo, hi = mrange
+    dates = [dt for dt, _ in v["uses"]]
+    days = "+".join(DOW_SHORT[datetime.date.fromisoformat(dt).weekday()] for dt in dates)
+    n = max(1, round(v["dania"]))
+    obiad = pl_form(n, "obiad", "obiady", "obiadów")
+    if v["mode"] == "konkretny":
+        parts = ", ".join(f'{p["weight_g"]} g' for p in v["packages"])
+        return f"kupione: {parts} — na {n} {obiad} ({days})"
+    pw = pack_word(name, d)
+    pf = PACK_FORMS.get(pw, PACK_FORMS["opakowanie"])
+    if n == 1:
+        return f"na 1 obiad ({days}): ~{r10(lo)}–{r10(hi)} g"
+    packs = pl_form(n, pw, pf["few"], pf["many"])
+    return (f"na {n} {obiad} ({days}): razem ~{r10(lo*n)}–{r10(hi*n)} g "
+            f"— np. {n} {packs} po ~{r10(lo)}–{r10(hi)} g")
+
+
+def meat_recipe_line(name: str, v: dict, date: str, d: Dictionary, mrange: tuple) -> str:
+    """Linia mięsa w karcie dnia — język kuchni, oba tryby."""
+    lo, hi = mrange
+    if v["mode"] == "konkretny":
+        s = v["assign"]["per_date"].get(date)
+        if not s:
+            return f"~{r10(lo)}–{r10(hi)} g"
+        pw = pack_word(name, d)
+        pf = PACK_FORMS.get(pw, PACK_FORMS["opakowanie"])
+        if s["n"] == 1:
+            return f'{pf["whole"]} ({s["w"]} g)'
+        frac = "połowa" if s["n"] == 2 else f'1/{s["n"]}'
+        return f'{frac} {pf["gen"]} {s["w"]} g (~{s["portion"]} g)'
+    return f"~{r10(lo)}–{r10(hi)} g"
+
+
+def scan_forbidden(html_text: str) -> list:
+    """Całe słowa z listy zakazanej (bez wielkości liter). \\b radzi sobie z „śniadanie"."""
+    hits = []
+    low = html_text.lower()
+    for w in FORBIDDEN_ON_PAGE:
+        if re.search(r"(?<!\w)" + re.escape(w) + r"(?!\w)", low):
+            hits.append(w)
+    return sorted(set(hits))
+
+
+def golden_tests(d: Dictionary, mrange: tuple, errors: list) -> None:
+    """Golden linie mięsne w OBU trybach — dokładne brzmienie (pkt 12)."""
+    cases = []
+    v_or = {"uses": [("2026-07-27", 1), ("2026-07-28", 1)], "dania": 2, "mode": "orientacyjny"}
+    cases.append(("orient/2obiady", meat_shop_line("łopatka mielona wieprzowa", v_or, d, mrange),
+                  "na 2 obiady (pon+wt): razem ~540–790 g — np. 2 tacki po ~270–400 g"))
+    a1 = assign_packages([("2026-07-24", 1)], [{"weight_g": 380}], *mrange)
+    v1 = {"mode": "konkretny", "assign": a1}
+    cases.append(("konkret/cała", meat_recipe_line("łopatka mielona wieprzowa", v1, "2026-07-24", d, mrange),
+                  "cała tacka (380 g)"))
+    a2 = assign_packages([("2026-07-25", 1), ("2026-07-27", 1)], [{"weight_g": 600}], *mrange)
+    v2 = {"mode": "konkretny", "assign": a2}
+    cases.append(("konkret/połowa", meat_recipe_line("filet z piersi indyka", v2, "2026-07-25", d, mrange),
+                  "połowa opakowania 600 g (~300 g)"))
+    for label, got, exp in cases:
+        if got != exp:
+            errors.append(f"golden {label}: „{got}” ≠ „{exp}”")
+
+
+# --------------------------------------------------------------------------- #
 # Konwersja jednostek + agregacja demand
 # --------------------------------------------------------------------------- #
 def to_base(d: Dictionary, name: str, qty: float, unit: str, errors: list) -> tuple[str, float] | None:
@@ -293,6 +455,21 @@ def validate_plan(plan: dict, recipes: dict, errors: list) -> None:
             errors.append(f"baza „{comp}”: batch(e) starczą na {num(capacity)} dań, a plan ma "
                           f"{num(needed)} dań-konsumentów — zwiększ `servings` bazy lub jej "
                           f"`serves`, albo usuń danie (inaczej część dni = sam dodatek bez bazy)")
+
+
+def validate_procurement(procurement: dict | None, meat_view: dict, d: Dictionary, errors: list) -> None:
+    """Raport zakupów: składniki kanoniczne, pakiety z wagą. Braki pokrycia obiadów są
+    RAPORTOWANE po ludzku (warning na stronie), nie blokują buildu (pkt 6)."""
+    if not procurement:
+        return
+    for it in procurement.get("items", []):
+        name = it.get("ingredient", "")
+        if d.canonical(name) is None:
+            errors.append(f"procurement/{procurement.get('plan_id','?')}: nieznany składnik "
+                          f"„{name}” (dodaj do ingredients.md)")
+        for p in it.get("packages", []):
+            if "weight_g" not in p:
+                errors.append(f"procurement „{name}”: pakiet bez `weight_g`")
 
 
 def build_demand(plan: dict, recipes: dict, d: Dictionary, mrange: tuple, errors: list):
@@ -497,8 +674,10 @@ def dm(date: str) -> str:
 
 
 def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
-                neighbors: tuple = (None, None), mrange: tuple = (0, 0)) -> str:
+                neighbors: tuple = (None, None), mrange: tuple = (0, 0),
+                meat_view: dict | None = None) -> str:
     prev_id, next_id = neighbors
+    meat_view = meat_view or {}
     P = []
     frm, to = plan["period"]["from"], plan["period"]["to"]
     P.append('<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">')
@@ -532,9 +711,8 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
                   f' <span class="ct">{len(items)} poz.</span><span class="arr">▸</span></summary>')
         P.append('<div class="shop-body">')
         for it in items:
-            if "qty_range" in it:                 # mięso przedziałowe
-                gmin, gmax = round(it["qty_range"][0] * 1000), round(it["qty_range"][1] * 1000)
-                q = f'{pl_dania(it["dania"])} · ~{gmin}–{gmax} g łącznie'
+            if it["ingredient"] in meat_view:      # mięso — język kuchni (oba tryby)
+                q = meat_shop_line(it["ingredient"], meat_view[it["ingredient"]], d, mrange)
             else:
                 q = fmt_shop(it["ingredient"], it["qty"], it["unit"], d)
             P.append(f'<div class="srow"><input type="checkbox"><label>{esc(cap(it["ingredient"]))}'
@@ -588,15 +766,26 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
                 P.append(f'<div class="rside">{esc(sub)}</div>')
             P.append("</div></div>")
             P.append('<div class="rbody">')
-            if r.get("advance_prep"):
+            # advance_prep jest wewnętrzne — na stronę tylko gdy kuchenne (bez żargonu)
+            if r.get("advance_prep") and not scan_forbidden(r["advance_prep"]):
                 P.append(f'<div class="note nwarn">{esc(cap(r["advance_prep"]))}</div>')
+            # ostrzeżenie mięsne (tryb konkretny) — po ludzku
+            for ing in r.get("ingredients", []):
+                if ing.get("unit") == "danie":
+                    v = meat_view.get(ing["name"])
+                    warn = v and v.get("mode") == "konkretny" and v["assign"].get("warning")
+                    if warn:
+                        P.append(f'<div class="note nwarn">{esc(cap(ing["name"]))}: {esc(warn)}</div>')
             P.append('<div class="slbl">Składniki</div><ul class="ings">')
             for ing in r.get("ingredients", []):
-                nm = cap(ing["name"])
-                if ing.get("note"):
-                    nm += f', {ing["note"]}'
-                P.append(f'<li class="ing"><span>{esc(nm)}</span>'
-                         f'<span class="iq">{esc(fmt_ing(ing, scale, mrange))}</span></li>')
+                if ing.get("unit") == "danie":          # mięso — bez żargonowej notki
+                    nm = cap(ing["name"])
+                    iq = meat_recipe_line(ing["name"], meat_view.get(ing["name"], {"mode": "orientacyjny"}),
+                                          str(day["date"]), d, mrange)
+                else:
+                    nm = cap(ing["name"]) + (f', {ing["note"]}' if ing.get("note") else "")
+                    iq = fmt_ing(ing, scale, mrange)
+                P.append(f'<li class="ing"><span>{esc(nm)}</span><span class="iq">{esc(iq)}</span></li>')
             if r.get("pantry"):
                 P.append(f'<li class="ing"><span>{esc(", ".join(cap(p) for p in r["pantry"]))}</span>'
                          f'<span class="iq">—</span></li>')
@@ -646,7 +835,11 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
 
     mrange = meat_range(profile)
     selftest_classification(*mrange, errors)
+    golden_tests(d, mrange, errors)
+    procurement = load_procurement(plan_id)
+    meat_view = build_meat_view(plan, recipes, procurement, mrange)
     validate_plan(plan, recipes, errors)
+    validate_procurement(procurement, meat_view, d, errors)
     meals_out, demand_out = build_demand(plan, recipes, d, mrange, errors)
     if errors:
         return errors
@@ -662,7 +855,13 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
     if jpath.exists():
         existing_journal = json.loads(jpath.read_text(encoding="utf-8"))
     journal = build_journal(plan, recipes, existing_journal)
-    page = render_html(plan, recipes, demand_out, d, neighbors, mrange)
+    page = render_html(plan, recipes, demand_out, d, neighbors, mrange, meat_view)
+
+    bad = scan_forbidden(page)
+    if bad:
+        errors.append(f"strona {plan_id}: żargon modelu na stronie (zakazany): {', '.join(bad)} "
+                      f"— strona ma mówić językiem kuchni")
+        return errors
 
     if not check_only:
         (out_dir / "demand.json").write_text(

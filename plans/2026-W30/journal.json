@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "baseline_revision": 6,
+  "baseline_revision": 7,
   "entries": [
     {
       "date": "2026-07-23",
@@ -17,6 +17,12 @@
     {
       "date": "2026-07-25",
       "planned": "pulpeciki-drobiowo-ciecierzycowe",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-26",
+      "planned": "kotlety-z-piersi-panierowane",
       "actual": null,
       "outcome": "pending"
     }
