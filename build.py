@@ -668,19 +668,58 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
     return errors
 
 
-def latest_plan_id() -> str:
-    ids = sorted(p.name for p in PLANS_DIR.iterdir()
-                 if p.is_dir() and (p / "plan.yaml").exists())
-    return ids[-1]
+def build_manifest() -> list:
+    """Manifest tygodni [{plan_id, from, to, url}] z period każdego demand.json.
+    Deterministyczny (sort po `from`, bez „dziś") — artefakt zależny wyłącznie od plans/."""
+    out = []
+    for pid in sorted(p.name for p in PLANS_DIR.iterdir()
+                      if p.is_dir() and (p / "plan.yaml").exists()):
+        dj = PLANS_DIR / pid / "demand.json"
+        if not dj.exists():
+            continue
+        data = json.loads(dj.read_text(encoding="utf-8"))
+        per = data.get("period", {})
+        out.append({"plan_id": data["plan_id"], "from": per.get("from"),
+                    "to": per.get("to"), "url": f"plans/{data['plan_id']}/"})
+    out.sort(key=lambda x: x["from"] or "")
+    return out
 
 
-def write_root_redirect(plan_id: str):
-    (ROOT / "index.html").write_text(
-        '<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">\n'
-        f'<meta http-equiv="refresh" content="0; url=plans/{plan_id}/">\n'
-        '<title>Plan obiadów</title></head>\n'
-        f'<body><p>Aktualny plan: <a href="plans/{plan_id}/">{plan_id}</a></p></body></html>\n',
-        encoding="utf-8")
+def write_manifest(manifest: list) -> None:
+    (ROOT / "plans.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def write_root_resolver(manifest: list) -> None:
+    """Root: resolver po stronie klienta (data z urządzenia). Reguła: pokrywający dziś
+    → najbliższy przyszły → najnowszy. Bez JS / przy błędzie fetch: widoczna lista."""
+    items = "\n".join(
+        f'  <li><a href="{esc(m["url"])}">{esc(m["plan_id"])} · '
+        f'{dm(m["from"])}–{dm(m["to"])}</a></li>' for m in manifest)
+    doc = f'''<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan obiadów</title>
+<style>body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F0E8;color:#2A2520;max-width:620px;margin:0 auto;padding:2rem 1rem;font-size:15px;line-height:1.6}}h1{{font-size:20px}}a{{color:#1D9E75;text-decoration:none}}ul{{line-height:2.1;margin-top:.5rem}}</style>
+</head><body>
+<h1>Plan obiadów</h1>
+<p>Otwieram bieżący tydzień… jeśli nie przeskoczy, wybierz z listy:</p>
+<ul id="plans">
+{items}
+</ul>
+<script>
+fetch('plans.json',{{cache:'no-store'}}).then(function(r){{return r.json();}}).then(function(p){{
+  if(!p||!p.length)return;
+  p.sort(function(a,b){{return a.from<b.from?-1:a.from>b.from?1:0;}});
+  var d=new Date(),t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  var target=p.filter(function(x){{return x.from<=t&&t<=x.to;}})[0]
+           ||p.filter(function(x){{return x.from>t;}})[0]
+           ||p[p.length-1];
+  if(target)location.replace(target.url);
+}}).catch(function(){{}});
+</script>
+</body></html>
+'''
+    (ROOT / "index.html").write_text(doc, encoding="utf-8")
 
 
 def main(argv: list) -> int:
@@ -710,9 +749,10 @@ def main(argv: list) -> int:
         print(f"{'sprawdzono' if check_only else 'zbudowano'} {pid}: {status}")
 
     if not check_only and not all_errors:
-        latest = latest_plan_id()
-        write_root_redirect(latest)
-        print(f"index.html → plans/{latest}/")
+        manifest = build_manifest()
+        write_manifest(manifest)
+        write_root_resolver(manifest)
+        print(f"plans.json + index.html (resolver) ← {len(manifest)} tygodni")
 
     if all_errors:
         print("\nWalidacja nie przeszła:")
