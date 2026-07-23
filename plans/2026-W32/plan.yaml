@@ -1,0 +1,29 @@
+# Źródło prawdy planu tygodnia — wejście dla build.py.
+# demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
+#
+# Kontekst: tydzień wydłużony, start dziś (Czw 23.07). Łosoś na dziś.
+# Zamówione mięso z 4-dniową datą ważności (do zużycia ~do Nd 26.07):
+#   - filet z piersi indyka 600 g  → kebab (Sob) + pulpeciki (Pn)
+#   - łopatka mielona wieprzowa 2×400 g (2 tacki) → 2× (kotlety mielone + sos do lodówki),
+#     tacka 1 w Pt, tacka 2 w Nd; oba sosy zasilają 2× makaron fusilli (Wt, Śr).
+# Ogon tygodnia (Czw 30.07 → Nd 02.08) zostaje „do zaplanowania" — domówienie wg potrzeb.
+plan_id: 2026-W32
+revision: 1
+owner: marcin
+title: Plan obiadów
+servings: 2
+period:
+  from: 2026-07-23
+  to: 2026-08-02
+days:
+  - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
+  - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
+  - { date: 2026-07-25, dow: Sob, meals: [kebab-z-indyka] }
+  - { date: 2026-07-26, dow: Nd,  meals: [kotlety-mielone, sos-pomidorowy-z-mielonym] }
+  - { date: 2026-07-27, dow: Pn,  meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
+  - { date: 2026-07-28, dow: Wt,  meals: [makaron-fusilli-z-sosem] }
+  - { date: 2026-07-29, dow: Śr,  meals: [makaron-fusilli-z-sosem] }
+  - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }
+  - { date: 2026-07-31, dow: Pt,  rest: Do zaplanowania }
+  - { date: 2026-08-01, dow: Sob, rest: Do zaplanowania }
+  - { date: 2026-08-02, dow: Nd,  rest: Do zaplanowania }

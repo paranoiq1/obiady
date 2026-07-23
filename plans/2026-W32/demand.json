@@ -1,0 +1,168 @@
+{
+  "plan_id": "2026-W32",
+  "revision": 1,
+  "owner": "marcin",
+  "period": {
+    "from": "2026-07-23",
+    "to": "2026-08-02"
+  },
+  "meals": [
+    {
+      "date": "2026-07-23",
+      "recipe_id": "losos-pieczony",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-24",
+      "recipe_id": "kotlety-mielone",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-24",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-25",
+      "recipe_id": "kebab-z-indyka",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-26",
+      "recipe_id": "kotlety-mielone",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-26",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-27",
+      "recipe_id": "pulpeciki-drobiowo-ciecierzycowe",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-27",
+      "recipe_id": "chrupiaca-ciecierzyca",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-28",
+      "recipe_id": "makaron-fusilli-z-sosem",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-29",
+      "recipe_id": "makaron-fusilli-z-sosem",
+      "servings": 2
+    }
+  ],
+  "demand": [
+    {
+      "ingredient": "łopatka mielona wieprzowa",
+      "unit": "kg",
+      "qty": 0.8
+    },
+    {
+      "ingredient": "filet z piersi indyka",
+      "unit": "kg",
+      "qty": 0.52
+    },
+    {
+      "ingredient": "łosoś świeży",
+      "unit": "kg",
+      "qty": 0.25
+    },
+    {
+      "ingredient": "jajka",
+      "unit": "szt",
+      "qty": 3
+    },
+    {
+      "ingredient": "jogurt naturalny gęsty",
+      "unit": "kg",
+      "qty": 0.15
+    },
+    {
+      "ingredient": "cebula",
+      "unit": "szt",
+      "qty": 2
+    },
+    {
+      "ingredient": "czosnek",
+      "unit": "szt",
+      "qty": 2
+    },
+    {
+      "ingredient": "marchew",
+      "unit": "szt",
+      "qty": 4
+    },
+    {
+      "ingredient": "brokuł",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "cukinia",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "ogórek",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "cytryna",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "fasolka szparagowa",
+      "unit": "kg",
+      "qty": 0.2
+    },
+    {
+      "ingredient": "kasza gryczana",
+      "unit": "kg",
+      "qty": 0.2
+    },
+    {
+      "ingredient": "ryż basmati",
+      "unit": "kg",
+      "qty": 0.1
+    },
+    {
+      "ingredient": "makaron fusilli",
+      "unit": "kg",
+      "qty": 0.3
+    },
+    {
+      "ingredient": "kuskus perłowy",
+      "unit": "kg",
+      "qty": 0.2
+    },
+    {
+      "ingredient": "bułka tarta",
+      "unit": "kg",
+      "qty": 0.09
+    },
+    {
+      "ingredient": "passata pomidorowa",
+      "unit": "kg",
+      "qty": 0.85
+    },
+    {
+      "ingredient": "ciecierzyca konserwowa",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "groszek zielony konserwowy",
+      "unit": "szt",
+      "qty": 2
+    }
+  ]
+}

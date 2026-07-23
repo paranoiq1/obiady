@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan obiadów — 2026-W32</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F0E8;color:#2A2520;padding:1rem;max-width:620px;margin:0 auto;font-size:15px;line-height:1.65}
+header{padding:1rem 0 .5rem}
+h1{font-size:21px;font-weight:600}
+.meta{font-size:13px;color:#7A7268;margin-top:3px}
+h2{font-size:13px;font-weight:600;color:#1E1A17;margin:1.4rem 0 .55rem;padding-bottom:.3rem;border-bottom:1.5px solid #DDD6CC;text-transform:uppercase;letter-spacing:.05em}
+.card{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;padding:.75rem 1.2rem;margin-bottom:.75rem}
+details.shop-cat{border-bottom:1px solid #F0EAE2}
+details.shop-cat:last-child{border-bottom:none}
+details.shop-cat>summary{list-style:none;padding:.65rem 0;font-size:14px;font-weight:600;color:#2A2520;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.shop-cat>summary::-webkit-details-marker{display:none}
+details.shop-cat>summary .ct{font-size:12px;color:#B0A89E;font-weight:400;margin-right:6px}
+details.shop-cat>summary .arr{font-size:12px;color:#9A9088;display:inline-block;transition:transform .15s}
+details.shop-cat[open]>summary .arr{transform:rotate(90deg)}
+.shop-body{padding-bottom:.6rem}
+.srow{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.srow input[type=checkbox]{width:17px;height:17px;accent-color:#1D9E75;flex-shrink:0;cursor:pointer}
+.srow label{flex:1;font-size:14px;cursor:pointer;transition:color .1s}
+.srow .qty{color:#9A9088;font-size:13px;white-space:nowrap}
+.srow.done label{text-decoration:line-through;color:#C0B8AE}
+.plan{display:flex;flex-direction:column;gap:9px}
+.prow{display:flex;gap:11px;align-items:flex-start}
+.pday{font-size:12px;font-weight:600;color:#9A9088;width:80px;flex-shrink:0;padding-top:1px}
+.pdot{width:9px;height:9px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:4px}
+.pdot.rest{background:#DDD6CC}
+.pinfo{flex:1}
+.pdish{font-size:14px;font-weight:500;color:#1E1A17;line-height:1.35}
+.pside{font-size:13px;color:#7A7268}
+.ptag{display:inline-block;font-size:11px;background:#FDF4E2;border:1px solid #E8C97A;color:#6F4A00;border-radius:5px;padding:1px 6px;margin-left:5px;font-weight:500;vertical-align:middle}
+.prest{font-size:14px;color:#B0A89E;font-style:italic}
+.recipe{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;margin-bottom:1rem;overflow:hidden}
+.rhdr{padding:.9rem 1.2rem;border-bottom:1px solid #F0EAE2;display:flex;gap:12px;align-items:center}
+.dbadge{flex-shrink:0;text-align:center;width:52px}
+.dname{font-size:10px;font-weight:600;color:#9A9088;text-transform:uppercase;letter-spacing:.06em}
+.dcircle{width:36px;height:36px;border-radius:50%;background:#1D9E75;color:#FFF;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:2px auto 0}
+.dcircle.sub{background:#B7A98E;font-size:18px}
+.rtitle{font-size:16px;font-weight:600;color:#1E1A17;line-height:1.3}
+.rside{font-size:13px;color:#7A7268;margin-top:2px}
+.rbody{padding:.9rem 1.2rem}
+.slbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#9A9088;margin-bottom:.45rem}
+.ings{list-style:none;margin-bottom:.2rem}
+.ing{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #F5EFE8;font-size:14px}
+.ing:last-child{border-bottom:none}
+.iq{color:#9A9088;font-size:13px;margin-left:10px;white-space:nowrap;flex-shrink:0}
+details.sacc{border:1px solid #D8EEE2;border-radius:10px;margin-top:.8rem;overflow:hidden}
+details.sacc>summary{list-style:none;background:#EDF8F2;padding:.55rem .9rem;font-size:13.5px;font-weight:600;color:#0F6E56;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.sacc>summary::-webkit-details-marker{display:none}
+details.sacc>summary .sc{font-size:12px;color:#7A9E8F;font-weight:400}
+details.sacc>summary .arr{font-size:11px;display:inline-block;transition:transform .15s}
+details.sacc[open]>summary .arr{transform:rotate(90deg)}
+.sbody{padding:.7rem .9rem;border-top:1px solid #D8EEE2}
+.slist{list-style:none;counter-reset:s 0}
+.slist li{counter-increment:s 1;padding:5px 0 5px 30px;position:relative;font-size:14px;border-bottom:1px solid #F5EFE8;line-height:1.5}
+.slist li:last-child{border-bottom:none}
+.slist li::before{content:counter(s);position:absolute;left:0;top:6px;width:21px;height:21px;border-radius:50%;background:#F0EAE2;color:#9A9088;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.note{border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:13px;line-height:1.5;margin-top:.7rem}
+.nwarn{background:#FDF4E2;border-left:3px solid #D4922B;color:#6F4A00}
+.note strong{font-weight:600}
+footer{text-align:center;font-size:12px;color:#C0B8AE;padding:1.5rem 0 2rem}
+@media print{body{background:#FFF;padding:0}details{display:block}details>summary{display:none}details>.sbody,details>.shop-body{display:block!important}.recipe,.card{break-inside:avoid;border:1px solid #CCC}}
+</style></head><body>
+<header>
+<h1>Plan obiadów</h1>
+<p class="meta">Tydzień 2026-W32 · 23.07–02.08 · 2 porcje</p>
+</header>
+<h2>Lista zakupów</h2>
+<div class="card" style="padding:.4rem 1.2rem">
+<details class="shop-cat"><summary>Mięso i ryby <span class="ct">3 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Łopatka mielona wieprzowa</label><span class="qty">800 g</span></div>
+<div class="srow"><input type="checkbox"><label>Filet z piersi indyka</label><span class="qty">520 g</span></div>
+<div class="srow"><input type="checkbox"><label>Łosoś świeży</label><span class="qty">250 g</span></div>
+</div></details>
+<details class="shop-cat"><summary>Nabiał i jajka <span class="ct">2 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Jajka</label><span class="qty">3 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Jogurt naturalny gęsty</label><span class="qty">150 g</span></div>
+</div></details>
+<details class="shop-cat"><summary>Warzywa i owoce <span class="ct">8 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Cebula</label><span class="qty">2 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Czosnek</label><span class="qty">2 główka</span></div>
+<div class="srow"><input type="checkbox"><label>Marchew</label><span class="qty">4 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Brokuł</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Cukinia</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Ogórek</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Cytryna</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Fasolka szparagowa</label><span class="qty">200 g</span></div>
+</div></details>
+<details class="shop-cat"><summary>Suche i słoiki <span class="ct">8 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Kasza gryczana</label><span class="qty">200 g</span></div>
+<div class="srow"><input type="checkbox"><label>Ryż basmati</label><span class="qty">100 g</span></div>
+<div class="srow"><input type="checkbox"><label>Makaron fusilli</label><span class="qty">300 g</span></div>
+<div class="srow"><input type="checkbox"><label>Kuskus perłowy</label><span class="qty">200 g</span></div>
+<div class="srow"><input type="checkbox"><label>Bułka tarta</label><span class="qty">90 g</span></div>
+<div class="srow"><input type="checkbox"><label>Passata pomidorowa</label><span class="qty">850 g</span></div>
+<div class="srow"><input type="checkbox"><label>Ciecierzyca konserwowa</label><span class="qty">1 puszka</span></div>
+<div class="srow"><input type="checkbox"><label>Groszek zielony konserwowy</label><span class="qty">2 mała puszka</span></div>
+</div></details>
+</div>
+<h2>Plan tygodnia</h2>
+<div class="card"><div class="plan">
+<div class="prow"><div class="pday">Czw 23.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Łosoś pieczony</div><div class="pside">kuskus perłowy · fasolka szparagowa</div></div></div>
+<div class="prow"><div class="pday">Pt 24.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kotlety mielone</div><div class="pside">kasza gryczana · brokuł · marchewka z groszkiem</div></div></div>
+<div class="prow"><div class="pday">Sob 25.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kebab z indyka<span class="ptag">⏰ marynata rano</span></div><div class="pside">ryż basmati · sos jogurtowy z ogórkiem</div></div></div>
+<div class="prow"><div class="pday">Nd 26.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kotlety mielone</div><div class="pside">kasza gryczana · brokuł · marchewka z groszkiem</div></div></div>
+<div class="prow"><div class="pday">Pn 27.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Pulpeciki drobiowo-ciecierzycowe</div><div class="pside">kuskus perłowy · sos pomidorowy · chrupiąca ciecierzyca (z reszty puszki)</div></div></div>
+<div class="prow"><div class="pday">Wt 28.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Makaron fusilli z sosem pomidorowym</div><div class="pside">Sos z lodówki · ok. 10–12 minut.</div></div></div>
+<div class="prow"><div class="pday">Śr 29.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Makaron fusilli z sosem pomidorowym</div><div class="pside">Sos z lodówki · ok. 10–12 minut.</div></div></div>
+<div class="prow"><div class="pday">Czw 30.07</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Pt 31.07</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Sob 01.08</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Nd 02.08</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+</div></div>
+<h2>Przepisy</h2>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Czw 23.07</div><div class="dcircle">1</div></div>
+<div><div class="rtitle">Łosoś pieczony</div>
+<div class="rside">kuskus perłowy · fasolka szparagowa</div>
+</div></div>
+<div class="rbody">
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łosoś świeży, 2 kawałki</span><span class="iq">250 g</span></li>
+<li class="ing"><span>Cytryna</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Oliwa z oliwek</span><span class="iq">1 łyżka</span></li>
+<li class="ing"><span>Kuskus perłowy</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Fasolka szparagowa</span><span class="iq">200 g</span></li>
+<li class="ing"><span>Masło, Sól, Pieprz czarny mielony</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 6 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Piekarnik nagrzać do 180°C.</li>
+<li>Sprawdzić ości: przesunąć palcami wzdłuż włókien mięsa i usunąć wszystkie.</li>
+<li>Łososia ułożyć w naczyniu, skropić oliwą i sokiem z cytryny, oprószyć solą i pieprzem.</li>
+<li>Piec 15–18 min — mięso matowe w środku, łatwo się dzieli widelcem.</li>
+<li>Kuskus perłowy: zalać wrzącą wodą (100 g + 150 ml), przykryć pokrywką, odczekać 10 min. Rozluźnić widelcem, dodać masło.</li>
+<li>Fasolkę gotować 5–7 min w osolonej wodzie. Podać z masłem.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Pt 24.07</div><div class="dcircle">2</div></div>
+<div><div class="rtitle">Kotlety mielone</div>
+<div class="rside">kasza gryczana · brokuł · marchewka z groszkiem</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Tego samego dnia ugotuj sos-pomidorowy-z-mielonym — jedna tacka łopatki (400 g) na dwa dania</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łopatka mielona wieprzowa, ½ tacki 400 g</span><span class="iq">200 g</span></li>
+<li class="ing"><span>Jajka</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Bułka tarta, + do obtaczania</span><span class="iq">3 łyżka</span></li>
+<li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">¼ szt.</span></li>
+<li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">½ ząbek</span></li>
+<li class="ing"><span>Kasza gryczana, 1 torebka</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Brokuł, garść różyczek</span><span class="iq">⅓ szt.</span></li>
+<li class="ing"><span>Marchew</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Groszek zielony konserwowy, 4 łyżki (część małej puszki)</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Olej, Masło, Sól, Pieprz czarny mielony</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 6 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Wymieszać: mielone + jajko + 3 łyżki bułki tartej + cebula + czosnek. Dobrze wyrobić ręką.</li>
+<li>Dodać sól i pieprz. Uformować ~5 kotletów, obsypać bułką tartą.</li>
+<li>Smażyć na oleju 4–5 min z każdej strony.</li>
+<li>Kaszę gryczaną ugotować wg opisu na opakowaniu.</li>
+<li>Brokuł: różyczki gotować 7–8 min, podać z masłem.</li>
+<li>Marchew pokroić w plasterki, ugotować 10 min. Odcedzić, dodać groszek i masło.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Pt 24.07</div><div class="dcircle sub">+</div></div>
+<div><div class="rtitle">Sos pomidorowy z mielonym (do lodówki)</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Gotowany dzień–dwa wcześniej; w lodówce dobry 3–4 dni</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łopatka mielona wieprzowa, reszta tacki 400 g</span><span class="iq">200 g</span></li>
+<li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">1 ząbek</span></li>
+<li class="ing"><span>Marchew, starta na drobnych oczkach</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Cukinia, mała, starta na drobnych oczkach</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Passata pomidorowa</span><span class="iq">300 ml</span></li>
+<li class="ing"><span>Oregano suszone</span><span class="iq">1 łyżeczka</span></li>
+<li class="ing"><span>Olej, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Cebulę i czosnek zeszklić na oleju, 3 min.</li>
+<li>Dodać mielone, rozbić widelcem, smażyć 5–6 min.</li>
+<li>Dodać startą marchewkę i cukinię (po duszeniu znikają całkowicie), smażyć 2 min.</li>
+<li>Zalać passatą, dodać oregano i sól.</li>
+<li>Dusić pod przykryciem 20 min. Wystudzić i wstawić do lodówki (dobry 3–4 dni).</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Sob 25.07</div><div class="dcircle">3</div></div>
+<div><div class="rtitle">Kebab z indyka</div>
+<div class="rside">ryż basmati · sos jogurtowy z ogórkiem</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Zamarynować rano — min. 2–3 h w jogurcie</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Filet z piersi indyka</span><span class="iq">260 g</span></li>
+<li class="ing"><span>Jogurt naturalny gęsty, marynata</span><span class="iq">3 łyżka</span></li>
+<li class="ing"><span>Czosnek, marynata, przeciśnięty</span><span class="iq">1 ząbek</span></li>
+<li class="ing"><span>Papryka słodka mielona, marynata</span><span class="iq">1 łyżeczka</span></li>
+<li class="ing"><span>Kumin mielony, marynata</span><span class="iq">1 szczypta</span></li>
+<li class="ing"><span>Ryż basmati</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Jogurt naturalny gęsty, sos</span><span class="iq">3 łyżka</span></li>
+<li class="ing"><span>Ogórek, sos</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Czosnek, sos</span><span class="iq">½ ząbek</span></li>
+<li class="ing"><span>Olej, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Filet pokroić w paski grubości ~1 cm.</li>
+<li>Zamarynować: jogurt + czosnek + papryka + kumin + szczypta soli. Wymieszać, przykryć, do lodówki na min. 2–3 godz.</li>
+<li>Sos: jogurt + starty lub drobno pokrojony ogórek + czosnek + sól. Wstawić do lodówki.</li>
+<li>Ryż basmati ugotować wg instrukcji (~12 min w osolonej wodzie).</li>
+<li>Zamarynowane paski smażyć na mocno rozgrzanej patelni 3–4 min z każdej strony — nie ruszać za często, niech się przyrumienią.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Nd 26.07</div><div class="dcircle">4</div></div>
+<div><div class="rtitle">Kotlety mielone</div>
+<div class="rside">kasza gryczana · brokuł · marchewka z groszkiem</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Tego samego dnia ugotuj sos-pomidorowy-z-mielonym — jedna tacka łopatki (400 g) na dwa dania</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łopatka mielona wieprzowa, ½ tacki 400 g</span><span class="iq">200 g</span></li>
+<li class="ing"><span>Jajka</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Bułka tarta, + do obtaczania</span><span class="iq">3 łyżka</span></li>
+<li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">¼ szt.</span></li>
+<li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">½ ząbek</span></li>
+<li class="ing"><span>Kasza gryczana, 1 torebka</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Brokuł, garść różyczek</span><span class="iq">⅓ szt.</span></li>
+<li class="ing"><span>Marchew</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Groszek zielony konserwowy, 4 łyżki (część małej puszki)</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Olej, Masło, Sól, Pieprz czarny mielony</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 6 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Wymieszać: mielone + jajko + 3 łyżki bułki tartej + cebula + czosnek. Dobrze wyrobić ręką.</li>
+<li>Dodać sól i pieprz. Uformować ~5 kotletów, obsypać bułką tartą.</li>
+<li>Smażyć na oleju 4–5 min z każdej strony.</li>
+<li>Kaszę gryczaną ugotować wg opisu na opakowaniu.</li>
+<li>Brokuł: różyczki gotować 7–8 min, podać z masłem.</li>
+<li>Marchew pokroić w plasterki, ugotować 10 min. Odcedzić, dodać groszek i masło.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Nd 26.07</div><div class="dcircle sub">+</div></div>
+<div><div class="rtitle">Sos pomidorowy z mielonym (do lodówki)</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Gotowany dzień–dwa wcześniej; w lodówce dobry 3–4 dni</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łopatka mielona wieprzowa, reszta tacki 400 g</span><span class="iq">200 g</span></li>
+<li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">1 ząbek</span></li>
+<li class="ing"><span>Marchew, starta na drobnych oczkach</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Cukinia, mała, starta na drobnych oczkach</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Passata pomidorowa</span><span class="iq">300 ml</span></li>
+<li class="ing"><span>Oregano suszone</span><span class="iq">1 łyżeczka</span></li>
+<li class="ing"><span>Olej, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Cebulę i czosnek zeszklić na oleju, 3 min.</li>
+<li>Dodać mielone, rozbić widelcem, smażyć 5–6 min.</li>
+<li>Dodać startą marchewkę i cukinię (po duszeniu znikają całkowicie), smażyć 2 min.</li>
+<li>Zalać passatą, dodać oregano i sól.</li>
+<li>Dusić pod przykryciem 20 min. Wystudzić i wstawić do lodówki (dobry 3–4 dni).</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Pn 27.07</div><div class="dcircle">5</div></div>
+<div><div class="rtitle">Pulpeciki drobiowo-ciecierzycowe</div>
+<div class="rside">kuskus perłowy · sos pomidorowy · chrupiąca ciecierzyca (z reszty puszki)</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Reszta puszki ciecierzycy → chrupiaca-ciecierzyca</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Filet z piersi indyka</span><span class="iq">260 g</span></li>
+<li class="ing"><span>Ciecierzyca konserwowa, ½ puszki (~125 g), odsączona i przepłukana</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Jajka</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Bułka tarta</span><span class="iq">2 łyżka</span></li>
+<li class="ing"><span>Cebula</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Czosnek</span><span class="iq">1 ząbek</span></li>
+<li class="ing"><span>Passata pomidorowa, reszta butelki</span><span class="iq">250 ml</span></li>
+<li class="ing"><span>Oregano suszone</span><span class="iq">1 łyżeczka</span></li>
+<li class="ing"><span>Kuskus perłowy</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Olej, Masło, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 6 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Filet z indyka drobno posiekać lub zblendować w malakserze.</li>
+<li>Ciecierzycę odcedzić i przepłukać. Połowę lekko rozgnieść widelcem, reszta zostaje w całości. Dodać do mięsa.</li>
+<li>Wymieszać z jajkiem i bułką tartą, dodać sól. Uformować kuleczki wielkości orzecha włoskiego.</li>
+<li>Na patelni: cebulę + czosnek zeszklić na oleju 3 min, wlać passatę + oregano, zagotować.</li>
+<li>Kuleczki obsmażyć z obu stron ~2 min na oddzielnej patelni, przełożyć do sosu. Dusić pod przykryciem 15 min.</li>
+<li>Kuskus perłowy: zalać wrzącą wodą (100 g + 150 ml), przykryć, odczekać 10 min. Rozluźnić widelcem, dodać masło.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Pn 27.07</div><div class="dcircle sub">+</div></div>
+<div><div class="rtitle">Chrupiąca ciecierzyca</div>
+<div class="rside">Przekąska — „chrupki" przy obiedzie. Naturalna para z pulpecikami (dzielą jedną puszkę).</div>
+</div></div>
+<div class="rbody">
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Ciecierzyca konserwowa, ½ puszki (~125 g, reszta po pulpecikach)</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Oliwa z oliwek</span><span class="iq">1 łyżka</span></li>
+<li class="ing"><span>Papryka słodka mielona, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 3 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Ciecierzycę osuszyć dokładnie papierowym ręcznikiem — im suchsza, tym bardziej chrupiąca.</li>
+<li>Wymieszać z oliwą + sól + słodka papryka. Rozsypać na blasze w jednej warstwie.</li>
+<li>Piec 200°C przez 25–30 min aż złociste i chrupiące. Sprawdzać co 10 min.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Wt 28.07</div><div class="dcircle">6</div></div>
+<div><div class="rtitle">Makaron fusilli z sosem pomidorowym</div>
+<div class="rside">Sos z lodówki · ok. 10–12 minut.</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Wymaga sosu z lodówki (gotowanego wcześniej)</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Makaron fusilli</span><span class="iq">150 g</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 3 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Ugotować fusilli wg instrukcji (~10 min w osolonej wodzie).</li>
+<li>Sos z lodówki podgrzać na patelni, 3–4 min.</li>
+<li>Wymieszać sos z makaronem i podać.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Śr 29.07</div><div class="dcircle">7</div></div>
+<div><div class="rtitle">Makaron fusilli z sosem pomidorowym</div>
+<div class="rside">Sos z lodówki · ok. 10–12 minut.</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Wymaga sosu z lodówki (gotowanego wcześniej)</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Makaron fusilli</span><span class="iq">150 g</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 3 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Ugotować fusilli wg instrukcji (~10 min w osolonej wodzie).</li>
+<li>Sos z lodówki podgrzać na patelni, 3–4 min.</li>
+<li>Wymieszać sos z makaronem i podać.</li>
+</ol></div></details>
+</div></div>
+<footer>Smacznego!</footer>
+</body></html>
