@@ -1,0 +1,42 @@
+{
+  "plan_id": "2026-W31",
+  "baseline_revision": 1,
+  "entries": [
+    {
+      "date": "2026-07-24",
+      "planned": "kotlety-schabowe",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-25",
+      "planned": "losos-pieczony",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-27",
+      "planned": "kotlety-mielone",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-28",
+      "planned": "makaron-fusilli-z-sosem",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-29",
+      "planned": "kebab-z-indyka",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-30",
+      "planned": "pulpeciki-drobiowo-ciecierzycowe",
+      "actual": null,
+      "outcome": "pending"
+    }
+  ]
+}

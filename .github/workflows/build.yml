@@ -1,0 +1,63 @@
+name: build-plan
+
+# Strona buduje się sama: edycja karty / plan.yaml / słownika → push → regeneracja
+# index.html + demand.json + journal.json i commit z powrotem (Pages serwuje z gałęzi).
+# Na pull requestach tylko walidacja (gate), bez zapisu.
+#
+# Commit-back idzie domyślnym GITHUB_TOKEN (persist-credentials actions/checkout):
+#   - push tym tokenem NIE wyzwala kolejnych workflowów → brak pętli (PAT by zapętlił);
+#   - build.py jest deterministyczny (bez timestampów) i commitujemy TYLKO przy realnej
+#     różnicy (git diff --cached --quiet), więc historia nie puchnie od pustych runów.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/**'
+      - 'plans/**/plan.yaml'
+      - 'ingredients.md'
+      - 'build.py'
+      - '.github/workflows/build.yml'
+  pull_request:
+    paths:
+      - 'recipes/**'
+      - 'plans/**/plan.yaml'
+      - 'ingredients.md'
+      - 'build.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-plan-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install --quiet pyyaml
+
+      - name: Walidacja słownika i planów
+        run: python3 build.py --check
+
+      - name: Regeneracja artefaktów (push do main)
+        if: github.event_name == 'push'
+        run: python3 build.py
+
+      - name: Commit tylko przy realnej różnicy
+        if: github.event_name == 'push'
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Artefakty aktualne — brak zmian, nic nie commituję."
+          else
+            git config user.name  "meals-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "build: regeneracja planu [skip ci]"
+            git push
+          fi
