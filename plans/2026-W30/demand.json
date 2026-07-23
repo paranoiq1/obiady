@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "revision": 4,
+  "revision": 5,
   "owner": "marcin",
   "period": {
     "from": "2026-07-23",
@@ -29,17 +29,22 @@
     },
     {
       "date": "2026-07-27",
-      "recipe_id": "sos-pomidorowy-z-mielonym",
+      "recipe_id": "kaczka-pieczona",
       "servings": 2
     },
     {
-      "date": "2026-07-27",
-      "recipe_id": "makaron-fusilli-z-sosem",
+      "date": "2026-07-28",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
       "servings": 2
     },
     {
       "date": "2026-07-28",
       "recipe_id": "makaron-fusilli-z-sosem",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-29",
+      "recipe_id": "rosol-z-kaczki",
       "servings": 2
     }
   ],
@@ -65,6 +70,21 @@
       "dania": 1.0
     },
     {
+      "ingredient": "filet z piersi kaczki",
+      "unit": "kg",
+      "qty": 0.33,
+      "qty_range": [
+        0.27,
+        0.4
+      ],
+      "dania": 1.0
+    },
+    {
+      "ingredient": "zestaw rosołowy z kaczki",
+      "unit": "kg",
+      "qty": 0.77
+    },
+    {
       "ingredient": "łosoś świeży",
       "unit": "kg",
       "qty": 0.4
@@ -77,7 +97,7 @@
     {
       "ingredient": "cebula",
       "unit": "szt",
-      "qty": 3
+      "qty": 4
     },
     {
       "ingredient": "czosnek",
@@ -87,7 +107,7 @@
     {
       "ingredient": "marchew",
       "unit": "szt",
-      "qty": 3
+      "qty": 5
     },
     {
       "ingredient": "brokuł",
@@ -110,14 +130,34 @@
       "qty": 0.2
     },
     {
+      "ingredient": "pietruszka korzeń",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "seler",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
+      "ingredient": "por",
+      "unit": "szt",
+      "qty": 1
+    },
+    {
       "ingredient": "kasza gryczana",
       "unit": "kg",
-      "qty": 0.1
+      "qty": 0.2
     },
     {
       "ingredient": "makaron fusilli",
       "unit": "kg",
-      "qty": 0.3
+      "qty": 0.15
+    },
+    {
+      "ingredient": "makaron nitki",
+      "unit": "kg",
+      "qty": 0.1
     },
     {
       "ingredient": "kuskus perłowy",

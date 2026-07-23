@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "baseline_revision": 4,
+  "baseline_revision": 5,
   "entries": [
     {
       "date": "2026-07-23",
@@ -22,13 +22,19 @@
     },
     {
       "date": "2026-07-27",
-      "planned": "makaron-fusilli-z-sosem",
+      "planned": "kaczka-pieczona",
       "actual": null,
       "outcome": "pending"
     },
     {
       "date": "2026-07-28",
       "planned": "makaron-fusilli-z-sosem",
+      "actual": null,
+      "outcome": "pending"
+    },
+    {
+      "date": "2026-07-29",
+      "planned": "rosol-z-kaczki",
       "actual": null,
       "outcome": "pending"
     }

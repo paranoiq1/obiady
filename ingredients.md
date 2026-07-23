@@ -17,6 +17,8 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 | schab wieprzowy | kg | schab | mięso daniowe (przedział + klasyfikacja); sznycle na kotlety |
 | łopatka mielona wieprzowa | kg | mielone wieprzowe | mięso daniowe (przedział dania z preferences, ob. ~290–400 g; klasyfikacja wg README); mielone = 2 dania (kotlety + sos), 2. porcję można zamrozić |
 | filet z piersi indyka | kg | pierś indyka | mięso daniowe; opakowanie wielodaniowe dzielone wg klasyfikacji |
+| filet z piersi kaczki | kg | kaczka, pierś kaczki | mięso daniowe; ze skórą (pekin) |
+| zestaw rosołowy z kaczki | kg | kaczka rosołowa | na wagę (na rosół), poza modelem daniowym |
 | łosoś świeży | kg | filet z łososia | na wagę (poza modelem daniowym); sprawdzić ości przed pieczeniem |
 
 ## Nabiał i jajka
@@ -39,6 +41,9 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 | ogórek | szt | ogórek zielony | |
 | cytryna | szt | | |
 | fasolka szparagowa | kg | | |
+| pietruszka korzeń | szt | pietruszka | włoszczyzna do rosołu |
+| seler | szt | seler korzeniowy | kawałek do rosołu |
+| por | szt | | |
 
 ## Suche i słoiki
 
@@ -47,6 +52,7 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 | kasza gryczana | kg | | torebki 4 × 100 g |
 | ryż basmati | kg | | |
 | makaron fusilli | kg | fusilli | |
+| makaron nitki | kg | nitki, makaron do rosołu | |
 | kuskus perłowy | kg | | op. ~400 g |
 | bułka tarta | kg | | op. ~500 g |
 | passata pomidorowa | kg | passata | butelka 680 g |
@@ -66,6 +72,8 @@ Nie trafiają do `demand.json` per plan — dokupowane, gdy się kończą.
 | papryka słodka mielona | kg | słodka papryka | |
 | kumin mielony | kg | kmin rzymski | |
 | oregano suszone | kg | oregano | |
+| liść laurowy | kg | | do rosołu/duszenia |
+| ziele angielskie | kg | | do rosołu |
 
 ## Konwersje jednostek (blok maszynowy)
 
