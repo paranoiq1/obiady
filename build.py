@@ -270,6 +270,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 header{padding:1rem 0 .5rem}
 h1{font-size:21px;font-weight:600}
 .meta{font-size:13px;color:#7A7268;margin-top:3px}
+.wknav{display:flex;justify-content:space-between;gap:10px;margin-top:.7rem}
+.wk-a,.wk-x{font-size:12px;font-weight:600;padding:5px 11px;border-radius:8px;border:1px solid #E4DDD4;text-decoration:none}
+.wk-a{background:#FFF;color:#1D9E75}
+.wk-a:active{background:#EDF8F2}
+.wk-x{background:transparent;color:#C0B8AE;border-color:#EFE9E1}
 h2{font-size:13px;font-weight:600;color:#1E1A17;margin:1.4rem 0 .55rem;padding-bottom:.3rem;border-bottom:1.5px solid #DDD6CC;text-transform:uppercase;letter-spacing:.05em}
 .card{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;padding:.75rem 1.2rem;margin-bottom:.75rem}
 details.shop-cat{border-bottom:1px solid #F0EAE2}
@@ -338,7 +343,9 @@ def dm(date: str) -> str:
     return f"{d}.{m}"
 
 
-def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary) -> str:
+def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
+                neighbors: tuple = (None, None)) -> str:
+    prev_id, next_id = neighbors
     P = []
     frm, to = plan["period"]["from"], plan["period"]["to"]
     P.append('<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">')
@@ -349,6 +356,12 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary) -> str:
     P.append(f'<h1>{esc(plan["title"])}</h1>')
     P.append(f'<p class="meta">Tydzień {esc(plan["plan_id"])} · {dm(frm)}–{dm(to)} · '
              f'{num(plan["servings"])} porcje</p>')
+    # ---- Nawigacja tydzień ← → (linki względne do sąsiednich planów) ----
+    left = (f'<a class="wk-a" href="../{esc(prev_id)}/">‹ {esc(prev_id)}</a>'
+            if prev_id else '<span class="wk-x">‹ poprzedni</span>')
+    right = (f'<a class="wk-a" href="../{esc(next_id)}/">{esc(next_id)} ›</a>'
+             if next_id else '<span class="wk-x">następny ›</span>')
+    P.append(f'<nav class="wknav">{left}{right}</nav>')
     P.append("</header>")
 
     # ---- Lista zakupów (grupy = kategorie słownika) ----
@@ -442,7 +455,8 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary) -> str:
 # --------------------------------------------------------------------------- #
 # Orkiestracja
 # --------------------------------------------------------------------------- #
-def build_plan(plan_id: str, d: Dictionary, check_only: bool) -> list:
+def build_plan(plan_id: str, d: Dictionary, check_only: bool,
+               neighbors: tuple = (None, None)) -> list:
     errors: list = []
     plan = load_plan(plan_id)
     recipes: dict[str, dict] = {}
@@ -472,7 +486,7 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool) -> list:
     if jpath.exists():
         existing_journal = json.loads(jpath.read_text(encoding="utf-8"))
     journal = build_journal(plan, recipes, existing_journal)
-    page = render_html(plan, recipes, demand_out, d)
+    page = render_html(plan, recipes, demand_out, d, neighbors)
 
     if not check_only:
         (out_dir / "demand.json").write_text(
@@ -501,15 +515,19 @@ def main(argv: list) -> int:
     check_only = "--check" in argv
     args = [a for a in argv if not a.startswith("-")]
     d = load_dictionary()
-    plan_ids = args or sorted(p.name for p in PLANS_DIR.iterdir()
-                              if p.is_dir() and (p / "plan.yaml").exists())
+    all_ids = sorted(p.name for p in PLANS_DIR.iterdir()
+                     if p.is_dir() and (p / "plan.yaml").exists())  # pełny zbiór → nawigacja
+    plan_ids = args or all_ids
     if not plan_ids:
         print("Brak planów (plans/<id>/plan.yaml).")
         return 1
 
     all_errors = []
     for pid in plan_ids:
-        errs = build_plan(pid, d, check_only)
+        i = all_ids.index(pid)
+        neighbors = (all_ids[i - 1] if i > 0 else None,
+                     all_ids[i + 1] if i < len(all_ids) - 1 else None)
+        errs = build_plan(pid, d, check_only, neighbors)
         for e in errs:
             all_errors.append(f"[{pid}] {e}")
         status = "OK" if not errs else f"BŁĘDY ({len(errs)})"

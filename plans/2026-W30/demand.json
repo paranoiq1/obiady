@@ -1,25 +1,40 @@
 {
-  "plan_id": "2026-W31",
+  "plan_id": "2026-W30",
   "revision": 1,
   "owner": "marcin",
   "period": {
-    "from": "2026-07-24",
+    "from": "2026-07-23",
     "to": "2026-08-02"
   },
   "meals": [
     {
-      "date": "2026-07-24",
-      "recipe_id": "kotlety-schabowe",
-      "servings": 2
-    },
-    {
-      "date": "2026-07-25",
+      "date": "2026-07-23",
       "recipe_id": "losos-pieczony",
       "servings": 2
     },
     {
-      "date": "2026-07-27",
+      "date": "2026-07-24",
       "recipe_id": "kotlety-mielone",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-24",
+      "recipe_id": "sos-pomidorowy-z-mielonym",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-25",
+      "recipe_id": "kebab-z-indyka",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-27",
+      "recipe_id": "pulpeciki-drobiowo-ciecierzycowe",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-27",
+      "recipe_id": "chrupiaca-ciecierzyca",
       "servings": 2
     },
     {
@@ -34,45 +49,30 @@
     },
     {
       "date": "2026-07-29",
-      "recipe_id": "kebab-z-indyka",
-      "servings": 2
-    },
-    {
-      "date": "2026-07-30",
-      "recipe_id": "pulpeciki-drobiowo-ciecierzycowe",
-      "servings": 2
-    },
-    {
-      "date": "2026-07-30",
-      "recipe_id": "chrupiaca-ciecierzyca",
+      "recipe_id": "makaron-fusilli-z-sosem",
       "servings": 2
     }
   ],
   "demand": [
     {
-      "ingredient": "schab wieprzowy",
-      "unit": "kg",
-      "qty": 0.28
-    },
-    {
       "ingredient": "łopatka mielona wieprzowa",
       "unit": "kg",
-      "qty": 0.4
+      "qty": 0.6
     },
     {
       "ingredient": "filet z piersi indyka",
       "unit": "kg",
-      "qty": 0.52
+      "qty": 0.4
     },
     {
       "ingredient": "łosoś świeży",
       "unit": "kg",
-      "qty": 0.25
+      "qty": 0.2
     },
     {
       "ingredient": "jajka",
       "unit": "szt",
-      "qty": 3
+      "qty": 2
     },
     {
       "ingredient": "jogurt naturalny gęsty",
@@ -87,12 +87,12 @@
     {
       "ingredient": "czosnek",
       "unit": "szt",
-      "qty": 1
+      "qty": 2
     },
     {
       "ingredient": "marchew",
       "unit": "szt",
-      "qty": 2
+      "qty": 3
     },
     {
       "ingredient": "brokuł",
@@ -122,7 +122,7 @@
     {
       "ingredient": "kasza gryczana",
       "unit": "kg",
-      "qty": 0.2
+      "qty": 0.1
     },
     {
       "ingredient": "ryż basmati",
@@ -132,7 +132,7 @@
     {
       "ingredient": "makaron fusilli",
       "unit": "kg",
-      "qty": 0.15
+      "qty": 0.3
     },
     {
       "ingredient": "kuskus perłowy",
@@ -142,12 +142,12 @@
     {
       "ingredient": "bułka tarta",
       "unit": "kg",
-      "qty": 0.1
+      "qty": 0.06
     },
     {
       "ingredient": "passata pomidorowa",
       "unit": "kg",
-      "qty": 0.55
+      "qty": 0.85
     },
     {
       "ingredient": "ciecierzyca konserwowa",

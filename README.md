@@ -16,7 +16,7 @@ docs/
   EXTRACT_meals_kickoff.md  # architektura i kontrakt (kopia dokumentu źródłowego)
 recipes/                  # [wej] baza obiadów — karty przepisów (MD + frontmatter YAML)
 plans/
-  2026-W31/
+  2026-W30/               # jeden katalog na tydzień (id = tydzień ISO startu)
     plan.yaml             # [wej] źródło planu tygodnia (dni, dania, rewizja)
     index.html            # [gen] strona dla żony (samodzielny plik, CSS inline)
     demand.json           # [gen] kontrakt do expenses
@@ -62,6 +62,9 @@ Frontmatter YAML (klucze EN, wartości PL) + treść PL. Pola: `id`, `type` (obi
 - **[DECISION] Komponenty nie są automatycznie rozwijane w demandzie.** Gdy komponent trzeba osobno kupić/ugotować (sos, chrupiąca ciecierzyca), planer wpisuje go jako osobny `meal` w `plan.yaml`; pole `components` w kartach to referencja dla człowieka/UI, nie mnożnik zapotrzebowania (inaczej podwójne liczenie).
 - **[DECISION] CI jako gate + auto-build.** `.github/workflows/build.yml`: na PR wyłącznie `build.py --check` (blokuje niekanoniczne nazwy / nieprzeliczalne jednostki); na push do `main` regeneracja i commit artefaktów z `[skip ci]`. Pages serwuje z gałęzi — bez zmiany ustawień repo. Warunki bezpieczeństwa commit-backu: (a) push domyślnym `GITHUB_TOKEN` — nie wyzwala kolejnych workflowów, brak pętli (PAT by zapętlił); (b) `permissions: contents: write`; (c) `build.py` deterministyczny (bez timestampów) i commit **tylko przy realnej różnicy** (`git diff --cached --quiet` → skip), żeby historia nie puchła od pustych runów.
 - **[DECISION] Artefakty nie są równe: zapisy vs widok.** `demand.json` (kontrakt z rewizjami) i `journal.json` (wykonanie) to **zapisy** — commitowane zawsze, także w wariancie docelowym. `index.html` to **widok** — jedyny kandydat do `.gitignore`, gdy kiedyś przejdziemy na deploy przez Actions. Bonus obecnego podejścia (commit-back): strony historycznych tygodni zostają zamrożone dokładnie tak, jak widziała je żona, podczas gdy `deploy-pages` renderowałby przeszłość bieżącym szablonem. Wniosek: **commit-back może zostać na dłużej — presja na przełączanie niska.**
+- **[DECISION] `plan_id` ściśle wg ISO (bez luźnej numeracji).** Id planu = tydzień ISO daty startowej (`2026-W30` dla startu 23.07). Pierwotny „W31" dla 24.07 był błędny (to ISO W30) — skorygowane. Plany przejściowo dłuższe (np. 23.07–02.08) zachowują id tygodnia startowego. Root `index.html` przekierowuje na plan o najwyższym id (leksykograficznie = najnowszy).
+- **[DECISION] Nawigacja tydzień ← →.** Nagłówek każdej strony ma linki „‹ poprzedni / następny ›" do sąsiednich planów (po `plan_id`), wyłączone gdy sąsiada brak. Generowane przez `build.py` z pełnego zbioru `plans/*/plan.yaml` — nie trzeba przebudowywać wszystkich stron ręcznie, ale zmiana zbioru planów wymaga rebuildu (CI robi to na push).
+- **[DECISION] Porcja mięsa = 200 g (standard planowania).** Karty znormalizowane: łosoś i indyk po 200 g/danie; mielone już było 200 g (kotlety) + 200 g (sos). Przelicznik do `demand.json` liczony od tego. Uwaga operacyjna: jeśli zamówione mięso przekracza plan (np. indyk 600 g przy 2 daniach = 400 g), nadmiar zostaje poza planem — do dołożenia dania albo zużycia poza tygodniem; `demand.json` odzwierciedla plan, nie zamówienie.
 
 ## Otwarte pytania (pozostałe z EXTRACT §9)
 
