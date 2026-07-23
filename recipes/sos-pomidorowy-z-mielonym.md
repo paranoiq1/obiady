@@ -4,6 +4,7 @@ name: Sos pomidorowy z mielonym (do lodówki)
 type: składnik-bazowy
 tags: [wieprzowina, sos, batch-cooking, warzywa-ukryte]
 base_servings: 2
+serves: 2          # ile dań-konsumentów (np. makaron) karmi jeden batch z 400 g mielonego
 advance_prep: "opcjonalny batch; w lodówce dobry 3–4 dni, można też zamrozić"
 components: []
 ingredients:

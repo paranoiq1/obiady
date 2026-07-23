@@ -18,9 +18,11 @@ Użycie:
   python3 build.py --check         # tylko walidacja, bez zapisu (dla CI)
 """
 from __future__ import annotations
-import sys, re, json, math, html, unicodedata
+import sys, re, json, math, html, unicodedata, datetime
 from pathlib import Path
 import yaml
+
+WEEKDAY_DOW = ["Pn", "Wt", "Śr", "Czw", "Pt", "Sob", "Nd"]  # date.weekday(): Pn=0
 
 ROOT = Path(__file__).resolve().parent
 RECIPES_DIR = ROOT / "recipes"
@@ -181,6 +183,61 @@ def round_demand(base_unit: str, qty: float) -> float:
     if base_unit == "szt":
         return math.ceil(round(qty, 6))
     return round(qty, 2)
+
+
+def validate_plan(plan: dict, recipes: dict, errors: list) -> None:
+    """Spójność planu: kalendarz + przepływ komponentów (produkcja/konsumpcja).
+
+    Łapie m.in. „makaron w dodatkowy dzień, a sos zaplanowany raz i się nie wyrabia"
+    — czyli danie-konsument (`components: [<składnik-bazowy>]`) bez pokrycia w bazie.
+    """
+    frm, to = str(plan["period"]["from"]), str(plan["period"]["to"])
+    producers: dict[str, list] = {}       # component_id → [(date, factor)]
+    consumers: list = []                  # (date, factor, component_id, consumer_id)
+
+    for day in plan["days"]:
+        date = str(day["date"])
+        try:
+            wd = datetime.date.fromisoformat(date).weekday()
+            if day.get("dow") and day["dow"] != WEEKDAY_DOW[wd]:
+                errors.append(f"{date}: etykieta dnia „{day['dow']}” ≠ kalendarz "
+                              f"„{WEEKDAY_DOW[wd]}”")
+        except ValueError:
+            errors.append(f"{date}: niepoprawna data w plan.yaml")
+            continue
+        if not (frm <= date <= to):
+            errors.append(f"{date}: poza okresem planu {frm}–{to}")
+        for m in day.get("meals", []):
+            rid = meal_id(m)
+            r = recipes.get(rid)
+            if r is None:
+                continue
+            factor = meal_servings(m, plan["servings"]) / r.get("base_servings", 2)
+            producers.setdefault(rid, []).append((date, factor))
+            for c in r.get("components", []):
+                cc = recipes.get(c)
+                if cc is None:
+                    errors.append(f"{rid}: komponent „{c}” — brak karty recipes/{c}.md")
+                elif cc.get("type") == "składnik-bazowy":
+                    consumers.append((date, factor, c, rid))
+
+    for cdate, _cf, comp, consumer_id in consumers:
+        prods = producers.get(comp)
+        if not prods:
+            errors.append(f"{consumer_id} ({cdate}) potrzebuje bazy „{comp}”, której nie ma "
+                          f"w planie — dodaj ją jako danie albo usuń zależność (inaczej „sam "
+                          f"makaron bez sosu”)")
+        elif min(pd for pd, _ in prods) > cdate:
+            errors.append(f"{consumer_id} ({cdate}): baza „{comp}” gotowana dopiero "
+                          f"{min(pd for pd, _ in prods)} — konsumpcja przed produkcją")
+
+    for comp in {c for _, _, c, _ in consumers}:
+        capacity = sum(recipes[comp].get("serves", 1) * pf for _, pf in producers.get(comp, []))
+        needed = sum(cf for _, cf, c, _ in consumers if c == comp)
+        if needed > capacity + 1e-9:
+            errors.append(f"baza „{comp}”: batch(e) starczą na {num(capacity)} dań, a plan ma "
+                          f"{num(needed)} dań-konsumentów — zwiększ `servings` bazy lub jej "
+                          f"`serves`, albo usuń danie (inaczej część dni = sam dodatek bez bazy)")
 
 
 def build_demand(plan: dict, recipes: dict, d: Dictionary, errors: list):
@@ -490,10 +547,19 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
                     recipes[rid] = load_recipe(rid)
                 except BuildError as e:
                     errors.append(str(e))
+    # karty komponentów (mogą nie być osobnym daniem) — dla walidacji typu/serves
+    for r in list(recipes.values()):
+        for c in r.get("components", []):
+            if c not in recipes:
+                try:
+                    recipes[c] = load_recipe(c)
+                except BuildError as e:
+                    errors.append(str(e))
 
     if errors:  # brak kart — nie ma sensu liczyć dalej
         return errors
 
+    validate_plan(plan, recipes, errors)
     meals_out, demand_out = build_demand(plan, recipes, d, errors)
     if errors:
         return errors
