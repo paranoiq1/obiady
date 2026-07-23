@@ -7,9 +7,9 @@ base_servings: 2
 advance_prep: null
 components: []
 ingredients:
-  - { name: "schab wieprzowy", qty: 280, unit: g, note: "2–3 plastry" }
-  - { name: "jajka", qty: 1, unit: szt }
-  - { name: "bułka tarta", qty: 4, unit: łyżka }
+  - { name: "schab wieprzowy", qty: 400, unit: g, note: "4–5 plastrów" }
+  - { name: "jajka", qty: 2, unit: szt }
+  - { name: "bułka tarta", qty: 6, unit: łyżka }
   - { name: "kasza gryczana", qty: 100, unit: g, note: "1 torebka" }
   - { name: "brokuł", qty: 0.33, unit: szt, note: "garść różyczek" }
 pantry: [olej, masło, sól, pieprz czarny mielony]

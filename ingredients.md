@@ -13,7 +13,7 @@ Kanoniczne nazwy składników = odpowiednik klas W3 po stronie `meals`.
 | Nazwa kanoniczna | Jedn. | Aliasy | Uwagi |
 |---|---|---|---|
 | schab wieprzowy | kg | schab | plastry na kotlety |
-| łopatka mielona wieprzowa | kg | mielone wieprzowe | tacka = 400 g (brak zamrażarki: planować zużycie całej tacki) |
+| łopatka mielona wieprzowa | kg | mielone wieprzowe | tacka = 400 g; nadwyżkę można zamrozić (surową lub jako ugotowany sos/kotlety) |
 | filet z piersi indyka | kg | pierś indyka | typowy filet ~260 g |
 | łosoś świeży | kg | filet z łososia | filet; sprawdzić ości przed pieczeniem |
 

@@ -4,15 +4,15 @@ name: Sos pomidorowy z mielonym (do lodówki)
 type: składnik-bazowy
 tags: [wieprzowina, sos, batch-cooking, warzywa-ukryte]
 base_servings: 2
-advance_prep: "gotowany dzień–dwa wcześniej; w lodówce dobry 3–4 dni"
+advance_prep: "opcjonalny batch; w lodówce dobry 3–4 dni, można też zamrozić"
 components: []
 ingredients:
-  - { name: "łopatka mielona wieprzowa", qty: 200, unit: g, note: "reszta tacki 400 g" }
-  - { name: "cebula", qty: 0.5, unit: szt, note: "drobno posiekana" }
-  - { name: "czosnek", qty: 1, unit: ząbek, note: "przeciśnięty" }
-  - { name: "marchew", qty: 1, unit: szt, note: "starta na drobnych oczkach" }
-  - { name: "cukinia", qty: 0.5, unit: szt, note: "mała, starta na drobnych oczkach" }
-  - { name: "passata pomidorowa", qty: 300, unit: ml }
+  - { name: "łopatka mielona wieprzowa", qty: 400, unit: g, note: "1 tacka" }
+  - { name: "cebula", qty: 1, unit: szt, note: "drobno posiekana" }
+  - { name: "czosnek", qty: 2, unit: ząbek, note: "przeciśnięty" }
+  - { name: "marchew", qty: 2, unit: szt, note: "starta na drobnych oczkach" }
+  - { name: "cukinia", qty: 1, unit: szt, note: "mała, starta na drobnych oczkach" }
+  - { name: "passata pomidorowa", qty: 500, unit: ml }
   - { name: "oregano suszone", qty: 1, unit: łyżeczka }
 pantry: [olej, sól]
 ---

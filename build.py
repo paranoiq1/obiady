@@ -150,6 +150,18 @@ def load_plan(plan_id: str) -> dict:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
+def meal_id(m) -> str:
+    """Wpis w meals[] to id karty (str) albo mapa {id, servings}."""
+    return m["id"] if isinstance(m, dict) else m
+
+
+def meal_servings(m, default: float) -> float:
+    """Porcje dla pojedynczego dania — override na dzień/danie albo domyślne planu.
+    Pozwala zrobić jedno danie mniejsze (np. dzieci jedzą mniej / mniej mięsa),
+    nie ruszając reszty planu."""
+    return m["servings"] if isinstance(m, dict) and "servings" in m else default
+
+
 # --------------------------------------------------------------------------- #
 # Konwersja jednostek + agregacja demand
 # --------------------------------------------------------------------------- #
@@ -176,11 +188,13 @@ def build_demand(plan: dict, recipes: dict, d: Dictionary, errors: list):
     meals_out = []
     totals: dict[str, float] = {}
     for day in plan["days"]:
-        for rid in day.get("meals", []):
+        for m in day.get("meals", []):
+            rid = meal_id(m)
             r = recipes[rid]
-            scale = plan["servings"] / r.get("base_servings", 2)
+            servings = meal_servings(m, plan["servings"])
+            scale = servings / r.get("base_servings", 2)
             meals_out.append({"date": str(day["date"]), "recipe_id": rid,
-                              "servings": plan["servings"]})
+                              "servings": servings})
             for ing in r.get("ingredients", []):
                 canon = d.canonical(ing["name"])
                 if canon is None:
@@ -210,7 +224,8 @@ def build_journal(plan: dict, recipes: dict, existing: dict | None) -> dict:
     prev = {e["date"]: e for e in (existing or {}).get("entries", [])}
     entries = []
     for day in plan["days"]:
-        obiady = [rid for rid in day.get("meals", []) if recipes[rid].get("type") == "obiad"]
+        obiady = [meal_id(m) for m in day.get("meals", [])
+                  if recipes[meal_id(m)].get("type") == "obiad"]
         if not obiady:
             continue
         date = str(day["date"])
@@ -255,8 +270,8 @@ def fmt_shop(name: str, qty: float, base_unit: str, d: Dictionary) -> str:
     return f"{n} szt."
 
 
-def fmt_ing(ing: dict) -> str:
-    q = frac(float(ing["qty"]))
+def fmt_ing(ing: dict, scale: float = 1.0) -> str:
+    q = frac(float(ing["qty"]) * scale)
     unit = ing.get("unit", "")
     unit = "" if unit == "szt" and q in ("½", "¼", "⅓", "¾", "⅔") else unit
     return f"{q} {unit}".strip() if unit else f"{q} szt."
@@ -394,8 +409,9 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
             P.append(f'<div class="prow"><div class="pday">{head}</div><div class="pdot rest">'
                      f'</div><div class="pinfo"><div class="prest">{esc(day["rest"])}</div></div></div>')
             continue
-        obiady = [recipes[r] for r in day["meals"] if recipes[r].get("type") == "obiad"]
-        main = obiady[0] if obiady else recipes[day["meals"][0]]
+        obiady = [recipes[meal_id(r)] for r in day["meals"]
+                  if recipes[meal_id(r)].get("type") == "obiad"]
+        main = obiady[0] if obiady else recipes[meal_id(day["meals"][0])]
         tag = ""
         if main.get("advance_prep") and "rano" in main["advance_prep"].lower():
             tag = '<span class="ptag">⏰ marynata rano</span>'
@@ -408,8 +424,11 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
     P.append("<h2>Przepisy</h2>")
     counter = 0
     for day in plan["days"]:
-        for rid in day.get("meals", []):
+        for m in day.get("meals", []):
+            rid = meal_id(m)
             r = recipes[rid]
+            servings = meal_servings(m, plan["servings"])
+            scale = servings / r.get("base_servings", 2)
             is_obiad = r.get("type") == "obiad"
             if is_obiad:
                 counter += 1
@@ -419,9 +438,12 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
             P.append('<div class="recipe"><div class="rhdr">')
             P.append(f'<div class="dbadge"><div class="dname">{esc(day["dow"])} {dm(day["date"])}'
                      f'</div>{badge}</div>')
+            sub = r["_subtitle"]
+            if servings != plan["servings"]:
+                sub = (sub + " · " if sub else "") + f"porcje: {num(servings)}"
             P.append(f'<div><div class="rtitle">{esc(r["name"])}</div>')
-            if r["_subtitle"]:
-                P.append(f'<div class="rside">{esc(r["_subtitle"])}</div>')
+            if sub:
+                P.append(f'<div class="rside">{esc(sub)}</div>')
             P.append("</div></div>")
             P.append('<div class="rbody">')
             if r.get("advance_prep"):
@@ -432,7 +454,7 @@ def render_html(plan: dict, recipes: dict, demand: list, d: Dictionary,
                 if ing.get("note"):
                     nm += f', {ing["note"]}'
                 P.append(f'<li class="ing"><span>{esc(nm)}</span>'
-                         f'<span class="iq">{esc(fmt_ing(ing))}</span></li>')
+                         f'<span class="iq">{esc(fmt_ing(ing, scale))}</span></li>')
             if r.get("pantry"):
                 P.append(f'<li class="ing"><span>{esc(", ".join(cap(p) for p in r["pantry"]))}</span>'
                          f'<span class="iq">—</span></li>')
@@ -461,7 +483,8 @@ def build_plan(plan_id: str, d: Dictionary, check_only: bool,
     plan = load_plan(plan_id)
     recipes: dict[str, dict] = {}
     for day in plan["days"]:
-        for rid in day.get("meals", []):
+        for m in day.get("meals", []):
+            rid = meal_id(m)
             if rid not in recipes:
                 try:
                     recipes[rid] = load_recipe(rid)

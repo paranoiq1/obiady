@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "baseline_revision": 1,
+  "baseline_revision": 2,
   "entries": [
     {
       "date": "2026-07-23",
@@ -16,24 +16,18 @@
     },
     {
       "date": "2026-07-25",
-      "planned": "kebab-z-indyka",
-      "actual": null,
-      "outcome": "pending"
-    },
-    {
-      "date": "2026-07-27",
       "planned": "pulpeciki-drobiowo-ciecierzycowe",
       "actual": null,
       "outcome": "pending"
     },
     {
-      "date": "2026-07-28",
+      "date": "2026-07-27",
       "planned": "makaron-fusilli-z-sosem",
       "actual": null,
       "outcome": "pending"
     },
     {
-      "date": "2026-07-29",
+      "date": "2026-07-28",
       "planned": "makaron-fusilli-z-sosem",
       "actual": null,
       "outcome": "pending"
