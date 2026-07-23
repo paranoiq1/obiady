@@ -27,6 +27,7 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 |---|---|---|---|
 | jajka | szt | jajko | |
 | jogurt naturalny gęsty | kg | jogurt typu greckiego | marynaty i sosy |
+| ser żółty | kg | ser | starty, do zapiekania |
 | masło | kg | | spiżarnia bazowa |
 
 ## Warzywa i owoce

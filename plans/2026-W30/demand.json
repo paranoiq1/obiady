@@ -1,6 +1,6 @@
 {
   "plan_id": "2026-W30",
-  "revision": 7,
+  "revision": 8,
   "owner": "marcin",
   "period": {
     "from": "2026-07-23",
@@ -25,6 +25,11 @@
     {
       "date": "2026-07-25",
       "recipe_id": "chrupiaca-ciecierzyca",
+      "servings": 2
+    },
+    {
+      "date": "2026-07-25",
+      "recipe_id": "cukinia-zapiekana-z-serem",
       "servings": 2
     },
     {
@@ -65,6 +70,11 @@
       "qty": 6
     },
     {
+      "ingredient": "ser żółty",
+      "unit": "kg",
+      "qty": 0.1
+    },
+    {
       "ingredient": "cebula",
       "unit": "szt",
       "qty": 2
@@ -80,7 +90,7 @@
       "qty": 1
     },
     {
-      "ingredient": "brokuł",
+      "ingredient": "cukinia",
       "unit": "szt",
       "qty": 1
     },
@@ -92,7 +102,7 @@
     {
       "ingredient": "fasolka szparagowa",
       "unit": "kg",
-      "qty": 0.4
+      "qty": 0.6
     },
     {
       "ingredient": "kasza gryczana",
@@ -112,7 +122,7 @@
     {
       "ingredient": "bułka tarta",
       "unit": "kg",
-      "qty": 0.15
+      "qty": 0.18
     },
     {
       "ingredient": "passata pomidorowa",

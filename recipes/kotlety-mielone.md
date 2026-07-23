@@ -13,15 +13,13 @@ ingredients:
   - { name: "cebula", qty: 0.5, unit: szt, note: "drobno posiekana" }
   - { name: "czosnek", qty: 1, unit: ząbek, note: "przeciśnięty" }
   - { name: "kasza gryczana", qty: 100, unit: g, note: "1 torebka" }
-  - { name: "brokuł", qty: 0.33, unit: szt, note: "garść różyczek" }
-  - { name: "marchew", qty: 1, unit: szt }
-  - { name: "groszek zielony konserwowy", qty: 1, unit: szt, note: "4 łyżki (część małej puszki)" }
+  - { name: "fasolka szparagowa", qty: 200, unit: g }
 pantry: [olej, masło, sól, pieprz czarny mielony]
 ---
 
 # Kotlety mielone
 
-Dodatki: kasza gryczana · brokuł · marchewka z groszkiem
+Dodatki: kasza gryczana · fasolka szparagowa
 
 Mielone kupujesz na 2 dania (kotlety + [sos pomidorowy](sos-pomidorowy-z-mielonym.md)). Reguła warunkowa: **przy niedostępnej zamrażarce ugotuj oba dania tego samego dnia** (nie da się zamrozić drugiej porcji); gdy zamrażarka działa — sos możesz odłożyć w czasie lub zamrozić.
 
@@ -31,8 +29,7 @@ Mielone kupujesz na 2 dania (kotlety + [sos pomidorowy](sos-pomidorowy-z-mielony
 2. Dodać sól i pieprz. Uformować ~5 kotletów, obsypać bułką tartą.
 3. Smażyć na oleju 4–5 min z każdej strony.
 4. Kaszę gryczaną ugotować wg opisu na opakowaniu.
-5. Brokuł: różyczki gotować 7–8 min, podać z masłem.
-6. Marchew pokroić w plasterki, ugotować 10 min. Odcedzić, dodać groszek i masło.
+5. Fasolkę gotować 5–7 min w osolonej wodzie, podać z masłem.
 
 ## Historia i feedback
 
