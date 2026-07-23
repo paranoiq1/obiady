@@ -1,32 +1,20 @@
 # Źródło prawdy planu tygodnia — wejście dla build.py.
 # demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
 #
-# rev 5: dopasowanie do FAKTYCZNIE dostarczonego mięsa (zdjęcia z 23.07).
-# Terminy „spożyć do" rządzą kolejnością (mrożenie dostępne dla nadwyżek):
-#   - filet z indyka 625 g (= 2 dania) → spożyć do 27.07 → pulpeciki (1 danie) w sobotę,
-#     drugie danie surowego indyka zamroź do 27.07
-#   - łopatka mielona 2×400 g → spożyć do 28.07 → kotlety (Pt) + sos (Wt) = 2 dania
-#   - kaczka: pierś 505 g + zestaw rosołowy 770 g → spożyć do 29.07 → kaczka pieczona (Pn)
-#     + rosół z kaczki (Śr)
-#   - łosoś na dziś (Czw).
-# Niedziela: obiad w restauracji. Ogon Czw 30.07–Nd 02.08: do zaplanowania.
+# ISO 2026-W30 (część od czwartku): 23.07–26.07. Dalsze dni → plan 2026-W31.
+# Mięso dostarczone 23.07 (mrożenie dostępne dla nadwyżek):
+#   - łosoś na dziś (Czw); łopatka 1 pack → kotlety (Pt, „spożyć do" 28.07);
+#     indyk 625 g = 2 dania → pulpeciki (Sob, 1 danie; drugie danie zamroź, „do" 27.07).
 plan_id: 2026-W30
-revision: 5
+revision: 6
 owner: marcin
 title: Plan obiadów
 servings: 2
 period:
   from: 2026-07-23
-  to: 2026-08-02
+  to: 2026-07-26
 days:
   - { date: 2026-07-23, dow: Czw, meals: [losos-pieczony] }
   - { date: 2026-07-24, dow: Pt,  meals: [kotlety-mielone] }
   - { date: 2026-07-25, dow: Sob, meals: [pulpeciki-drobiowo-ciecierzycowe, chrupiaca-ciecierzyca] }
   - { date: 2026-07-26, dow: Nd,  rest: Restauracja }
-  - { date: 2026-07-27, dow: Pn,  meals: [kaczka-pieczona] }
-  - { date: 2026-07-28, dow: Wt,  meals: [sos-pomidorowy-z-mielonym, makaron-fusilli-z-sosem] }
-  - { date: 2026-07-29, dow: Śr,  meals: [rosol-z-kaczki] }
-  - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }
-  - { date: 2026-07-31, dow: Pt,  rest: Do zaplanowania }
-  - { date: 2026-08-01, dow: Sob, rest: Do zaplanowania }
-  - { date: 2026-08-02, dow: Nd,  rest: Do zaplanowania }

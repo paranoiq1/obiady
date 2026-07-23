@@ -1,0 +1,25 @@
+# Źródło prawdy planu tygodnia — wejście dla build.py.
+# demand.json / index.html / journal.json są GENEROWANE z tego pliku + kart recipes/.
+#
+# ISO 2026-W31: 27.07–02.08 (pełny tydzień pn–nd). Ciąg dalszy po 2026-W30.
+# Mięso dostarczone 23.07, część na ten tydzień (mrożenie dostępne):
+#   - kaczka: pierś 505 g → kaczka pieczona (Pn); zestaw rosołowy 770 g → rosół (Śr);
+#     oba „spożyć do" 29.07 → jak nie zdążysz świeżo, zamroź.
+#   - łopatka 2. pack → sos (Wt) → makaron; „spożyć do" 28.07 (Wt = ostatni dzień) — albo mrożenie.
+# Ogon Czw 30.07–Nd 02.08: do zaplanowania.
+plan_id: 2026-W31
+revision: 1
+owner: marcin
+title: Plan obiadów
+servings: 2
+period:
+  from: 2026-07-27
+  to: 2026-08-02
+days:
+  - { date: 2026-07-27, dow: Pn,  meals: [kaczka-pieczona] }
+  - { date: 2026-07-28, dow: Wt,  meals: [sos-pomidorowy-z-mielonym, makaron-fusilli-z-sosem] }
+  - { date: 2026-07-29, dow: Śr,  meals: [rosol-z-kaczki] }
+  - { date: 2026-07-30, dow: Czw, rest: Do zaplanowania }
+  - { date: 2026-07-31, dow: Pt,  rest: Do zaplanowania }
+  - { date: 2026-08-01, dow: Sob, rest: Do zaplanowania }
+  - { date: 2026-08-02, dow: Nd,  rest: Do zaplanowania }

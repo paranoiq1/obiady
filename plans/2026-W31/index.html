@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan obiadów — 2026-W31</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F0E8;color:#2A2520;padding:1rem;max-width:620px;margin:0 auto;font-size:15px;line-height:1.65}
+header{padding:1rem 0 .5rem}
+h1{font-size:21px;font-weight:600}
+.meta{font-size:13px;color:#7A7268;margin-top:3px}
+.wknav{display:flex;justify-content:space-between;gap:10px;margin-top:.7rem}
+.wk-a,.wk-x{font-size:12px;font-weight:600;padding:5px 11px;border-radius:8px;border:1px solid #E4DDD4;text-decoration:none}
+.wk-a{background:#FFF;color:#1D9E75}
+.wk-a:active{background:#EDF8F2}
+.wk-x{background:transparent;color:#C0B8AE;border-color:#EFE9E1}
+h2{font-size:13px;font-weight:600;color:#1E1A17;margin:1.4rem 0 .55rem;padding-bottom:.3rem;border-bottom:1.5px solid #DDD6CC;text-transform:uppercase;letter-spacing:.05em}
+.card{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;padding:.75rem 1.2rem;margin-bottom:.75rem}
+details.shop-cat{border-bottom:1px solid #F0EAE2}
+details.shop-cat:last-child{border-bottom:none}
+details.shop-cat>summary{list-style:none;padding:.65rem 0;font-size:14px;font-weight:600;color:#2A2520;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.shop-cat>summary::-webkit-details-marker{display:none}
+details.shop-cat>summary .ct{font-size:12px;color:#B0A89E;font-weight:400;margin-right:6px}
+details.shop-cat>summary .arr{font-size:12px;color:#9A9088;display:inline-block;transition:transform .15s}
+details.shop-cat[open]>summary .arr{transform:rotate(90deg)}
+.shop-body{padding-bottom:.6rem}
+.srow{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.srow input[type=checkbox]{width:17px;height:17px;accent-color:#1D9E75;flex-shrink:0;cursor:pointer}
+.srow label{flex:1;font-size:14px;cursor:pointer;transition:color .1s}
+.srow .qty{color:#9A9088;font-size:13px;white-space:nowrap}
+.srow.done label{text-decoration:line-through;color:#C0B8AE}
+.plan{display:flex;flex-direction:column;gap:9px}
+.prow{display:flex;gap:11px;align-items:flex-start}
+.pday{font-size:12px;font-weight:600;color:#9A9088;width:80px;flex-shrink:0;padding-top:1px}
+.pdot{width:9px;height:9px;border-radius:50%;background:#1D9E75;flex-shrink:0;margin-top:4px}
+.pdot.rest{background:#DDD6CC}
+.pinfo{flex:1}
+.pdish{font-size:14px;font-weight:500;color:#1E1A17;line-height:1.35}
+.pside{font-size:13px;color:#7A7268}
+.ptag{display:inline-block;font-size:11px;background:#FDF4E2;border:1px solid #E8C97A;color:#6F4A00;border-radius:5px;padding:1px 6px;margin-left:5px;font-weight:500;vertical-align:middle}
+.prest{font-size:14px;color:#B0A89E;font-style:italic}
+.recipe{background:#FFF;border-radius:14px;border:1px solid #E4DDD4;margin-bottom:1rem;overflow:hidden}
+.rhdr{padding:.9rem 1.2rem;border-bottom:1px solid #F0EAE2;display:flex;gap:12px;align-items:center}
+.dbadge{flex-shrink:0;text-align:center;width:52px}
+.dname{font-size:10px;font-weight:600;color:#9A9088;text-transform:uppercase;letter-spacing:.06em}
+.dcircle{width:36px;height:36px;border-radius:50%;background:#1D9E75;color:#FFF;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:2px auto 0}
+.dcircle.sub{background:#B7A98E;font-size:18px}
+.rtitle{font-size:16px;font-weight:600;color:#1E1A17;line-height:1.3}
+.rside{font-size:13px;color:#7A7268;margin-top:2px}
+.rbody{padding:.9rem 1.2rem}
+.slbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#9A9088;margin-bottom:.45rem}
+.ings{list-style:none;margin-bottom:.2rem}
+.ing{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #F5EFE8;font-size:14px}
+.ing:last-child{border-bottom:none}
+.iq{color:#9A9088;font-size:13px;margin-left:10px;white-space:nowrap;flex-shrink:0}
+details.sacc{border:1px solid #D8EEE2;border-radius:10px;margin-top:.8rem;overflow:hidden}
+details.sacc>summary{list-style:none;background:#EDF8F2;padding:.55rem .9rem;font-size:13.5px;font-weight:600;color:#0F6E56;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;user-select:none}
+details.sacc>summary::-webkit-details-marker{display:none}
+details.sacc>summary .sc{font-size:12px;color:#7A9E8F;font-weight:400}
+details.sacc>summary .arr{font-size:11px;display:inline-block;transition:transform .15s}
+details.sacc[open]>summary .arr{transform:rotate(90deg)}
+.sbody{padding:.7rem .9rem;border-top:1px solid #D8EEE2}
+.slist{list-style:none;counter-reset:s 0}
+.slist li{counter-increment:s 1;padding:5px 0 5px 30px;position:relative;font-size:14px;border-bottom:1px solid #F5EFE8;line-height:1.5}
+.slist li:last-child{border-bottom:none}
+.slist li::before{content:counter(s);position:absolute;left:0;top:6px;width:21px;height:21px;border-radius:50%;background:#F0EAE2;color:#9A9088;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.note{border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:13px;line-height:1.5;margin-top:.7rem}
+.nwarn{background:#FDF4E2;border-left:3px solid #D4922B;color:#6F4A00}
+.note strong{font-weight:600}
+footer{text-align:center;font-size:12px;color:#C0B8AE;padding:1.5rem 0 2rem}
+@media print{body{background:#FFF;padding:0}details{display:block}details>summary{display:none}details>.sbody,details>.shop-body{display:block!important}.recipe,.card{break-inside:avoid;border:1px solid #CCC}}
+</style></head><body>
+<header>
+<h1>Plan obiadów</h1>
+<p class="meta">Tydzień 2026-W31 · 27.07–02.08 · 2 porcje</p>
+<nav class="wknav"><a class="wk-a" href="../2026-W30/">‹ 2026-W30</a><span class="wk-x">następny ›</span></nav>
+</header>
+<h2>Lista zakupów</h2>
+<div class="card" style="padding:.4rem 1.2rem">
+<details class="shop-cat"><summary>Mięso i ryby <span class="ct">3 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Łopatka mielona wieprzowa</label><span class="qty">1 danie · ~270–400 g łącznie</span></div>
+<div class="srow"><input type="checkbox"><label>Filet z piersi kaczki</label><span class="qty">1 danie · ~270–400 g łącznie</span></div>
+<div class="srow"><input type="checkbox"><label>Zestaw rosołowy z kaczki</label><span class="qty">770 g</span></div>
+</div></details>
+<details class="shop-cat"><summary>Warzywa i owoce <span class="ct">8 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Cebula</label><span class="qty">2 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Czosnek</label><span class="qty">1 główka</span></div>
+<div class="srow"><input type="checkbox"><label>Marchew</label><span class="qty">4 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Brokuł</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Cukinia</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Pietruszka korzeń</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Seler</label><span class="qty">1 szt.</span></div>
+<div class="srow"><input type="checkbox"><label>Por</label><span class="qty">1 szt.</span></div>
+</div></details>
+<details class="shop-cat"><summary>Suche i słoiki <span class="ct">4 poz.</span><span class="arr">▸</span></summary>
+<div class="shop-body">
+<div class="srow"><input type="checkbox"><label>Kasza gryczana</label><span class="qty">100 g</span></div>
+<div class="srow"><input type="checkbox"><label>Makaron fusilli</label><span class="qty">150 g</span></div>
+<div class="srow"><input type="checkbox"><label>Makaron nitki</label><span class="qty">100 g</span></div>
+<div class="srow"><input type="checkbox"><label>Passata pomidorowa</label><span class="qty">500 g</span></div>
+</div></details>
+</div>
+<h2>Plan tygodnia</h2>
+<div class="card"><div class="plan">
+<div class="prow"><div class="pday">Pn 27.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Kaczka pieczona (pierś)</div><div class="pside">kasza gryczana · brokuł</div></div></div>
+<div class="prow"><div class="pday">Wt 28.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Makaron fusilli z sosem pomidorowym</div><div class="pside">Sos z lodówki · ok. 10–12 minut.</div></div></div>
+<div class="prow"><div class="pday">Śr 29.07</div><div class="pdot"></div><div class="pinfo"><div class="pdish">Rosół z kaczki</div><div class="pside"></div></div></div>
+<div class="prow"><div class="pday">Czw 30.07</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Pt 31.07</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Sob 01.08</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+<div class="prow"><div class="pday">Nd 02.08</div><div class="pdot rest"></div><div class="pinfo"><div class="prest">Do zaplanowania</div></div></div>
+</div></div>
+<h2>Przepisy</h2>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Pn 27.07</div><div class="dcircle">1</div></div>
+<div><div class="rtitle">Kaczka pieczona (pierś)</div>
+<div class="rside">kasza gryczana · brokuł</div>
+</div></div>
+<div class="rbody">
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Filet z piersi kaczki, ze skórą; opakowanie ~505 g = 1 danie (świadomie więcej)</span><span class="iq">1 danie · ~272–396 g</span></li>
+<li class="ing"><span>Kasza gryczana, 1 torebka</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Brokuł, różyczki</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Sól, Pieprz czarny mielony, Masło</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Skórę naciąć w kratkę (nie przecinając mięsa), oprószyć solą i pieprzem z obu stron.</li>
+<li>Kłaść na ZIMNĄ patelnię skórą do dołu, smażyć 6–8 min — aż skóra chrupiąca i wytopi się tłuszcz.</li>
+<li>Obrócić, smażyć 2–3 min; dokończyć w piekarniku 180°C przez 8–10 min (środek lekko różowy).</li>
+<li>Odstawić pod folią 5 min przed krojeniem (ukośne plastry).</li>
+<li>Kaszę gryczaną ugotować wg opisu; brokuł gotować 7–8 min, podać z masłem.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Wt 28.07</div><div class="dcircle sub">+</div></div>
+<div><div class="rtitle">Sos pomidorowy z mielonym (do lodówki)</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Opcjonalny batch (osobne danie); w lodówce dobry 3–4 dni, można też zamrozić</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Łopatka mielona wieprzowa, wg przedziału dania</span><span class="iq">1 danie · ~272–396 g</span></li>
+<li class="ing"><span>Cebula, drobno posiekana</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Czosnek, przeciśnięty</span><span class="iq">2 ząbek</span></li>
+<li class="ing"><span>Marchew, starta na drobnych oczkach</span><span class="iq">2 szt</span></li>
+<li class="ing"><span>Cukinia, mała, starta na drobnych oczkach</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Passata pomidorowa</span><span class="iq">500 ml</span></li>
+<li class="ing"><span>Oregano suszone</span><span class="iq">1 łyżeczka</span></li>
+<li class="ing"><span>Olej, Sól</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Cebulę i czosnek zeszklić na oleju, 3 min.</li>
+<li>Dodać mielone, rozbić widelcem, smażyć 5–6 min.</li>
+<li>Dodać startą marchewkę i cukinię (po duszeniu znikają całkowicie), smażyć 2 min.</li>
+<li>Zalać passatą, dodać oregano i sól.</li>
+<li>Dusić pod przykryciem 20 min. Wystudzić i wstawić do lodówki (dobry 3–4 dni).</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Wt 28.07</div><div class="dcircle">2</div></div>
+<div><div class="rtitle">Makaron fusilli z sosem pomidorowym</div>
+<div class="rside">Sos z lodówki · ok. 10–12 minut.</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Wymaga sosu z lodówki (gotowanego wcześniej)</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Makaron fusilli</span><span class="iq">150 g</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 3 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Ugotować fusilli wg instrukcji (~10 min w osolonej wodzie).</li>
+<li>Sos z lodówki podgrzać na patelni, 3–4 min.</li>
+<li>Wymieszać sos z makaronem i podać.</li>
+</ol></div></details>
+</div></div>
+<div class="recipe"><div class="rhdr">
+<div class="dbadge"><div class="dname">Śr 29.07</div><div class="dcircle">3</div></div>
+<div><div class="rtitle">Rosół z kaczki</div>
+</div></div>
+<div class="rbody">
+<div class="note nwarn">Gotowany 2–3 h; lepszy na drugi dzień; sam wywar można zamrozić</div>
+<div class="slbl">Składniki</div><ul class="ings">
+<li class="ing"><span>Zestaw rosołowy z kaczki, cały zestaw ~770 g</span><span class="iq">0.77 kg</span></li>
+<li class="ing"><span>Marchew</span><span class="iq">2 szt</span></li>
+<li class="ing"><span>Pietruszka korzeń</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Seler, kawałek</span><span class="iq">¼ szt.</span></li>
+<li class="ing"><span>Por, biała część</span><span class="iq">½ szt.</span></li>
+<li class="ing"><span>Cebula, opalona nad palnikiem</span><span class="iq">1 szt</span></li>
+<li class="ing"><span>Makaron nitki</span><span class="iq">100 g</span></li>
+<li class="ing"><span>Sól, Pieprz czarny mielony, Liść laurowy, Ziele angielskie</span><span class="iq">—</span></li>
+</ul>
+<details class="sacc"><summary>Sposób przygotowania <span class="sc">· 5 kroków</span> <span class="arr">▸</span></summary><div class="sbody"><ol class="slist">
+<li>Zestaw rosołowy opłukać, zalać zimną wodą (~2,5 l), zagotować i zebrać szumowiny.</li>
+<li>Dodać marchew, pietruszkę, seler, por, opaloną cebulę, liść laurowy, ziele angielskie i sól.</li>
+<li>Gotować na małym ogniu 2–3 h — bez gwałtownego wrzenia, żeby rosół został klarowny.</li>
+<li>Makaron nitki ugotować osobno wg opisu na opakowaniu.</li>
+<li>Podawać wywar z makaronem; marchewkę z rosołu pokroić do talerza.</li>
+</ol></div></details>
+</div></div>
+<footer>Smacznego!</footer>
+</body></html>
