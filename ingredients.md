@@ -27,7 +27,6 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 |---|---|---|---|
 | jajka | szt | jajko | |
 | jogurt naturalny gęsty | kg | jogurt typu greckiego | marynaty i sosy |
-| śmietana | kg | śmietana 18% | do mizerii |
 | masło | kg | | spiżarnia bazowa |
 
 ## Warzywa i owoce
@@ -45,7 +44,6 @@ Mięso „daniowe" w kartach zapisujemy jako `unit: danie` (nie w gramach). Gram
 | pietruszka korzeń | szt | pietruszka | włoszczyzna do rosołu |
 | seler | szt | seler korzeniowy | kawałek do rosołu |
 | por | szt | | |
-| ziemniaki | kg | | węglowodan podstawowy |
 
 ## Suche i słoiki
 

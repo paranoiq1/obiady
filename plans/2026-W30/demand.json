@@ -65,11 +65,6 @@
       "qty": 6
     },
     {
-      "ingredient": "śmietana",
-      "unit": "kg",
-      "qty": 0.1
-    },
-    {
       "ingredient": "cebula",
       "unit": "szt",
       "qty": 2
@@ -90,11 +85,6 @@
       "qty": 1
     },
     {
-      "ingredient": "ogórek",
-      "unit": "szt",
-      "qty": 1
-    },
-    {
       "ingredient": "cytryna",
       "unit": "szt",
       "qty": 1
@@ -102,15 +92,15 @@
     {
       "ingredient": "fasolka szparagowa",
       "unit": "kg",
-      "qty": 0.2
-    },
-    {
-      "ingredient": "ziemniaki",
-      "unit": "kg",
-      "qty": 0.6
+      "qty": 0.4
     },
     {
       "ingredient": "kasza gryczana",
+      "unit": "kg",
+      "qty": 0.1
+    },
+    {
+      "ingredient": "ryż basmati",
       "unit": "kg",
       "qty": 0.1
     },
